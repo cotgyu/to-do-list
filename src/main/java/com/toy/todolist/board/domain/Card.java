@@ -1,9 +1,6 @@
 package com.toy.todolist.board.domain;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -29,6 +26,12 @@ public class Card {
         if(topic != null){
             changeTopic(topic);
         }
+    }
+
+    @Builder
+    public Card(Long id, String cardName){
+        this.id = id;
+        this.cardName = cardName;
     }
 
     private void changeTopic(Topic topic){

@@ -2,6 +2,7 @@ package com.toy.todolist.board.domain;
 
 import jdk.jfr.Description;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,7 +31,7 @@ class CardRepositoryTest {
     TopicRepository topicRepository;
 
     @Test
-    @Description("card, topic 등록 테스트")
+    @DisplayName("card, topic 등록 테스트")
     public void card_save_test(){
 
         Topic topic = new Topic("topic1");
