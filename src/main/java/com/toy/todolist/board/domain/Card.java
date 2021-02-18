@@ -39,4 +39,8 @@ public class Card {
         topic.getCards().add(this);
     }
 
+    public void update(String cardName){
+        this.cardName = cardName;
+    }
+
 }

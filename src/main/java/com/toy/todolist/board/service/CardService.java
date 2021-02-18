@@ -32,4 +32,13 @@ public class CardService {
 
         return new CardResponseDto(card);
     }
+
+    @Transactional
+    public Long update(Long id, CardRequestDto cardRequestDto){
+        Card card = cardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 Card가 없습니다. id=" + id));
+
+        card.update(cardRequestDto.getCardName());
+
+        return card.getId();
+    }
 }

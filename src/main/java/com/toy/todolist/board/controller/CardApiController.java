@@ -43,5 +43,17 @@ public class CardApiController {
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity updateCard(@PathVariable Long id, @RequestBody CardRequestDto cardRequestDto){
+        Map<String, Object> resultMap = new HashMap<>();
+
+        cardService.update(id, cardRequestDto);
+
+        resultMap.put("result", id);
+        resultMap.put("resultMessage", "success");
+
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+    }
+
 
 }

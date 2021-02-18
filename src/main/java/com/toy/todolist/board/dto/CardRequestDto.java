@@ -1,6 +1,7 @@
 package com.toy.todolist.board.dto;
 
 import com.toy.todolist.board.domain.Card;
+import com.toy.todolist.board.domain.Topic;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CardRequestDto {
 
-    String cardName;
+    private String cardName;
 
     public CardRequestDto(String cardName){
         this.cardName = cardName;
