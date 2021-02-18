@@ -1,14 +1,12 @@
 package com.toy.todolist.board.controller;
 
 import com.toy.todolist.board.dto.CardRequestDto;
+import com.toy.todolist.board.dto.CardResponseDto;
 import com.toy.todolist.board.service.CardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,5 +30,18 @@ public class CardApiController {
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
 
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity findCard(@PathVariable Long id){
+        Map<String, Object> resultMap = new HashMap<>();
+
+        CardResponseDto card = cardService.findCard(id);
+
+        resultMap.put("result", card);
+        resultMap.put("resultMessage", "success");
+
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+    }
+
 
 }

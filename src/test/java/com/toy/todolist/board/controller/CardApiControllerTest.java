@@ -1,7 +1,10 @@
 package com.toy.todolist.board.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.toy.todolist.board.domain.Card;
 import com.toy.todolist.board.domain.CardRepository;
+import com.toy.todolist.board.domain.Topic;
+import com.toy.todolist.board.domain.TopicRepository;
 import com.toy.todolist.board.dto.CardRequestDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -33,6 +37,9 @@ class CardApiControllerTest {
 
     @Autowired
     CardRepository cardRepository;
+
+    @Autowired
+    TopicRepository topicRepository;
 
     @Autowired
     protected MockMvc mockMvc;
@@ -56,6 +63,31 @@ class CardApiControllerTest {
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("resultMessage").value("success"));
 
+
+    }
+
+    @Test
+    @DisplayName("카드 조회 api 테스트")
+    public void findCardApiTest() throws Exception{
+        //given
+        Topic topic = new Topic("topic1");
+
+        topicRepository.save(topic);
+
+        Card card1 = new Card("card1", topic);
+
+        cardRepository.save(card1);
+
+
+        //when then
+        mockMvc.perform(
+                get("/api/card/{id}", card1.getId())
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+        )
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(jsonPath("resultMessage").value("success"))
+                .andExpect(jsonPath("result").isNotEmpty());;
 
     }
 }
