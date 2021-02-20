@@ -24,18 +24,21 @@ public class CardService {
         return saveCard.getId();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public CardResponseDto findCard(Long id){
 
-        Card card = cardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 Card가 없습니다. id=" + id));
-
+        Card card = findById(id);
 
         return new CardResponseDto(card);
     }
 
+    private Card findById(Long id) {
+        return cardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 Card가 없습니다. id=" + id));
+    }
+
     @Transactional
     public Long update(Long id, CardRequestDto cardRequestDto){
-        Card card = cardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 Card가 없습니다. id=" + id));
+        Card card = findById(id);
 
         card.update(cardRequestDto.getCardName());
 
