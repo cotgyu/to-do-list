@@ -32,4 +32,8 @@ public class Topic {
         this.topicName = topicName;
         this.cards = cards;
     }
+
+    public void update(String topicName){
+        this.topicName = topicName;
+    }
 }

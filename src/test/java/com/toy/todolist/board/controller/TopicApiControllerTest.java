@@ -3,6 +3,7 @@ package com.toy.todolist.board.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toy.todolist.board.domain.Card;
 import com.toy.todolist.board.domain.CardRepository;
+import com.toy.todolist.board.domain.Topic;
 import com.toy.todolist.board.domain.TopicRepository;
 import com.toy.todolist.board.dto.CardRequestDto;
 import com.toy.todolist.board.dto.TopicRequestDto;
@@ -23,8 +24,9 @@ import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -54,7 +56,6 @@ class TopicApiControllerTest {
 
     @Test
     @DisplayName("토픽 등록 api 테스트")
-    @Commit
     public void addTopicApiTest() throws Exception{
         //given
         TopicRequestDto topicRequestDto = new TopicRequestDto("topicName1");
@@ -69,5 +70,60 @@ class TopicApiControllerTest {
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("resultMessage").value("success"));
 
+    }
+
+    @Test
+    @DisplayName("토픽 조회 api 테스트")
+    public void findTopicApiTest() throws Exception{
+        //given
+        Topic topic = new Topic("topic1");
+
+        topicRepository.save(topic);
+
+        Card card1 = new Card("card1", topic);
+
+        cardRepository.save(card1);
+
+
+        //when then
+        mockMvc.perform(
+                get("/api/topic/{id}", card1.getId())
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+        )
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(jsonPath("resultMessage").value("success"))
+                .andExpect(jsonPath("result").isNotEmpty());
+
+    }
+
+    @Test
+    @DisplayName("토픽 수정 api 테스트")
+    public void updateTopicApiTest() throws Exception{
+        //given
+        Topic topic = new Topic("topic1");
+        topicRepository.save(topic);
+        Card card1 = new Card("card1", topic);
+        cardRepository.save(card1);
+
+        TopicRequestDto topicRequestDto = new TopicRequestDto("topicName1");
+
+
+        //when
+        mockMvc.perform(
+                put("/api/topic/{id}", card1.getId())
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(objectMapper.writeValueAsString(topicRequestDto))
+        )
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(jsonPath("resultMessage").value("success"))
+                .andExpect(jsonPath("result").isNotEmpty());
+
+        // then
+        Topic result = topicRepository.findById(1L).get();
+
+
+        assertThat(result.getTopicName()).isEqualTo(topicRequestDto.getTopicName());
     }
 }

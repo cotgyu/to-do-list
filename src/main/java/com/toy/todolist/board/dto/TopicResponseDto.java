@@ -1,6 +1,5 @@
 package com.toy.todolist.board.dto;
 
-import com.toy.todolist.board.domain.Card;
 import com.toy.todolist.board.domain.Topic;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -11,23 +10,19 @@ import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class TopicRequestDto {
+public class TopicResponseDto {
 
     private Long id;
     private String topicName;
+    private List<CardResponseDto> cards;
 
-    public TopicRequestDto(String topicName){
-        this.topicName = topicName;
+    public TopicResponseDto(Topic topic){
+        id = topic.getId();
+        topicName = topic.getTopicName();
+        cards = topic.getCards().stream()
+            .map(cards -> new CardResponseDto(cards))
+            .collect(Collectors.toList());
     }
-
-    public Topic toEntity() {
-        return Topic.builder()
-                .id(id)
-                .topicName(topicName)
-                .build();
-    }
-
-
 
 
 }
