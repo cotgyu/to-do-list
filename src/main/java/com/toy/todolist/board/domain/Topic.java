@@ -1,10 +1,8 @@
 package com.toy.todolist.board.domain;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
+import javax.annotation.Nullable;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,5 +24,12 @@ public class Topic {
 
     public Topic(String topicName){
         this.topicName = topicName;
+    }
+
+    @Builder
+    public Topic(Long id, String topicName, List<Card> cards){
+        this.id = id;
+        this.topicName = topicName;
+        this.cards = cards;
     }
 }
