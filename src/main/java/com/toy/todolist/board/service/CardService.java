@@ -40,7 +40,7 @@ public class CardService {
     public Long update(Long id, CardRequestDto cardRequestDto){
         Card card = findById(id);
 
-        card.update(cardRequestDto.getCardName());
+        card.update(cardRequestDto.getCardName(), cardRequestDto.getDescription());
 
         return card.getId();
     }

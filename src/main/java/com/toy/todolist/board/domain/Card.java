@@ -16,6 +16,9 @@ public class Card {
 
     String cardName;
 
+    @Column(length = 1000)
+    String description;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "topic_id")
     private Topic topic;
@@ -28,10 +31,19 @@ public class Card {
         }
     }
 
+    public Card(String cardName, String description, Topic topic){
+        this.cardName = cardName;
+        this.description = description;
+        if(topic != null){
+            changeTopic(topic);
+        }
+    }
+
     @Builder
-    public Card(Long id, String cardName){
+    public Card(Long id, String cardName, String description){
         this.id = id;
         this.cardName = cardName;
+        this.description = description;
     }
 
     private void changeTopic(Topic topic){
@@ -39,8 +51,9 @@ public class Card {
         topic.getCards().add(this);
     }
 
-    public void update(String cardName){
+    public void update(String cardName, String description){
         this.cardName = cardName;
+        this.description = description;
     }
 
 }

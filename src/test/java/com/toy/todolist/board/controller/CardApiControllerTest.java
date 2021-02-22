@@ -100,10 +100,10 @@ class CardApiControllerTest {
         //given
         Topic topic = new Topic("topic1");
         topicRepository.save(topic);
-        Card card1 = new Card("card1", topic);
+        Card card1 = new Card("card1", "dis1" ,topic);
         cardRepository.save(card1);
 
-        CardRequestDto cardRequestDto = new CardRequestDto("cardName1");
+        CardRequestDto cardRequestDto = new CardRequestDto("cardName1", "desName1");
 
 
         //when
@@ -121,5 +121,7 @@ class CardApiControllerTest {
         Card result = cardRepository.findById(1L).get();
 
         assertThat(result.getCardName()).isEqualTo(cardRequestDto.getCardName());
+        assertThat(result.getDescription()).isEqualTo(cardRequestDto.getDescription());
+
     }
 }
