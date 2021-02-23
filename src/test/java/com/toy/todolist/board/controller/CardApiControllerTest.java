@@ -6,6 +6,7 @@ import com.toy.todolist.board.domain.CardRepository;
 import com.toy.todolist.board.domain.Topic;
 import com.toy.todolist.board.domain.TopicRepository;
 import com.toy.todolist.board.dto.CardRequestDto;
+import com.toy.todolist.board.dto.LabelRequestDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
@@ -124,4 +126,30 @@ class CardApiControllerTest {
         assertThat(result.getDescription()).isEqualTo(cardRequestDto.getDescription());
 
     }
+
+    @Test
+    @DisplayName("라벨 등록 api 테스트")
+    @Commit
+    public void addLabelApiTest() throws Exception{
+        //given
+        Topic topic = new Topic("topic1");
+        topicRepository.save(topic);
+        Card card1 = new Card("card1", "dis1" ,topic);
+        cardRepository.save(card1);
+
+        LabelRequestDto labelRequestDto = new LabelRequestDto(card1.getId(), "labelName1", "black");
+
+        //when then
+        mockMvc.perform(
+                post("/api/card/label")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(objectMapper.writeValueAsString(labelRequestDto))
+        )
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(jsonPath("resultMessage").value("success"));
+
+
+    }
+
 }

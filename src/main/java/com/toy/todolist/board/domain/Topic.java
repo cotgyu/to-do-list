@@ -15,6 +15,7 @@ public class Topic {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "TOPIC_ID")
     private Long id;
 
     private String topicName;

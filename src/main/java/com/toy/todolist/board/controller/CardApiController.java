@@ -2,6 +2,7 @@ package com.toy.todolist.board.controller;
 
 import com.toy.todolist.board.dto.CardRequestDto;
 import com.toy.todolist.board.dto.CardResponseDto;
+import com.toy.todolist.board.dto.LabelRequestDto;
 import com.toy.todolist.board.service.CardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,7 @@ public class CardApiController {
     public ResponseEntity addCard(@RequestBody CardRequestDto cardRequestDto) {
         Map<String, Object> resultMap = new HashMap<>();
 
-        Long result = cardService.save(cardRequestDto);
+        Long result = cardService.saveCard(cardRequestDto);
 
         resultMap.put("result", result);
         resultMap.put("resultMessage", "success");
@@ -47,10 +48,23 @@ public class CardApiController {
     public ResponseEntity updateCard(@PathVariable Long id, @RequestBody CardRequestDto cardRequestDto){
         Map<String, Object> resultMap = new HashMap<>();
 
-        cardService.update(id, cardRequestDto);
+        cardService.updateCard(id, cardRequestDto);
 
         resultMap.put("result", id);
         resultMap.put("resultMessage", "success");
+
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+    }
+
+    @PostMapping("/label")
+    public ResponseEntity addLabel(@RequestBody LabelRequestDto labelRequestDto){
+        Map<String, Object> resultMap = new HashMap<>();
+
+        Long label_id = cardService.addLabel(labelRequestDto);
+
+        resultMap.put("result", label_id);
+        resultMap.put("resultMessage", "success");
+
 
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }

@@ -111,7 +111,7 @@ class TopicApiControllerTest {
 
         //when
         mockMvc.perform(
-                put("/api/topic/{id}", card1.getId())
+                put("/api/topic/{id}", topic.getId())
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .content(objectMapper.writeValueAsString(topicRequestDto))
         )
@@ -121,7 +121,7 @@ class TopicApiControllerTest {
                 .andExpect(jsonPath("result").isNotEmpty());
 
         // then
-        Topic result = topicRepository.findById(1L).get();
+        Topic result = topicRepository.findById(topic.getId()).get();
 
 
         assertThat(result.getTopicName()).isEqualTo(topicRequestDto.getTopicName());

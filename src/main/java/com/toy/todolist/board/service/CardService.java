@@ -1,9 +1,9 @@
 package com.toy.todolist.board.service;
 
-import com.toy.todolist.board.domain.Card;
-import com.toy.todolist.board.domain.CardRepository;
+import com.toy.todolist.board.domain.*;
 import com.toy.todolist.board.dto.CardRequestDto;
 import com.toy.todolist.board.dto.CardResponseDto;
+import com.toy.todolist.board.dto.LabelRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,8 +15,10 @@ import java.util.Optional;
 public class CardService {
     private final CardRepository cardRepository;
 
+    private final LabelRepository labelRepository;
+
     @Transactional
-    public Long save(CardRequestDto cardRequestDto){
+    public Long saveCard(CardRequestDto cardRequestDto){
 
         Card card = cardRequestDto.toEntity();
         Card saveCard = cardRepository.save(card);
@@ -37,11 +39,24 @@ public class CardService {
     }
 
     @Transactional
-    public Long update(Long id, CardRequestDto cardRequestDto){
+    public Long updateCard(Long id, CardRequestDto cardRequestDto){
         Card card = findById(id);
 
         card.update(cardRequestDto.getCardName(), cardRequestDto.getDescription());
 
         return card.getId();
+    }
+
+    @Transactional
+    public Long addLabel(LabelRequestDto labelRequestDto){
+
+        Card card = findById(labelRequestDto.getCard_id());
+
+        Label label = labelRequestDto.toEntity();
+        labelRepository.save(label);
+
+        card.addCardLabel(new CardLabel(card, label));
+
+        return label.getId();
     }
 }
