@@ -20,7 +20,7 @@ public class CardApiController {
     private final CardService cardService;
 
     @PostMapping
-    public ResponseEntity addCard(@RequestBody CardRequestDto cardRequestDto) {
+    public ResponseEntity saveCard(@RequestBody CardRequestDto cardRequestDto) {
         Map<String, Object> resultMap = new HashMap<>();
 
         Long result = cardService.saveCard(cardRequestDto);
@@ -57,10 +57,10 @@ public class CardApiController {
     }
 
     @PostMapping("/label")
-    public ResponseEntity addLabel(@RequestBody LabelRequestDto labelRequestDto){
+    public ResponseEntity saveLabel(@RequestBody LabelRequestDto labelRequestDto){
         Map<String, Object> resultMap = new HashMap<>();
 
-        Long label_id = cardService.addLabel(labelRequestDto);
+        Long label_id = cardService.saveLabel(labelRequestDto);
 
         resultMap.put("result", label_id);
         resultMap.put("resultMessage", "success");
@@ -68,6 +68,20 @@ public class CardApiController {
 
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
+
+    @PutMapping("/label/register")
+    public ResponseEntity registerLabel(@RequestBody LabelRequestDto labelRequestDto){
+        Map<String, Object> resultMap = new HashMap<>();
+
+        Long label_id = cardService.registerLabel(labelRequestDto);
+
+        resultMap.put("result", label_id);
+        resultMap.put("resultMessage", "success");
+
+
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+    }
+
 
 
 }

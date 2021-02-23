@@ -1,10 +1,7 @@
 package com.toy.todolist.board.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.toy.todolist.board.domain.Card;
-import com.toy.todolist.board.domain.CardRepository;
-import com.toy.todolist.board.domain.Topic;
-import com.toy.todolist.board.domain.TopicRepository;
+import com.toy.todolist.board.domain.*;
 import com.toy.todolist.board.dto.CardRequestDto;
 import com.toy.todolist.board.dto.LabelRequestDto;
 import org.assertj.core.api.Assertions;
@@ -45,6 +42,9 @@ class CardApiControllerTest {
 
     @Autowired
     TopicRepository topicRepository;
+
+    @Autowired
+    LabelRepository labelRepository;
 
     @Autowired
     protected MockMvc mockMvc;
@@ -120,7 +120,7 @@ class CardApiControllerTest {
                 .andExpect(jsonPath("result").isNotEmpty());
 
         // then
-        Card result = cardRepository.findById(1L).get();
+        Card result = cardRepository.findById(card1.getId()).get();
 
         assertThat(result.getCardName()).isEqualTo(cardRequestDto.getCardName());
         assertThat(result.getDescription()).isEqualTo(cardRequestDto.getDescription());
@@ -128,20 +128,41 @@ class CardApiControllerTest {
     }
 
     @Test
-    @DisplayName("라벨 등록 api 테스트")
-    @Commit
+    @DisplayName("라벨 생성 api 테스트")
     public void addLabelApiTest() throws Exception{
+        //given
+        LabelRequestDto labelRequestDto = new LabelRequestDto("label1", "black");
+
+        //when then
+        mockMvc.perform(
+                post("/api/card/label")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(objectMapper.writeValueAsString(labelRequestDto))
+        )
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(jsonPath("resultMessage").value("success"));
+
+
+    }
+
+    @Test
+    @DisplayName("라벨 등록 api 테스트")
+    public void registerLabelApiTest() throws Exception{
         //given
         Topic topic = new Topic("topic1");
         topicRepository.save(topic);
         Card card1 = new Card("card1", "dis1" ,topic);
         cardRepository.save(card1);
 
-        LabelRequestDto labelRequestDto = new LabelRequestDto(card1.getId(), "labelName1", "black");
+        Label label = new Label("label1", "black");
+        labelRepository.save(label);
+
+        LabelRequestDto labelRequestDto = new LabelRequestDto(card1.getId(), label.getId(), "", "");
 
         //when then
         mockMvc.perform(
-                post("/api/card/label")
+                put("/api/card/label/register")
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .content(objectMapper.writeValueAsString(labelRequestDto))
         )

@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 public class LabelRequestDto {
 
     private Long card_id;
+    private Long label_id;
     private String labelName;
     private String color;
 

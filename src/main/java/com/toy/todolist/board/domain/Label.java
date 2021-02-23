@@ -21,6 +21,11 @@ public class Label {
 
     private String color;
 
+    public Label(String labelName, String color){
+        this.labelName = labelName;
+        this.color = color;
+    }
+
     @Builder
     public Label(Long id, String labelName, String color){
         this.id = id;

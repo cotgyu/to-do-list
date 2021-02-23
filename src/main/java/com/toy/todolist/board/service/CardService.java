@@ -48,15 +48,24 @@ public class CardService {
     }
 
     @Transactional
-    public Long addLabel(LabelRequestDto labelRequestDto){
+    public Long saveLabel(LabelRequestDto labelRequestDto){
+
+        Label label = labelRequestDto.toEntity();
+        Label saveLabel = labelRepository.save(label);
+
+        return saveLabel.getId();
+    }
+
+    @Transactional
+    public Long registerLabel(LabelRequestDto labelRequestDto){
 
         Card card = findById(labelRequestDto.getCard_id());
 
-        Label label = labelRequestDto.toEntity();
-        labelRepository.save(label);
+        Label label = labelRepository.findById(labelRequestDto.getLabel_id()).orElseThrow(() -> new IllegalArgumentException("해당 Label가 없습니다. id=" + labelRequestDto.getLabel_id()));
 
         card.addCardLabel(new CardLabel(card, label));
 
         return label.getId();
     }
+
 }
