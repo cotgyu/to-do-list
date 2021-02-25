@@ -162,7 +162,7 @@ class CardApiControllerTest {
 
         //when then
         mockMvc.perform(
-                put("/api/card/label/register")
+                post("/api/card/label/register")
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .content(objectMapper.writeValueAsString(labelRequestDto))
         )
@@ -172,5 +172,59 @@ class CardApiControllerTest {
 
 
     }
+
+    @Test
+    @DisplayName("라벨 조회 api 테스트")
+    public void findLabelsApiTest() throws Exception{
+        //given
+        Label label = new Label("label1", "black");
+        Label label2 = new Label("label2", "black2");
+        Label label3 = new Label("label3", "black3");
+        Label label4 = new Label("label4", "black4");
+
+        labelRepository.save(label);
+        labelRepository.save(label2);
+        labelRepository.save(label3);
+        labelRepository.save(label4);
+
+        //when then
+        mockMvc.perform(
+                get("/api/card/label")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+        )
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(jsonPath("resultMessage").value("success"))
+                .andExpect(jsonPath("result").isNotEmpty());
+    }
+
+    @Test
+    @DisplayName("라벨 수정 api 테스트")
+    public void updateLabelsApiTest() throws Exception{
+        //given
+        Label label = new Label("label1", "black");
+        Label saveLabel = labelRepository.save(label);
+
+        // when
+        LabelRequestDto labelRequestDto = new LabelRequestDto("labelUpdate", "colorUpdate");
+
+        //when then
+        mockMvc.perform(
+                put("/api/card/label/{id}",saveLabel.getId())
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(objectMapper.writeValueAsString(labelRequestDto))
+        )
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(jsonPath("resultMessage").value("success"));
+
+        Label findLabel = labelRepository.findById(saveLabel.getId()).get();
+
+        assertThat(findLabel.getLabelName()).isEqualTo(labelRequestDto.getLabelName());
+        assertThat(findLabel.getColor()).isEqualTo(labelRequestDto.getColor());
+
+    }
+
+
 
 }

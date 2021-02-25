@@ -26,6 +26,11 @@ public class Label {
         this.color = color;
     }
 
+    public void update(String labelName, String color){
+        this.labelName = labelName;
+        this.color = color;
+    }
+
     @Builder
     public Label(Long id, String labelName, String color){
         this.id = id;

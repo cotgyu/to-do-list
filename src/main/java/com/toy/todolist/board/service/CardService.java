@@ -4,11 +4,14 @@ import com.toy.todolist.board.domain.*;
 import com.toy.todolist.board.dto.CardRequestDto;
 import com.toy.todolist.board.dto.CardResponseDto;
 import com.toy.todolist.board.dto.LabelRequestDto;
+import com.toy.todolist.board.dto.LabelResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import java.util.List;
+
+import static java.util.stream.Collectors.*;
 
 @RequiredArgsConstructor
 @Service
@@ -29,18 +32,18 @@ public class CardService {
     @Transactional(readOnly = true)
     public CardResponseDto findCard(Long id){
 
-        Card card = findById(id);
+        Card card = findCardById(id);
 
         return new CardResponseDto(card);
     }
 
-    private Card findById(Long id) {
+    private Card findCardById(Long id) {
         return cardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 Card가 없습니다. id=" + id));
     }
 
     @Transactional
     public Long updateCard(Long id, CardRequestDto cardRequestDto){
-        Card card = findById(id);
+        Card card = findCardById(id);
 
         card.update(cardRequestDto.getCardName(), cardRequestDto.getDescription());
 
@@ -56,16 +59,42 @@ public class CardService {
         return saveLabel.getId();
     }
 
+    @Transactional(readOnly = true)
+    public List<LabelResponseDto> findAllLabels(){
+
+        List<Label> allLabels = labelRepository.findAll();
+
+        List<LabelResponseDto> labelResponseDtoList = allLabels.stream()
+                .map(label -> new LabelResponseDto(label))
+                .collect(toList());
+
+        return labelResponseDtoList;
+    }
+
+    @Transactional
+    public void updateLabel(Long id, LabelRequestDto labelResponseDto){
+
+        Label label = findLabelById(id);
+
+        label.update(labelResponseDto.getLabelName(), labelResponseDto.getColor());
+    }
+
     @Transactional
     public Long registerLabel(LabelRequestDto labelRequestDto){
 
-        Card card = findById(labelRequestDto.getCard_id());
+        Card card = findCardById(labelRequestDto.getCard_id());
 
-        Label label = labelRepository.findById(labelRequestDto.getLabel_id()).orElseThrow(() -> new IllegalArgumentException("해당 Label가 없습니다. id=" + labelRequestDto.getLabel_id()));
+        Label label = findLabelById(labelRequestDto.getLabel_id());
 
         card.addCardLabel(new CardLabel(card, label));
 
         return label.getId();
+    }
+
+    private Label findLabelById(Long id) {
+        Label label = labelRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 Label가 없습니다. id=" + id));
+
+        return label;
     }
 
 }
