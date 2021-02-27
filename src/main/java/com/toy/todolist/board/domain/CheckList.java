@@ -1,6 +1,7 @@
 package com.toy.todolist.board.domain;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -29,4 +30,14 @@ public class CheckList {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "CARD_ID")
     private Card card;
+
+    @Builder
+    public CheckList(String checkListName, Card card){
+        this.checkListName = checkListName;
+        this.card = card;
+    }
+
+    public void setCard(Card card){
+        this.card = card;
+    }
 }

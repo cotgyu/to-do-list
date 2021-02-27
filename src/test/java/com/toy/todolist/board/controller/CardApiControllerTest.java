@@ -3,6 +3,7 @@ package com.toy.todolist.board.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toy.todolist.board.domain.*;
 import com.toy.todolist.board.dto.CardRequestDto;
+import com.toy.todolist.board.dto.CheckListRequestDto;
 import com.toy.todolist.board.dto.LabelRequestDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -223,6 +225,35 @@ class CardApiControllerTest {
         assertThat(findLabel.getLabelName()).isEqualTo(labelRequestDto.getLabelName());
         assertThat(findLabel.getColor()).isEqualTo(labelRequestDto.getColor());
 
+    }
+
+    @Test
+    @DisplayName("체크리스트 추가 api 테스트")
+    public void addCheckListApiTest() throws Exception{
+        // given
+        Topic topic = new Topic("topic1");
+        topicRepository.save(topic);
+        Card card1 = new Card("card1", "dis1" ,topic);
+        cardRepository.save(card1);
+
+        //when
+        CheckListRequestDto checkListRequestDto = new CheckListRequestDto("checkList1", card1.getId());
+
+        mockMvc.perform(
+                post("/api/card/checkList")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(objectMapper.writeValueAsString(checkListRequestDto))
+        )
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(jsonPath("resultMessage").value("success"));
+
+
+        // then
+        List<CheckList> checkLists = cardRepository.findById(card1.getId()).get().getCheckLists();
+
+        assertThat(checkLists).isNotEmpty();
+        assertThat(checkLists.get(0).getCheckListName()).isEqualTo(checkListRequestDto.getCheckListTitle());
     }
 
 

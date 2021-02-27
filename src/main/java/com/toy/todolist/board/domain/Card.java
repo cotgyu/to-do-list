@@ -68,6 +68,11 @@ public class Card {
         cardLabel.setCard(this);
     }
 
+    public void addCheckList(CheckList checkList){
+        checkLists.add(checkList);
+        checkList.setCard(this);
+    }
+
     public void update(String cardName, String description){
         this.cardName = cardName;
         this.description = description;

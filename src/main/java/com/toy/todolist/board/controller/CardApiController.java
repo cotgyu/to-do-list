@@ -1,9 +1,6 @@
 package com.toy.todolist.board.controller;
 
-import com.toy.todolist.board.dto.CardRequestDto;
-import com.toy.todolist.board.dto.CardResponseDto;
-import com.toy.todolist.board.dto.LabelRequestDto;
-import com.toy.todolist.board.dto.LabelResponseDto;
+import com.toy.todolist.board.dto.*;
 import com.toy.todolist.board.service.CardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -107,6 +104,18 @@ public class CardApiController {
         resultMap.put("result", label_id);
         resultMap.put("resultMessage", "success");
 
+
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+    }
+
+    @PostMapping("/checkList")
+    public ResponseEntity addCheckList(@RequestBody CheckListRequestDto checkListRequestDto){
+        Map<String, Object> resultMap = new HashMap<>();
+
+        Long checkList_id = cardService.saveCheckList(checkListRequestDto);
+
+        resultMap.put("result", checkList_id);
+        resultMap.put("resultMessage", "success");
 
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }

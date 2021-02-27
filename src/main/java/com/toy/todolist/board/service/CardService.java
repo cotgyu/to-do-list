@@ -1,10 +1,7 @@
 package com.toy.todolist.board.service;
 
 import com.toy.todolist.board.domain.*;
-import com.toy.todolist.board.dto.CardRequestDto;
-import com.toy.todolist.board.dto.CardResponseDto;
-import com.toy.todolist.board.dto.LabelRequestDto;
-import com.toy.todolist.board.dto.LabelResponseDto;
+import com.toy.todolist.board.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -97,4 +94,16 @@ public class CardService {
         return label;
     }
 
+    @Transactional
+    public Long saveCheckList(CheckListRequestDto checkListRequestDto){
+
+        Card card = findCardById(checkListRequestDto.getCardId());
+
+        CheckList checkList = checkListRequestDto.toEntity();
+
+        card.addCheckList(checkList);
+
+
+        return checkList.getId();
+    }
 }
