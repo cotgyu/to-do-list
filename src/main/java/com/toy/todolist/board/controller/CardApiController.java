@@ -98,7 +98,7 @@ public class CardApiController {
     }
 
 
-        @PostMapping("/label/register")
+    @PostMapping("/label/register")
     public ResponseEntity registerLabel(@RequestBody LabelRequestDto labelRequestDto){
         Map<String, Object> resultMap = new HashMap<>();
 

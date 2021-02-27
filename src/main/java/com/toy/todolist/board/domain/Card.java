@@ -32,6 +32,10 @@ public class Card {
     @OneToMany(mappedBy = "card", cascade = ALL)
     private List<CardLabel> cardLabels = new ArrayList<>();
 
+    @OneToMany(mappedBy = "card", cascade = ALL)
+    private List<CheckList> checkLists = new ArrayList<>();
+
+
     public Card(String cardName, Topic topic){
         this.cardName = cardName;
         if(topic != null){
