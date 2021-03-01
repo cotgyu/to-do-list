@@ -19,6 +19,8 @@ public class CardService {
 
     private final CheckListRepository checkListRepository;
 
+    private final CheckItemRepository checkItemRepository;
+
     @Transactional
     public Long saveCard(CardRequestDto cardRequestDto){
 
@@ -130,4 +132,10 @@ public class CardService {
         return checkItem.getId();
     }
 
+    @Transactional
+    public void updateCheckItem(Long id, CheckItemRequestDto checkItemRequestDto) {
+        CheckItem checkItem = checkItemRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 체크아이템이 없습니다. id=" + id));
+
+        checkItem.update(checkItemRequestDto.getCheckItemName(), checkItemRequestDto.getDelFlag());
+    }
 }

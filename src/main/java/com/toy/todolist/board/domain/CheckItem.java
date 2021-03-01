@@ -37,4 +37,9 @@ public class CheckItem {
     public void setCheckList(CheckList checkList){
         this.checkList = checkList;
     }
+
+    public void update(String checkItemName, String delFlag){
+        this.checkItemName = checkItemName;
+        this.delFlag = delFlag;
+    }
 }

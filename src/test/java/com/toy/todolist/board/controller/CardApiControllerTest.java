@@ -53,6 +53,9 @@ class CardApiControllerTest {
     CheckListRepository checkListRepository;
 
     @Autowired
+    CheckItemRepository checkItemRepository;
+
+    @Autowired
     protected MockMvc mockMvc;
 
     @Autowired
@@ -312,7 +315,7 @@ class CardApiControllerTest {
         CheckItemRequestDto checkItemRequestDto = new CheckItemRequestDto("item1", checkList.getId());
 
         mockMvc.perform(
-                post("/api/card/checkList/addItem")
+                post("/api/card/checkList/checkItem")
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .content(objectMapper.writeValueAsString(checkItemRequestDto))
         )
@@ -328,5 +331,40 @@ class CardApiControllerTest {
         assertThat(checkLists.get(0).getCheckItems().get(0).getCheckItemName()).isEqualTo(checkItemRequestDto.getCheckItemName());
     }
 
+    @Test
+    @DisplayName("체크아이템 수정 api 테스트")
+    public void updateCheckItemApiTest() throws Exception{
+        // given
+        Topic topic = new Topic("topic1");
+        topicRepository.save(topic);
+        Card card1 = new Card("card1", "dis1" ,topic);
+        cardRepository.save(card1);
+        CheckList checkList = new CheckList("checkList1", card1);
+        checkListRepository.save(checkList);
+        card1.addCheckList(checkList);
+        CheckItem checkItem = new CheckItem("checkItem1", checkList);
+        checkItemRepository.save(checkItem);
+        checkList.addCheckItem(checkItem);
+
+        //when
+        CheckItemRequestDto checkItemRequestDto = new CheckItemRequestDto("updateItem", "Y");
+
+        mockMvc.perform(
+                put("/api/card/checkList/checkItem/{id}", checkList.getId())
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(objectMapper.writeValueAsString(checkItemRequestDto))
+        )
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(jsonPath("resultMessage").value("success"));
+
+
+        // then
+        List<CheckList> checkLists = cardRepository.findById(card1.getId()).get().getCheckLists();
+
+        assertThat(checkLists).isNotEmpty();
+        assertThat(checkLists.get(0).getCheckItems().get(0).getCheckItemName()).isEqualTo(checkItemRequestDto.getCheckItemName());
+        assertThat(checkLists.get(0).getCheckItems().get(0).getDelFlag()).isEqualTo(checkItemRequestDto.getDelFlag());
+    }
 
 }

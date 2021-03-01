@@ -31,11 +31,11 @@ public class CardApiController {
 
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity findCard(@PathVariable Long id){
+    @GetMapping("/{cardId}")
+    public ResponseEntity findCard(@PathVariable Long cardId){
         Map<String, Object> resultMap = new HashMap<>();
 
-        CardResponseDto card = cardService.findCard(id);
+        CardResponseDto card = cardService.findCard(cardId);
 
         resultMap.put("result", card);
         resultMap.put("resultMessage", "success");
@@ -43,13 +43,13 @@ public class CardApiController {
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity updateCard(@PathVariable Long id, @RequestBody CardRequestDto cardRequestDto){
+    @PutMapping("/{cardId}")
+    public ResponseEntity updateCard(@PathVariable Long cardId, @RequestBody CardRequestDto cardRequestDto){
         Map<String, Object> resultMap = new HashMap<>();
 
-        cardService.updateCard(id, cardRequestDto);
+        cardService.updateCard(cardId, cardRequestDto);
 
-        resultMap.put("result", id);
+        resultMap.put("result", cardId);
         resultMap.put("resultMessage", "success");
 
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
@@ -81,13 +81,13 @@ public class CardApiController {
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
-    @PutMapping("/label/{id}")
-    public ResponseEntity updateLabel(@PathVariable Long id, @RequestBody LabelRequestDto labelRequestDto){
+    @PutMapping("/label/{labelId}")
+    public ResponseEntity updateLabel(@PathVariable Long labelId, @RequestBody LabelRequestDto labelRequestDto){
         Map<String, Object> resultMap = new HashMap<>();
 
-        cardService.updateLabel(id, labelRequestDto);
+        cardService.updateLabel(labelId, labelRequestDto);
 
-        resultMap.put("result", id);
+        resultMap.put("result", labelId);
         resultMap.put("resultMessage", "success");
 
 
@@ -120,23 +120,36 @@ public class CardApiController {
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
-    @PutMapping("/checkList/{id}")
-    public ResponseEntity updateCheckList(@PathVariable Long id, @RequestBody CheckListRequestDto checkListRequestDto){
+    @PutMapping("/checkList/{checkListId}")
+    public ResponseEntity updateCheckList(@PathVariable Long checkListId, @RequestBody CheckListRequestDto checkListRequestDto){
         Map<String, Object> resultMap = new HashMap<>();
 
-        cardService.updateCheckList(id, checkListRequestDto);
+        cardService.updateCheckList(checkListId, checkListRequestDto);
 
-        resultMap.put("result", id);
+        resultMap.put("result", checkListId);
         resultMap.put("resultMessage", "success");
 
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
-    @PostMapping("/checkList/addItem")
+    @PostMapping("/checkList/checkItem")
     public ResponseEntity addCheckItem(@RequestBody CheckItemRequestDto checkItemRequestDto){
         Map<String, Object> resultMap = new HashMap<>();
 
         Long checkItemId = cardService.addCheckItem(checkItemRequestDto);
+
+        resultMap.put("result", checkItemId);
+        resultMap.put("resultMessage", "success");
+
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+
+    }
+
+    @PutMapping("/checkList/checkItem/{checkItemId}")
+    public ResponseEntity updateCheckItem(@PathVariable Long checkItemId, @RequestBody CheckItemRequestDto checkItemRequestDto){
+        Map<String, Object> resultMap = new HashMap<>();
+
+        cardService.updateCheckItem(checkItemId, checkItemRequestDto);
 
         resultMap.put("result", checkItemId);
         resultMap.put("resultMessage", "success");
