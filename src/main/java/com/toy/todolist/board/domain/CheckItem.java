@@ -1,6 +1,7 @@
 package com.toy.todolist.board.domain;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,7 +21,20 @@ public class CheckItem {
 
     private String checkItemName;
 
+    private String delFlag;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "CHECK_LIST_ID")
     private CheckList checkList;
+
+    @Builder
+    public CheckItem(String checkItemName, CheckList checkList){
+        this.checkItemName = checkItemName;
+        this.checkList = checkList;
+        this.delFlag = "N";
+    }
+
+    public void setCheckList(CheckList checkList){
+        this.checkList = checkList;
+    }
 }

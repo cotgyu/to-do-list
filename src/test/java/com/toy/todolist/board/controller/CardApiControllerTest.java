@@ -3,6 +3,7 @@ package com.toy.todolist.board.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toy.todolist.board.domain.*;
 import com.toy.todolist.board.dto.CardRequestDto;
+import com.toy.todolist.board.dto.CheckItemRequestDto;
 import com.toy.todolist.board.dto.CheckListRequestDto;
 import com.toy.todolist.board.dto.LabelRequestDto;
 import org.assertj.core.api.Assertions;
@@ -47,6 +48,9 @@ class CardApiControllerTest {
 
     @Autowired
     LabelRepository labelRepository;
+
+    @Autowired
+    CheckListRepository checkListRepository;
 
     @Autowired
     protected MockMvc mockMvc;
@@ -256,6 +260,73 @@ class CardApiControllerTest {
         assertThat(checkLists.get(0).getCheckListName()).isEqualTo(checkListRequestDto.getCheckListTitle());
     }
 
+    @Test
+    @DisplayName("체크리스트 수정 api 테스트")
+    public void updateCheckListApiTest() throws Exception{
+        // given
+        Topic topic = new Topic("topic1");
+        topicRepository.save(topic);
+        Card card1 = new Card("card1", "dis1" ,topic);
+        cardRepository.save(card1);
+
+        CheckList checkList = new CheckList("checkList1", card1);
+        checkListRepository.save(checkList);
+
+        card1.addCheckList(checkList);
+
+
+        //when
+        CheckListRequestDto checkListRequestDto = new CheckListRequestDto("updateList1", "Y");
+
+        mockMvc.perform(
+                put("/api/card/checkList/{id}", checkList.getId())
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(objectMapper.writeValueAsString(checkListRequestDto))
+        )
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(jsonPath("resultMessage").value("success"));
+
+
+        // then
+        List<CheckList> checkLists = cardRepository.findById(card1.getId()).get().getCheckLists();
+
+        assertThat(checkLists).isNotEmpty();
+        assertThat(checkLists.get(0).getCheckListName()).isEqualTo(checkListRequestDto.getCheckListTitle());
+        assertThat(checkLists.get(0).getDelFlag()).isEqualTo(checkListRequestDto.getDelFlag());
+    }
+
+    @Test
+    @DisplayName("체크아이템 추가 api 테스트")
+    public void addCheckItemApiTest() throws Exception{
+        // given
+        Topic topic = new Topic("topic1");
+        topicRepository.save(topic);
+        Card card1 = new Card("card1", "dis1" ,topic);
+        cardRepository.save(card1);
+        CheckList checkList = new CheckList("checkList1", card1);
+        checkListRepository.save(checkList);
+        card1.addCheckList(checkList);
+
+        //when
+        CheckItemRequestDto checkItemRequestDto = new CheckItemRequestDto("item1", checkList.getId());
+
+        mockMvc.perform(
+                post("/api/card/checkList/addItem")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(objectMapper.writeValueAsString(checkItemRequestDto))
+        )
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(jsonPath("resultMessage").value("success"));
+
+
+        // then
+        List<CheckList> checkLists = cardRepository.findById(card1.getId()).get().getCheckLists();
+
+        assertThat(checkLists).isNotEmpty();
+        assertThat(checkLists.get(0).getCheckItems().get(0).getCheckItemName()).isEqualTo(checkItemRequestDto.getCheckItemName());
+    }
 
 
 }

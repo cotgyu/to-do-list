@@ -12,10 +12,16 @@ public class CheckListRequestDto {
 
     String checkListTitle;
     Long cardId;
+    String delFlag;
 
     public CheckListRequestDto(String checkListTitle, Long cardId){
         this.checkListTitle = checkListTitle;
         this.cardId = cardId;
+    }
+
+    public CheckListRequestDto(String checkListTitle, String delFlag){
+        this.checkListTitle = checkListTitle;
+        this.delFlag = delFlag;
     }
 
     public CheckList toEntity(){

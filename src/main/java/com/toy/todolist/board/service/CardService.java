@@ -17,6 +17,8 @@ public class CardService {
 
     private final LabelRepository labelRepository;
 
+    private final CheckListRepository checkListRepository;
+
     @Transactional
     public Long saveCard(CardRequestDto cardRequestDto){
 
@@ -96,14 +98,36 @@ public class CardService {
 
     @Transactional
     public Long saveCheckList(CheckListRequestDto checkListRequestDto){
-
         Card card = findCardById(checkListRequestDto.getCardId());
 
         CheckList checkList = checkListRequestDto.toEntity();
 
         card.addCheckList(checkList);
 
-
         return checkList.getId();
     }
+
+    @Transactional
+    public void updateCheckList(Long id, CheckListRequestDto checkListRequestDto){
+        CheckList checkList = findCheckListById(id);
+
+        checkList.update(checkListRequestDto.getCheckListTitle(), checkListRequestDto.getDelFlag());
+    }
+
+    private CheckList findCheckListById(Long id) {
+        CheckList checkList = checkListRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 체크리스트가 없습니다. id=" + id));
+        return checkList;
+    }
+
+    @Transactional
+    public Long addCheckItem(CheckItemRequestDto checkItemRequestDto){
+        CheckList checkList = findCheckListById(checkItemRequestDto.getCheckListId());
+
+        CheckItem checkItem = checkItemRequestDto.toEntity();
+
+        checkList.addCheckItem(checkItem);
+
+        return checkItem.getId();
+    }
+
 }

@@ -120,6 +120,31 @@ public class CardApiController {
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
+    @PutMapping("/checkList/{id}")
+    public ResponseEntity updateCheckList(@PathVariable Long id, @RequestBody CheckListRequestDto checkListRequestDto){
+        Map<String, Object> resultMap = new HashMap<>();
+
+        cardService.updateCheckList(id, checkListRequestDto);
+
+        resultMap.put("result", id);
+        resultMap.put("resultMessage", "success");
+
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+    }
+
+    @PostMapping("/checkList/addItem")
+    public ResponseEntity addCheckItem(@RequestBody CheckItemRequestDto checkItemRequestDto){
+        Map<String, Object> resultMap = new HashMap<>();
+
+        Long checkItemId = cardService.addCheckItem(checkItemRequestDto);
+
+        resultMap.put("result", checkItemId);
+        resultMap.put("resultMessage", "success");
+
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+
+    }
+
 
 
 }
