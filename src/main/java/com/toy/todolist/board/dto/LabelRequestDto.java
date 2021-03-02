@@ -12,10 +12,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class LabelRequestDto {
 
-    private Long card_id;
-    private Long label_id;
     private String labelName;
     private String color;
+    private String delFlag;
 
     public LabelRequestDto(String labelName, String color){
         this.labelName = labelName;

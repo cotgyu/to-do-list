@@ -36,7 +36,7 @@ public class TopicService {
     public Long update(Long id, TopicRequestDto topicRequestDto){
         Topic topic = findById(id);
 
-        topic.update(topicRequestDto.getTopicName());
+        topic.update(topicRequestDto.getTopicName(), topicRequestDto.getDelFlag());
 
         return topic.getId();
     }

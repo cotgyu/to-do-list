@@ -96,10 +96,10 @@ public class CardApiController {
 
 
     @PostMapping("/label/register")
-    public ResponseEntity registerLabel(@RequestBody LabelRequestDto labelRequestDto){
+    public ResponseEntity registerLabel(@RequestBody CardLabelRequestDto cardLabelRequestDto){
         Map<String, Object> resultMap = new HashMap<>();
 
-        Long label_id = cardService.registerLabel(labelRequestDto);
+        Long label_id = cardService.registerLabel(cardLabelRequestDto);
 
         resultMap.put("result", label_id);
         resultMap.put("resultMessage", "success");

@@ -35,6 +35,7 @@ public class Card {
     @OneToMany(mappedBy = "card", cascade = ALL)
     private List<CheckList> checkLists = new ArrayList<>();
 
+    private String delFlag;
 
     public Card(String cardName, Topic topic){
         this.cardName = cardName;
@@ -56,6 +57,7 @@ public class Card {
         this.id = id;
         this.cardName = cardName;
         this.description = description;
+        this.delFlag = "N";
     }
 
     private void changeTopic(Topic topic){
@@ -73,9 +75,10 @@ public class Card {
         checkList.setCard(this);
     }
 
-    public void update(String cardName, String description){
+    public void update(String cardName, String description, String delFlag){
         this.cardName = cardName;
         this.description = description;
+        this.delFlag = delFlag;
     }
 
 }

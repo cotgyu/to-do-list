@@ -46,7 +46,7 @@ public class CardService {
     public Long updateCard(Long id, CardRequestDto cardRequestDto){
         Card card = findCardById(id);
 
-        card.update(cardRequestDto.getCardName(), cardRequestDto.getDescription());
+        card.update(cardRequestDto.getCardName(), cardRequestDto.getDescription(), cardRequestDto.getDelFlag());
 
         return card.getId();
     }
@@ -77,15 +77,15 @@ public class CardService {
 
         Label label = findLabelById(id);
 
-        label.update(labelResponseDto.getLabelName(), labelResponseDto.getColor());
+        label.update(labelResponseDto.getLabelName(), labelResponseDto.getColor(), labelResponseDto.getDelFlag());
     }
 
     @Transactional
-    public Long registerLabel(LabelRequestDto labelRequestDto){
+    public Long registerLabel(CardLabelRequestDto cardLabelRequestDto){
 
-        Card card = findCardById(labelRequestDto.getCard_id());
+        Card card = findCardById(cardLabelRequestDto.getCard_id());
 
-        Label label = findLabelById(labelRequestDto.getLabel_id());
+        Label label = findLabelById(cardLabelRequestDto.getLabel_id());
 
         card.addCardLabel(new CardLabel(card, label));
 

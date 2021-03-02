@@ -15,4 +15,6 @@ public class Board {
 
     private String boardName;
 
+    private String delFlag;
+
 }

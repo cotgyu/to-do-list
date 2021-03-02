@@ -23,6 +23,8 @@ public class Topic {
     @OneToMany(mappedBy = "topic")
     private List<Card> cards = new ArrayList<>();
 
+    private String delFlag;
+
     public Topic(String topicName){
         this.topicName = topicName;
     }
@@ -32,9 +34,11 @@ public class Topic {
         this.id = id;
         this.topicName = topicName;
         this.cards = cards;
+        this.delFlag = "N";
     }
 
-    public void update(String topicName){
+    public void update(String topicName, String delFlag){
         this.topicName = topicName;
+        this.delFlag = delFlag;
     }
 }

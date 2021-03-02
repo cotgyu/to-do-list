@@ -27,6 +27,8 @@ public class CardLabel {
     @JoinColumn(name = "LABEL_ID")
     private Label label;
 
+    private String delFlag;
+
     public void setCard(Card card){
         this.card = card;
     }
@@ -35,6 +37,7 @@ public class CardLabel {
     public CardLabel(Card card, Label label){
         this.card = card;
         this.label = label;
+        this.delFlag = "N";
     }
 
 }

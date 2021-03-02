@@ -15,6 +15,7 @@ public class TopicRequestDto {
 
     private Long id;
     private String topicName;
+    private String delFlag;
 
     public TopicRequestDto(String topicName){
         this.topicName = topicName;

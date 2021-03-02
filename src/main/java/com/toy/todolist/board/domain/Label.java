@@ -21,14 +21,17 @@ public class Label {
 
     private String color;
 
+    private String delFlag;
+
     public Label(String labelName, String color){
         this.labelName = labelName;
         this.color = color;
     }
 
-    public void update(String labelName, String color){
+    public void update(String labelName, String color, String delFlag){
         this.labelName = labelName;
         this.color = color;
+        this.delFlag = delFlag;
     }
 
     @Builder
@@ -36,6 +39,7 @@ public class Label {
         this.id = id;
         this.labelName = labelName;
         this.color = color;
+        this.delFlag = "N";
     }
 
 

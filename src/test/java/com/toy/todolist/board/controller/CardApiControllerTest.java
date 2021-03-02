@@ -2,10 +2,7 @@ package com.toy.todolist.board.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toy.todolist.board.domain.*;
-import com.toy.todolist.board.dto.CardRequestDto;
-import com.toy.todolist.board.dto.CheckItemRequestDto;
-import com.toy.todolist.board.dto.CheckListRequestDto;
-import com.toy.todolist.board.dto.LabelRequestDto;
+import com.toy.todolist.board.dto.*;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -114,7 +111,7 @@ class CardApiControllerTest {
         Card card1 = new Card("card1", "dis1" ,topic);
         cardRepository.save(card1);
 
-        CardRequestDto cardRequestDto = new CardRequestDto("cardName1", "desName1");
+        CardRequestDto cardRequestDto = new CardRequestDto("cardName1", "desName1", "N");
 
 
         //when
@@ -167,13 +164,13 @@ class CardApiControllerTest {
         Label label = new Label("label1", "black");
         labelRepository.save(label);
 
-        LabelRequestDto labelRequestDto = new LabelRequestDto(card1.getId(), label.getId(), "", "");
+        CardLabelRequestDto cardLabelRequestDto = new CardLabelRequestDto(card1.getId(), label.getId());
 
         //when then
         mockMvc.perform(
                 post("/api/card/label/register")
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content(objectMapper.writeValueAsString(labelRequestDto))
+                        .content(objectMapper.writeValueAsString(cardLabelRequestDto))
         )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
@@ -350,7 +347,7 @@ class CardApiControllerTest {
         CheckItemRequestDto checkItemRequestDto = new CheckItemRequestDto("updateItem", "Y");
 
         mockMvc.perform(
-                put("/api/card/checkList/checkItem/{id}", checkList.getId())
+                put("/api/card/checkList/checkItem/{id}", checkItem.getId())
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .content(objectMapper.writeValueAsString(checkItemRequestDto))
         )
