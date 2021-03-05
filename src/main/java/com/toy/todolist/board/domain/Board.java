@@ -1,7 +1,6 @@
 package com.toy.todolist.board.domain;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -9,6 +8,8 @@ import java.util.List;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString(of ={"id", "boardName"})
 public class Board {
 
     @Id
@@ -23,11 +24,16 @@ public class Board {
     @OneToMany(mappedBy = "board")
     private List<Topic> topics = new ArrayList<>();
 
+    public Board(String boardName){
+        this.boardName = boardName;
+    }
+
     @Builder
     public Board(String boardName, List<Topic> topics){
         this.boardName = boardName;
         this.topics = topics;
         this.delFlag = "N";
     }
+
 
 }

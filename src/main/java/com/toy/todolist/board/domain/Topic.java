@@ -41,8 +41,20 @@ public class Topic {
         this.delFlag = "N";
     }
 
+    public Topic(String topicName, Board board) {
+        this.topicName = topicName;
+        if(board != null){
+            changeBoard(board);
+        }
+    }
+
     public void update(String topicName, String delFlag){
         this.topicName = topicName;
         this.delFlag = delFlag;
+    }
+
+    public void changeBoard(Board board){
+        this.board = board;
+        board.getTopics().add(this);
     }
 }
