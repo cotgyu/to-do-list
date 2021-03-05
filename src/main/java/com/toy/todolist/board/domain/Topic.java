@@ -25,6 +25,10 @@ public class Topic {
 
     private String delFlag;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "board_id")
+    private Board board;
+
     public Topic(String topicName){
         this.topicName = topicName;
     }
