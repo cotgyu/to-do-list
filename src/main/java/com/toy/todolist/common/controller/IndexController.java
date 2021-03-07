@@ -36,7 +36,7 @@ public class IndexController {
             model.addAttribute("userName", user.getName());
         }
 
-        return "indexPage";
+        return "dist/index";
     }
 
 }
