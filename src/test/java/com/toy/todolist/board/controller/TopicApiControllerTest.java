@@ -87,7 +87,7 @@ class TopicApiControllerTest {
 
         //when then
         mockMvc.perform(
-                get("/api/topic/{id}", card1.getId())
+                get("/api/topic/{id}", topic.getId())
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
         )
                 .andDo(print())

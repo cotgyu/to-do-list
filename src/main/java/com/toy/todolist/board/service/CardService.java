@@ -136,6 +136,6 @@ public class CardService {
     public void updateCheckItem(Long id, CheckItemRequestDto checkItemRequestDto) {
         CheckItem checkItem = checkItemRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 체크아이템이 없습니다. id=" + id));
 
-        checkItem.update(checkItemRequestDto.getCheckItemName(), checkItemRequestDto.getDelFlag());
+        checkItem.update(checkItemRequestDto.getCheckItemName(), checkItemRequestDto.getDelFlag(), checkItemRequestDto.getCheckFlag());
     }
 }

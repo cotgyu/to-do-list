@@ -1,5 +1,6 @@
 package com.toy.todolist.board.dto;
 
+import com.toy.todolist.board.domain.CardLabel;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;

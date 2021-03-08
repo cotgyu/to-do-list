@@ -15,6 +15,7 @@ public class TopicResponseDto {
     private Long id;
     private String topicName;
     private List<CardResponseDto> cards;
+    private String delFlag;
 
     public TopicResponseDto(Topic topic){
         id = topic.getId();
@@ -22,6 +23,7 @@ public class TopicResponseDto {
         cards = topic.getCards().stream()
             .map(cards -> new CardResponseDto(cards))
             .collect(Collectors.toList());
+        delFlag = topic.getDelFlag();
     }
 
 

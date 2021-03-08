@@ -2,6 +2,8 @@ package com.toy.todolist.board.controller;
 
 import com.toy.todolist.board.domain.Board;
 import com.toy.todolist.board.domain.Topic;
+import com.toy.todolist.board.dto.BoardResponseDto;
+import com.toy.todolist.board.dto.TopicResponseDto;
 import com.toy.todolist.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -23,12 +25,11 @@ public class BoardController {
     @RequestMapping("/{boardId}")
     public String allBoardContents(@PathVariable Long boardId, Model model){
 
-        Board board = boardService.findAllContents(boardId);
+        BoardResponseDto board = boardService.findAllContents(boardId);
         model.addAttribute("board", board);
 
-        List<Topic> topics = board.getTopics();
+        List<TopicResponseDto> topics = board.getTopics();
         model.addAttribute("topics", topics);
-
 
 
         return "indexPage";

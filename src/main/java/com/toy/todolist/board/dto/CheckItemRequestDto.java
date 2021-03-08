@@ -11,9 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CheckItemRequestDto {
 
-    String checkItemName;
-    Long checkListId;
-    String delFlag;
+    private String checkItemName;
+    private Long checkListId;
+    private String delFlag;
+    private String checkFlag;
 
     public CheckItemRequestDto(String checkListTitle, Long checkListId){
         this.checkItemName = checkListTitle;

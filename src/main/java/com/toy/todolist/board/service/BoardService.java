@@ -6,6 +6,7 @@ import com.toy.todolist.board.domain.BoardRepository;
 import com.toy.todolist.board.domain.Topic;
 import com.toy.todolist.board.domain.TopicRepository;
 import com.toy.todolist.board.dto.BoardRequestDto;
+import com.toy.todolist.board.dto.BoardResponseDto;
 import com.toy.todolist.board.dto.TopicRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,12 +28,12 @@ public class BoardService {
         return board.getId();
     }
 
-    public Board findAllContents(Long boardId){
+    public BoardResponseDto findAllContents(Long boardId){
 
         // TODO - 한방 쿼리로 수정 필요
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("해당 Board가 없습니다. id=" + boardId));
 
-        return board;
+        return new BoardResponseDto(board);
     }
 
 

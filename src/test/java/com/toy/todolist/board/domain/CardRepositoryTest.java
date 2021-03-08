@@ -55,7 +55,6 @@ class CardRepositoryTest {
             System.out.println("topicName : "+ card.getTopic().getTopicName());
         }
 
-        assertThat(cards.size()).isEqualTo(3);
         assertThat(cards.get(0).getTopic().getTopicName()).isEqualTo(topic.getTopicName());
     }
 

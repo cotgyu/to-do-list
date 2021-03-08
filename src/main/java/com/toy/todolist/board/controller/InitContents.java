@@ -63,6 +63,9 @@ public class InitContents {
             CheckItem checkItem4 = new CheckItem("checkItem4",checkList2);
             CheckItem checkItem5 = new CheckItem("checkItem5",checkList2);
 
+            checkItem1.update("checkItem1", "N", "Y");
+            checkItem2.update("checkItem2", "N", "Y");
+
             em.persist(checkItem1);
             em.persist(checkItem2);
             em.persist(checkItem3);

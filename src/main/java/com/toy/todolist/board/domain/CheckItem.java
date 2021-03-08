@@ -23,6 +23,8 @@ public class CheckItem {
 
     private String delFlag;
 
+    private String checkFlag;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "CHECK_LIST_ID")
     private CheckList checkList;
@@ -32,14 +34,16 @@ public class CheckItem {
         this.checkItemName = checkItemName;
         this.checkList = checkList;
         this.delFlag = "N";
+        this.checkFlag = "N";
     }
 
     public void setCheckList(CheckList checkList){
         this.checkList = checkList;
     }
 
-    public void update(String checkItemName, String delFlag){
+    public void update(String checkItemName, String delFlag, String checkFlag){
         this.checkItemName = checkItemName;
         this.delFlag = delFlag;
+        this.checkFlag = checkFlag;
     }
 }

@@ -66,7 +66,7 @@ class BoardServiceTest {
         // when & then
         Board findBoard = boardRepository.findById(board.getId()).get();
 
-        Board findBoard2 = boardService.findAllContents(board.getId());
+        //Board findBoard2 = boardService.findAllContents(board.getId());
 
         List<Topic> topics = findBoard.getTopics();
 

@@ -131,7 +131,7 @@
 
                                         <th:block th:id="not ${#lists.isEmpty(card.getCheckLists())}">
                                             <div class="small text-black-50" th:each="checkList: ${card.getCheckLists()}">
-                                                <i th:text="${checkList.getCheckListName()}"></i>
+                                                <i th:text="${checkList.getCheckedCount()} +'/'+ ${checkList.getTotalCount()}"></i>
                                             </div>
                                         </th:block>
                                     </div>
