@@ -10247,3 +10247,28 @@ body {
 .sb-sidenav-light .sb-sidenav-footer {
   background-color: #e9ecef;
 }
+
+.window-overlay {
+  align-items: flex-start;
+  background-color: rgba(0,0,0,.64);
+  display: none;
+  height: 100%;
+  justify-content: center;
+  left: 0;
+  overflow-y: auto;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 20;
+}
+
+.window {
+  background-color: #f4f5f7;
+  border-radius: 2px;
+  margin: 10% 30% 10%;
+  overflow: hidden;
+  position: relative;
+  width: 768px;
+  z-index: 25;
+
+}
