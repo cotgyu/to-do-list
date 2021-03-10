@@ -127,7 +127,7 @@
                                             </div>
                                         </th:block>
 
-                                        <a class="small text-black-50 stretched-link" href='#' th:onclick="|javascript:getCardDetail('${card.getId()}')|"><h6 th:text="${card.getCardName()}"></h6></a>
+                                        <a class="small text-black-50" href='#' th:onclick="|javascript:getCardDetail('${card.getId()}')|"><h6 th:text="${card.getCardName()}"></h6></a>
 
                                         <th:block th:id="not ${#lists.isEmpty(card.getCheckLists())}">
                                             <div class="small text-black-50" th:each="checkList: ${card.getCheckLists()}">
@@ -145,7 +145,15 @@
                             <div class="window" style="display: block;">
                                 <input type="button" onclick="javascript:cardDetailClose();" value="X">
                                 <h1 id="windowCardName"></h1>
-                                <h4 id="windowCardDescription"></h4>
+
+                                <div id="labelsArea" class="row" style="margin-left: +0.35rem; margin-bottom: +2rem;">
+                                </div>
+
+
+                                <h4 id="windowCardDescription" style="margin-left: +0.35rem; margin-bottom: +2rem;"></h4>
+
+                                <h4 id="testData"></h4>
+
                             </div>
                         </div>
                     </div>

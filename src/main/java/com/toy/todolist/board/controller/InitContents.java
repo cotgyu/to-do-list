@@ -78,7 +78,7 @@ public class InitContents {
             checkList2.addCheckItem(checkItem4);
             checkList2.addCheckItem(checkItem5);
 
-            Label label1 = new Label("label1", "black");
+            Label label1 = new Label("label1", "green");
             Label label2 = new Label("label2", "red");
             Label label3 = new Label("label3", "blue");
 

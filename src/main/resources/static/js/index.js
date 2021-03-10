@@ -46,7 +46,22 @@ const getCardDetail = function (cardId) {
 
         $('#window-overlay').css("display","block");
         $('#windowCardName').text(data.result.cardName);
-        $('#windowCardDescription').text(data.result.description)
+        $('#windowCardDescription').text(data.result.description);
+        $('#testData').text((JSON.stringify(data.result.checkLists)));
+
+        const rabelData = data.result.cardLabels;
+        const rabelArea = document.getElementById("labelsArea");
+
+        // 라벨 영역 초기화
+        while ( rabelArea.hasChildNodes() ) { rabelArea.removeChild( rabelArea.firstChild ); }
+
+        for(var i =0; i < rabelData.length; i++){
+            const divButton = document.createElement('div');
+            divButton.innerHTML = "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0'  id='rabel"+rabelData[i].label.label_id+"' value='"+rabelData[i].label.labelName+"' style='background-color: "+rabelData[i].label.color+"; color: white' onclick=''>";
+
+            rabelArea.append(divButton);
+        }
+
 
     }).fail(function (error){
         alert(JSON.stringify(error));
