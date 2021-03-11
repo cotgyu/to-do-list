@@ -53,7 +53,7 @@ public class InitContents {
             em.persist(card6);
 
             CheckList checkList1 = new CheckList("checkList1", card1);
-            CheckList checkList2 = new CheckList("checkList2", card3);
+            CheckList checkList2 = new CheckList("checkList2", card1);
             em.persist(checkList1);
             em.persist(checkList2);
 
