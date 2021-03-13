@@ -45,11 +45,15 @@ const getCardDetail = function (cardId) {
     }).done(function (data) {
 
         $('#window-overlay').css("display","block");
+        $('#windowCardNameArea').css("display","");
+        $('#windowCardNameEditArea').css("display","none");
+
         $('#windowCardName').text(data.result.cardName);
         $('#windowCardDescription').text(data.result.description);
+        $('#windowCardIdArea').val(cardId);
 
         const rabelData = data.result.cardLabels;
-        const rabelArea = document.getElementById("labelsArea");
+        const rabelArea = document.getElementById("windowLabelsArea");
 
         // 라벨 영역 초기화
         while ( rabelArea.hasChildNodes() ) { rabelArea.removeChild( rabelArea.firstChild ); }
@@ -62,7 +66,7 @@ const getCardDetail = function (cardId) {
         }
 
         const checkListsData = data.result.checkLists;
-        const checkListsArea = document.getElementById("checkListsArea");
+        const checkListsArea = document.getElementById("windowCheckListsArea");
 
         // 체크리스트 영역 초기화
         while ( checkListsArea.hasChildNodes() ) { checkListsArea.removeChild( checkListsArea.firstChild ); }
@@ -85,7 +89,8 @@ const getCardDetail = function (cardId) {
                 checkListsArea.append(rowDataArea);
 
                 const checkBoxArea = document.createElement('div');
-                checkBoxArea.innerHTML = "<input type='checkbox' id='checkItem"+checkListsData[i].checkItems[j].checkItemId+"' onchange=''/>";
+                const checked = checkListsData[i].checkItems[j].checkFlag == 'Y' ? 'checked' : "";
+                checkBoxArea.innerHTML = "<input type='checkbox' id='checkItem"+checkListsData[i].checkItems[j].checkItemId+"' onchange='' "+checked+"/>";
                 rowDataArea.append(checkBoxArea);
 
                 const checkItemsArea = document.createElement('div');
@@ -104,5 +109,54 @@ const getCardDetail = function (cardId) {
 }
 
 const cardDetailClose = function (){
-    $('#window-overlay').css("display","none");
+    //$('#window-overlay').css("display","none");
+    location.reload();
+}
+
+const cardNameUpdate = function (){
+
+    var data = {
+        cardName: $('#windowCardNameEdit').val(),
+        description: $('#windowCardDescription').text(),
+        delFlag: 'N'
+    };
+
+    const cardId = $('#windowCardIdArea').val();
+
+    $.ajax({
+        type: 'PUT',
+        url: '/api/card/'+ cardId,
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(data)
+
+    }).done(function (data) {
+        $('#windowCardName').css("display","inline");
+
+        getCardDetail(cardId);
+
+    }).fail(function (error){
+        alert(JSON.stringify(error));
+    });
+}
+
+const windowCardEditMode = function (){
+
+    $('#windowCardNameArea').css("display","none");
+    $('#windowCardNameEditArea').css("display","");
+
+    const windowCardNameEditArea = document.getElementById("windowCardNameEditArea");
+
+    while ( windowCardNameEditArea.hasChildNodes() ) { windowCardNameEditArea.removeChild( windowCardNameEditArea.firstChild ); }
+
+    const cardName = $('#windowCardName').text();
+    const windowCardNameEdit = document.createElement('div');
+    windowCardNameEdit.innerHTML = "<input type='text' id='windowCardNameEdit' value="+cardName+">";
+
+    const windowCardNameEditButton = document.createElement('div');
+    windowCardNameEditButton.innerHTML = "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0' value='SAVE' onclick='javascript:cardNameUpdate()'>";
+
+    windowCardNameEditArea.append(windowCardNameEdit);
+    windowCardNameEditArea.append(windowCardNameEditButton);
+
 }

@@ -144,15 +144,23 @@
                         <div class="window-overlay" id="window-overlay" style="display:none;">
                             <div class="window" style="display: block;">
                                 <input type="button" onclick="javascript:cardDetailClose();" value="X">
-                                <h1 id="windowCardName"></h1>
+                                <input type="hidden" id="windowCardIdArea">
 
-                                <div id="labelsArea" class="row" style="margin-left: +0.35rem; margin-bottom: +2rem;"></div>
-
-                                <div id="descriptionArea" style="margin-left: +0.35rem; margin-bottom: +2rem;">
-                                    <h4 id="windowCardDescription"></h4>
+                                <div id="windowCardNameArea">
+                                    <h1 id="windowCardName" onclick="javascript:windowCardEditMode()"></h1>
                                 </div>
 
-                                <div id="checkListsArea" style="margin-left: +0.35rem; margin-bottom: +2rem;"></div>
+                                <div id="windowCardNameEditArea" class="row" style="margin-left: +0.35rem; margin-bottom: +2rem; margin-top: +1rem;">
+                                </div>
+
+                                <div id="windowLabelsArea" class="row" style="margin-left: +0.35rem; margin-bottom: +2rem;"></div>
+
+                                <div id="descriptionArea" style="margin-left: +0.35rem; margin-bottom: +2rem;">
+                                    <h4>Description</h4>
+                                    <h5 id="windowCardDescription"></h5>
+                                </div>
+
+                                <div id="windowCheckListsArea" style="margin-left: +0.35rem; margin-bottom: +2rem;"></div>
 
 
                             </div>
@@ -178,8 +186,6 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="/js/scripts.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        <script src="/assets/demo/chart-area-demo.js"></script>
-        <script src="/assets/demo/chart-bar-demo.js"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
         <script src="/assets/demo/datatables-demo.js"></script>
