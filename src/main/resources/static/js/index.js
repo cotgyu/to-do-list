@@ -48,6 +48,9 @@ const getCardDetail = function (cardId) {
         $('#windowCardNameArea').css("display","");
         $('#windowCardNameEditArea').css("display","none");
 
+        $('#windowCardDescriptionArea').css("display","");
+        $('#windowCardDescriptionEditArea').css("display","none");
+
         $('#windowCardName').text(data.result.cardName);
         $('#windowCardDescription').text(data.result.description);
         $('#windowCardIdArea').val(cardId);
@@ -158,5 +161,54 @@ const windowCardEditMode = function (){
 
     windowCardNameEditArea.append(windowCardNameEdit);
     windowCardNameEditArea.append(windowCardNameEditButton);
+
+}
+
+
+const cardDescriptionUpdate = function (){
+
+    var data = {
+        cardName: $('#windowCardName').text(),
+        description: $('#windowCardDescriptionEdit').val(),
+        delFlag: 'N'
+    };
+
+    const cardId = $('#windowCardIdArea').val();
+
+    $.ajax({
+        type: 'PUT',
+        url: '/api/card/'+ cardId,
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(data)
+
+    }).done(function (data) {
+        $('#windowCardName').css("display","inline");
+
+        getCardDetail(cardId);
+
+    }).fail(function (error){
+        alert(JSON.stringify(error));
+    });
+}
+
+const windowCardDescriptionEditMode = function (){
+
+    $('#windowCardDescriptionArea').css("display","none");
+    $('#windowCardDescriptionEditArea').css("display","");
+
+    const windowCardDescriptionEditArea = document.getElementById("windowCardDescriptionEditArea");
+
+    while ( windowCardDescriptionEditArea.hasChildNodes() ) { windowCardDescriptionEditArea.removeChild( windowCardDescriptionEditArea.firstChild ); }
+
+    const description = $('#windowCardDescription').text();
+    const windowCardDescriptionEdit = document.createElement('div');
+    windowCardDescriptionEdit.innerHTML = "<input type='textbox' id='windowCardDescriptionEdit' value="+description+">";
+
+    const windowCardDescriptionEditButton = document.createElement('div');
+    windowCardDescriptionEditButton.innerHTML = "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0' value='SAVE' onclick='javascript:cardDescriptionUpdate()'>";
+
+    windowCardDescriptionEditArea.append(windowCardDescriptionEdit);
+    windowCardDescriptionEditArea.append(windowCardDescriptionEditButton);
 
 }
