@@ -93,11 +93,11 @@ const getCardDetail = function (cardId) {
 
                 const checkBoxArea = document.createElement('div');
                 const checked = checkListsData[i].checkItems[j].checkFlag == 'Y' ? 'checked' : "";
-                checkBoxArea.innerHTML = "<input type='checkbox' id='checkItem"+checkListsData[i].checkItems[j].checkItemId+"' onchange='' "+checked+"/>";
+                checkBoxArea.innerHTML = "<input type='checkbox' id='checkItem"+checkListsData[i].checkItems[j].checkItemId+"' onchange='javascript:changeCheckItemChecked("+checkListsData[i].checkItems[j].checkItemId+")' "+checked+"/>";
                 rowDataArea.append(checkBoxArea);
 
                 const checkItemsArea = document.createElement('div');
-                checkItemsArea.innerHTML = "<a id='checkItem"+checkListsData[i].checkItems[j].checkItemId+"' onclick=''>"+checkListsData[i].checkItems[j].checkItemName+"</a>";
+                checkItemsArea.innerHTML = "<a id='checkItemName"+checkListsData[i].checkItems[j].checkItemId+"' onclick=''>"+checkListsData[i].checkItems[j].checkItemName+"</a>";
                 rowDataArea.append(checkItemsArea);
             }
 
@@ -116,7 +116,7 @@ const cardDetailClose = function (){
     location.reload();
 }
 
-const cardNameUpdate = function (){
+const updateCardName = function (){
 
     var data = {
         cardName: $('#windowCardNameEdit').val(),
@@ -157,7 +157,7 @@ const windowCardEditMode = function (){
     windowCardNameEdit.innerHTML = "<input type='text' id='windowCardNameEdit' value="+cardName+">";
 
     const windowCardNameEditButton = document.createElement('div');
-    windowCardNameEditButton.innerHTML = "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0' value='SAVE' onclick='javascript:cardNameUpdate()'>";
+    windowCardNameEditButton.innerHTML = "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0' value='SAVE' onclick='javascript:updateCardName()'>";
 
     windowCardNameEditArea.append(windowCardNameEdit);
     windowCardNameEditArea.append(windowCardNameEditButton);
@@ -165,7 +165,7 @@ const windowCardEditMode = function (){
 }
 
 
-const cardDescriptionUpdate = function (){
+const updateCardDescription = function (){
 
     var data = {
         cardName: $('#windowCardName').text(),
@@ -206,9 +206,40 @@ const windowCardDescriptionEditMode = function (){
     windowCardDescriptionEdit.innerHTML = "<input type='textbox' id='windowCardDescriptionEdit' value="+description+">";
 
     const windowCardDescriptionEditButton = document.createElement('div');
-    windowCardDescriptionEditButton.innerHTML = "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0' value='SAVE' onclick='javascript:cardDescriptionUpdate()'>";
+    windowCardDescriptionEditButton.innerHTML = "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0' value='SAVE' onclick='javascript:updateCardDescription()'>";
 
     windowCardDescriptionEditArea.append(windowCardDescriptionEdit);
     windowCardDescriptionEditArea.append(windowCardDescriptionEditButton);
+
+}
+
+const changeCheckItemChecked = function (itemId){
+
+    const checked = $('#checkItem'+itemId).is(":checked") ? "Y" : "N";
+
+    const checkItemName = $('#checkItemName'+itemId).text();
+
+    const data = {
+        checkItemName:checkItemName,
+        delFlag: 'N',
+        checkFlag: checked
+    }
+
+    const cardId = $('#windowCardIdArea').val();
+
+    $.ajax({
+        type: 'PUT',
+        url: '/api/card/checkList/checkItem/'+ itemId,
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(data)
+
+    }).done(function (data) {
+
+        getCardDetail(cardId);
+
+    }).fail(function (error){
+        alert(JSON.stringify(error));
+    });
 
 }
