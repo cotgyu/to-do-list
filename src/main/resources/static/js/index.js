@@ -76,9 +76,13 @@ const getCardDetail = function (cardId) {
 
         for (var i=0; i< checkListsData.length; i++){
             const checkListNameArea = document.createElement('div');
-            checkListNameArea.innerHTML = "<a id='checkLists"+checkListsData[i].id+"' onclick=''>"+checkListsData[i].checkListName+"</a>";
+            checkListNameArea.innerHTML = "<a id='checkLists"+checkListsData[i].id+"' onclick='javascript:windowCheckListNameEditMode("+checkListsData[i].id+")'>"+checkListsData[i].checkListName+"</a>";
+
+            const checkListNameEdit = document.createElement('div');
+            checkListNameEdit.innerHTML = "<input type='textbox' id='windowCheckListsEdit"+checkListsData[i].id+"' value='"+checkListsData[i].checkListName+"' style='display: none;'> <input type='button' id='windowCheckListsEditButton"+checkListsData[i].id+"' class='btn btn-link btn-sm order-1 order-lg-0' value='SAVE'  style='display: none;' onclick='javascript:updateCheckListName("+checkListsData[i].id+")'>";
 
             checkListsArea.append(checkListNameArea);
+            checkListsArea.append(checkListNameEdit);
 
             const checkItemsArea = document.createElement('div');
 
@@ -243,3 +247,42 @@ const changeCheckItemChecked = function (itemId){
     });
 
 }
+
+const windowCheckListNameEditMode = function (checkListId){
+
+    $('#checkLists'+checkListId).css("display","none");
+    $('#windowCheckListsEdit'+checkListId).css("display","");
+    $('#windowCheckListsEditButton'+checkListId).css("display","");
+
+
+}
+
+
+const updateCheckListName = function (checkListId){
+
+    const checkListTitle = $('#windowCheckListsEdit'+checkListId).val();
+    const cardId = $('#windowCardIdArea').val();
+
+    const data = {
+        checkListTitle:checkListTitle,
+        delFlag: 'N',
+        cardId: cardId
+    }
+
+    $.ajax({
+        type: 'PUT',
+        url: '/api/card/checkList/'+ checkListId,
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(data)
+
+    }).done(function (data) {
+
+        getCardDetail(cardId);
+
+    }).fail(function (error){
+        alert(JSON.stringify(error));
+    });
+
+}
+
