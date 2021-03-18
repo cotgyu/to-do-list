@@ -113,11 +113,11 @@ const getCardDetail = function (cardId) {
 
             const addCheckItemArea = document.createElement('div');
             addCheckItemArea.setAttribute("id", "checkItemsViewArea"+checkListsData[i].id);
+            addCheckItemArea.style.marginLeft = "+0.35rem";
+            addCheckItemArea.style.marginBottom = "+1.5rem";
 
             addCheckItemArea.innerHTML = "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0'  id='windowCheckItemAddBtn"+checkListsData[i].id+"' value='Add an Item' style='background-color: #d6d6d6; color: black' onclick='addCheckItem("+checkListsData[i].id+")'>";
-
             checkItemsArea.append(addCheckItemArea);
-
         }
 
 
@@ -370,6 +370,33 @@ const saveCheckItem = function (checkListId){
     $.ajax({
         type: 'POST',
         url: '/api/card/checkList/checkItem',
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(data)
+
+    }).done(function (data) {
+
+        getCardDetail(cardId);
+
+    }).fail(function (error){
+        alert(JSON.stringify(error));
+    });
+
+}
+
+const addCheckList = function (){
+
+    const cardId = $('#windowCardIdArea').val();
+
+    const data = {
+        checkListTitle: 'CheckList',
+        cardId: cardId,
+        delFlag: 'N'
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: '/api/card/checkList',
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(data)
