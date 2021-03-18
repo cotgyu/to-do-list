@@ -109,8 +109,15 @@ const getCardDetail = function (cardId) {
                 rowDataArea.append(checkItemsEditArea);
 
             }
-
             checkListsArea.append(checkItemsArea);
+
+            const addCheckItemArea = document.createElement('div');
+            addCheckItemArea.setAttribute("id", "checkItemsViewArea"+checkListsData[i].id);
+
+            addCheckItemArea.innerHTML = "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0'  id='windowCheckItemAddBtn"+checkListsData[i].id+"' value='Add an Item' style='background-color: #d6d6d6; color: black' onclick='addCheckItem("+checkListsData[i].id+")'>";
+
+            checkItemsArea.append(addCheckItemArea);
+
         }
 
 
@@ -317,6 +324,52 @@ const updateCheckItemName = function (itemId){
     $.ajax({
         type: 'PUT',
         url: '/api/card/checkList/checkItem/'+ itemId,
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(data)
+
+    }).done(function (data) {
+
+        getCardDetail(cardId);
+
+    }).fail(function (error){
+        alert(JSON.stringify(error));
+    });
+
+}
+
+
+const addCheckItem = function (checkListId){
+
+    $('#windowCheckItemAddBtn'+checkListId).css("display","none");
+
+    const checkItemsViewArea = $('#checkItemsViewArea'+checkListId);
+
+    const addCheckItemDiv = document.createElement('div');
+    addCheckItemDiv.innerHTML = "<input type='textbox' id='addCheckItemText'>";
+
+    const addCheckItemButton = document.createElement('div');
+    addCheckItemButton.innerHTML = "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0' value='SAVE' onclick='javascript:saveCheckItem("+checkListId+")'>";
+
+
+    checkItemsViewArea.append(addCheckItemDiv);
+    checkItemsViewArea.append(addCheckItemButton);
+}
+
+const saveCheckItem = function (checkListId){
+
+    const data = {
+        checkListId: checkListId,
+        delFlag: 'N',
+        checkFlag: 'N',
+        checkItemName: $('#addCheckItemText').val()
+    }
+
+    const cardId = $('#windowCardIdArea').val();
+
+    $.ajax({
+        type: 'POST',
+        url: '/api/card/checkList/checkItem',
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(data)
