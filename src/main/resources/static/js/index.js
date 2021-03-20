@@ -172,12 +172,18 @@ const windowCardEditMode = function (){
     const windowCardNameEdit = document.createElement('div');
     windowCardNameEdit.innerHTML = "<input type='text' id='windowCardNameEdit' value="+cardName+">";
 
-    const windowCardNameEditButton = document.createElement('div');
-    windowCardNameEditButton.innerHTML = "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0' value='SAVE' onclick='javascript:updateCardName()'>";
-
     windowCardNameEditArea.append(windowCardNameEdit);
-    windowCardNameEditArea.append(windowCardNameEditButton);
 
+    $('#windowCardNameEdit').focus();
+    $('#windowCardNameEdit').on('focusout', function (){
+        updateCardName();
+    });
+
+    $('#windowCardNameEdit').keyup(function(e){
+        if(e.keyCode == 13){
+            updateCardName();
+        }
+    });
 }
 
 
