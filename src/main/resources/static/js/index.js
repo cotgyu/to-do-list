@@ -52,7 +52,15 @@ const getCardDetail = function (cardId) {
         $('#windowCardDescriptionEditArea').css("display","none");
 
         $('#windowCardName').text(data.result.cardName);
-        $('#windowCardDescription').text(data.result.description);
+
+        if(data.result.description == ''){
+            $('#windowCardDescription').text('');
+            $('#defaultDescriptionButton').css("display","");
+        }else{
+            $('#defaultDescriptionButton').css("display","none");
+            $('#windowCardDescription').text(data.result.description);
+        }
+
         $('#windowCardIdArea').val(cardId);
 
         const rabelData = data.result.cardLabels;
@@ -79,7 +87,7 @@ const getCardDetail = function (cardId) {
             checkListNameArea.innerHTML = "<a id='checkLists"+checkListsData[i].id+"' onclick='javascript:windowCheckListNameEditMode("+checkListsData[i].id+")'>"+checkListsData[i].checkListName+"</a>";
 
             const checkListNameEditArea = document.createElement('div');
-            checkListNameEditArea.innerHTML = "<input type='textbox' id='windowCheckListsEdit"+checkListsData[i].id+"' value='"+checkListsData[i].checkListName+"' style='display: none;'> <input type='button' id='windowCheckListsEditButton"+checkListsData[i].id+"' class='btn btn-link btn-sm order-1 order-lg-0' value='SAVE'  style='display: none;' onclick='javascript:updateCheckListName("+checkListsData[i].id+")'>";
+            checkListNameEditArea.innerHTML = "<input type='textbox' name = 'windowCheckListsEdit' id='windowCheckListsEdit"+checkListsData[i].id+"' value='"+checkListsData[i].checkListName+"' style='display: none;'>";
 
             checkListsArea.append(checkListNameArea);
             checkListsArea.append(checkListNameEditArea);
@@ -105,7 +113,7 @@ const getCardDetail = function (cardId) {
                 rowDataArea.append(checkItemsArea);
 
                 const checkItemsEditArea = document.createElement('div');
-                checkItemsEditArea.innerHTML = "<input type='textbox' id='checkItemNameEdit"+checkListsData[i].checkItems[j].checkItemId+"' value='"+checkListsData[i].checkItems[j].checkItemName+"' style='display: none;'> <input type='button' id='checkItemNameEditButton"+checkListsData[i].checkItems[j].checkItemId+"' class='btn btn-link btn-sm order-1 order-lg-0' value='SAVE'  style='display: none;' onclick='javascript:updateCheckItemName("+checkListsData[i].checkItems[j].checkItemId+")'>";
+                checkItemsEditArea.innerHTML = "<input type='textbox' id='checkItemNameEdit"+checkListsData[i].checkItems[j].checkItemId+"' value='"+checkListsData[i].checkItems[j].checkItemName+"' style='display: none;'>";
                 rowDataArea.append(checkItemsEditArea);
 
             }
@@ -174,14 +182,24 @@ const windowCardEditMode = function (){
 
     windowCardNameEditArea.append(windowCardNameEdit);
 
+    const cardId = $('#windowCardIdArea').val();
+
     $('#windowCardNameEdit').focus();
     $('#windowCardNameEdit').on('focusout', function (){
-        updateCardName();
+        if($('#windowCardNameEdit').val() == ''){
+            getCardDetail(cardId);
+        }else {
+            updateCardName();
+        }
     });
 
     $('#windowCardNameEdit').keyup(function(e){
         if(e.keyCode == 13){
-            updateCardName();
+            if($('#windowCardNameEdit').val() == ''){
+                getCardDetail(cardId);
+            }else {
+                updateCardName();
+            }
         }
     });
 }
@@ -228,11 +246,20 @@ const windowCardDescriptionEditMode = function (){
     windowCardDescriptionEdit.innerHTML = "<input type='textbox' id='windowCardDescriptionEdit' value="+description+">";
 
     const windowCardDescriptionEditButton = document.createElement('div');
-    windowCardDescriptionEditButton.innerHTML = "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0' value='SAVE' onclick='javascript:updateCardDescription()'>";
+    windowCardDescriptionEditButton.innerHTML = "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0' style='background-color: green; color: white;' value='SAVE' onclick='javascript:updateCardDescription()'>";
 
     windowCardDescriptionEditArea.append(windowCardDescriptionEdit);
     windowCardDescriptionEditArea.append(windowCardDescriptionEditButton);
 
+    $('#windowCardDescriptionEdit').on('focusout', function (){
+        updateCardDescription();
+    });
+
+    $('#windowCardDescriptionEdit').keyup(function(e){
+        if(e.keyCode == 13){
+            updateCardDescription();
+        }
+    });
 }
 
 const changeCheckItemChecked = function (itemId){
@@ -273,6 +300,25 @@ const windowCheckListNameEditMode = function (checkListId){
     $('#windowCheckListsEditButton'+checkListId).css("display","");
 
 
+    const cardId = $('#windowCardIdArea').val();
+    $('#windowCheckListsEdit'+checkListId).focus();
+    $('#windowCheckListsEdit'+checkListId).on('focusout', function (){
+        if($('#windowCheckListsEdit'+checkListId).val() == ''){
+            getCardDetail(cardId);
+        }else {
+            updateCheckListName(checkListId);
+        }
+    });
+
+    $('#windowCheckListsEdit'+checkListId).keyup(function(e){
+        if(e.keyCode == 13){
+            if($('#windowCheckListsEdit'+checkListId).val() == ''){
+                getCardDetail(cardId);
+            }else {
+                updateCheckListName(checkListId);
+            }
+        }
+    });
 }
 
 
@@ -311,6 +357,26 @@ const checkItemNameEditMode = function (checkItemId){
     $('#checkItemNameEdit'+checkItemId).css("display","");
     $('#checkItemNameEditButton'+checkItemId).css("display","");
 
+
+    const cardId = $('#windowCardIdArea').val();
+    $('#checkItemNameEdit'+checkItemId).focus();
+    $('#checkItemNameEdit'+checkItemId).on('focusout', function (){
+        if($('#checkItemNameEdit'+checkItemId).val() == ''){
+            getCardDetail(cardId);
+        }else {
+            updateCheckItemName(checkItemId);
+        }
+    });
+
+    $('#checkItemNameEdit'+checkItemId).keyup(function(e){
+        if(e.keyCode == 13){
+            if($('#checkItemNameEdit'+checkItemId).val() == ''){
+                getCardDetail(cardId);
+            }else {
+                updateCheckItemName(checkItemId);
+            }
+        }
+    });
 }
 
 const updateCheckItemName = function (itemId){
@@ -354,12 +420,22 @@ const addCheckItem = function (checkListId){
     const addCheckItemDiv = document.createElement('div');
     addCheckItemDiv.innerHTML = "<input type='textbox' id='addCheckItemText'>";
 
-    const addCheckItemButton = document.createElement('div');
-    addCheckItemButton.innerHTML = "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0' value='SAVE' onclick='javascript:saveCheckItem("+checkListId+")'>";
-
-
     checkItemsViewArea.append(addCheckItemDiv);
-    checkItemsViewArea.append(addCheckItemButton);
+
+    const cardId = $('#windowCardIdArea').val();
+
+    $('#addCheckItemText').focus();
+
+    $('#addCheckItemText').on('focusout', function (){
+        if($('#addCheckItemText').val() == ''){
+            getCardDetail(cardId);
+        } else {
+            saveCheckItem(checkListId);
+        }
+
+        return;
+    });
+
 }
 
 const saveCheckItem = function (checkListId){
