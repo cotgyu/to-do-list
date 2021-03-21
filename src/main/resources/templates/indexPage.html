@@ -127,7 +127,7 @@
                                             </div>
                                         </th:block>
 
-                                        <a class="small text-black-50" href='#' th:onclick="|javascript:getCardDetail('${card.getId()}')|"><h6 th:text="${card.getCardName()}"></h6></a>
+                                            <a class="small text-black-50" href='#' th:onclick="|javascript:getCardDetail('${card.getId()}')|"><h6 th:text="${card.getCardName()}"></h6></a>
 
                                         <th:block th:id="not ${#lists.isEmpty(card.getCheckLists())}">
                                             <div class="small text-black-50" th:each="checkList: ${card.getCheckLists()}">
@@ -148,8 +148,8 @@
 
 
                                 <div>
-                                    <div id="windowCardNameArea" onclick="javascript:windowCardEditMode()">
-                                        <h1 id="windowCardName"></h1>
+                                    <div id="windowCardNameArea" class="row" style="margin-left: +0.35rem; margin-bottom: +2rem;" onclick="javascript:windowCardEditMode()">
+                                        <h1 id="windowCardName"></h1><input type='button' class='btn btn-link btn-sm' value='Delete Card' style='margin-left: 70%; height: 5%; background-color: #d6d6d6; color: black' onclick='deleteCard()'>
                                     </div>
                                     <div id="windowCardNameEditArea" class="row" style="margin-left: +0.35rem; margin-bottom: +2rem; margin-top: +1rem;"></div>
                                 </div>

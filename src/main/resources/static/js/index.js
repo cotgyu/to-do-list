@@ -83,8 +83,14 @@ const getCardDetail = function (cardId) {
         while ( checkListsArea.hasChildNodes() ) { checkListsArea.removeChild( checkListsArea.firstChild ); }
 
         for (var i=0; i< checkListsData.length; i++){
+
+            // TODO java에서 가공해서 줄 것
+            if(checkListsData[i].delFlag == 'Y'){
+                continue;
+            }
+
             const checkListNameArea = document.createElement('div');
-            checkListNameArea.innerHTML = "<a id='checkLists"+checkListsData[i].id+"' onclick='javascript:windowCheckListNameEditMode("+checkListsData[i].id+")'>"+checkListsData[i].checkListName+"</a>";
+            checkListNameArea.innerHTML = "<a id='checkLists"+checkListsData[i].id+"' onclick='javascript:windowCheckListNameEditMode("+checkListsData[i].id+")'>"+checkListsData[i].checkListName+"</a><input type='button' class='btn btn-link btn-sm' value='Delete List' style='margin-left: 2%; background-color: #d6d6d6; color: black' onclick='deleteCheckList("+checkListsData[i].id+")'>";
 
             const checkListNameEditArea = document.createElement('div');
             checkListNameEditArea.innerHTML = "<input type='textbox' name = 'windowCheckListsEdit' id='windowCheckListsEdit"+checkListsData[i].id+"' value='"+checkListsData[i].checkListName+"' style='display: none;'>";
@@ -95,6 +101,11 @@ const getCardDetail = function (cardId) {
             const checkItemsArea = document.createElement('div');
 
             for(var j=0; j < checkListsData[i].checkItems.length; j++){
+
+                // TODO java에서 가공해서 줄 것
+                if(checkListsData[i].checkItems[j].delFlag== 'Y'){
+                    continue;
+                }
 
                 const rowDataArea = document.createElement('div');
                 rowDataArea.className = "row";
@@ -113,7 +124,7 @@ const getCardDetail = function (cardId) {
                 rowDataArea.append(checkItemsArea);
 
                 const checkItemsEditArea = document.createElement('div');
-                checkItemsEditArea.innerHTML = "<input type='textbox' id='checkItemNameEdit"+checkListsData[i].checkItems[j].checkItemId+"' value='"+checkListsData[i].checkItems[j].checkItemName+"' style='display: none;'>";
+                checkItemsEditArea.innerHTML = "<input type='textbox' id='checkItemNameEdit"+checkListsData[i].checkItems[j].checkItemId+"' value='"+checkListsData[i].checkItems[j].checkItemName+"' style='display: none;'><input type='button' class='btn btn-link btn-sm' value='Delete Item' style='margin-left: 80%; height: 90%; background-color: #d6d6d6; color: black' onclick='deleteCheckItem("+checkListsData[i].checkItems[j].checkItemId+")'>";
                 rowDataArea.append(checkItemsEditArea);
 
             }
@@ -231,6 +242,35 @@ const updateCardDescription = function (){
         alert(JSON.stringify(error));
     });
 }
+
+const deleteCard = function (){
+
+    var data = {
+        cardName: $('#windowCardName').text(),
+        description: $('#windowCardDescriptionEdit').val(),
+        delFlag: 'Y'
+    };
+
+    const cardId = $('#windowCardIdArea').val();
+
+    $.ajax({
+        type: 'PUT',
+        url: '/api/card/'+ cardId,
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(data)
+
+    }).done(function (data) {
+        $('#windowCardName').css("display","inline");
+
+        cardDetailClose();
+
+    }).fail(function (error){
+        alert(JSON.stringify(error));
+    });
+}
+
+
 
 const windowCardDescriptionEditMode = function (){
 
@@ -350,6 +390,35 @@ const updateCheckListName = function (checkListId){
 
 }
 
+const deleteCheckList = function (checkListId){
+
+    const checkListTitle = $('#windowCheckListsEdit'+checkListId).val();
+    const cardId = $('#windowCardIdArea').val();
+
+    const data = {
+        checkListTitle:checkListTitle,
+        delFlag: 'Y',
+        cardId: cardId
+    }
+
+    $.ajax({
+        type: 'PUT',
+        url: '/api/card/checkList/'+ checkListId,
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(data)
+
+    }).done(function (data) {
+
+        getCardDetail(cardId);
+
+    }).fail(function (error){
+        alert(JSON.stringify(error));
+    });
+
+}
+
+
 
 const checkItemNameEditMode = function (checkItemId){
 
@@ -408,6 +477,36 @@ const updateCheckItemName = function (itemId){
         alert(JSON.stringify(error));
     });
 
+}
+
+const deleteCheckItem = function (itemId){
+
+    const checked = $('#checkItem'+itemId).is(":checked") ? "Y" : "N";
+
+    const checkItemName = $('#checkItemNameEdit'+itemId).val();
+
+    const data = {
+        checkItemName:checkItemName,
+        delFlag: 'Y',
+        checkFlag: checked
+    }
+
+    const cardId = $('#windowCardIdArea').val();
+
+    $.ajax({
+        type: 'PUT',
+        url: '/api/card/checkList/checkItem/'+ itemId,
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(data)
+
+    }).done(function (data) {
+
+        getCardDetail(cardId);
+
+    }).fail(function (error){
+        alert(JSON.stringify(error));
+    });
 }
 
 
