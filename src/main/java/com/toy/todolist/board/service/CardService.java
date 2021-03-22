@@ -6,7 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.*;
 
@@ -96,6 +98,31 @@ public class CardService {
         Label label = labelRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 Label가 없습니다. id=" + id));
 
         return label;
+    }
+
+    // TODO 쿼리로 한번에 조회 - dto 반환 활용해서 간단하게 수정할 것
+    @Transactional(readOnly = true)
+    public List<CardLabelQueryDto> findCardLabels(Long cardId){
+
+        List<CardLabelQueryDto> result = new ArrayList<>();
+
+        List<Label> allLabels = labelRepository.findAll();
+
+        Card card = findCardById(cardId);
+        List<CardLabel> cardLabels = card.getCardLabels();
+
+        for (Label allLabel : allLabels) {
+            String check = "N";
+            for (CardLabel cardLabel : cardLabels) {
+                if(allLabel.getId() == cardLabel.getLabel().getId()){
+                    check = "Y";
+                }
+            }
+
+            result.add(new CardLabelQueryDto(cardId, allLabel.getId(), allLabel.getLabelName(), allLabel.getColor(), check));
+        }
+
+        return result;
     }
 
     @Transactional

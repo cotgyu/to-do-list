@@ -582,12 +582,58 @@ const addCheckList = function (){
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(data)
 
-    }).done(function (data) {
-
+    }).done(function () {
         getCardDetail(cardId);
+    }).fail(function (error){
+        alert(JSON.stringify(error));
+    });
+}
+
+const viewEditLabelsArea = function (){
+
+    const cardId = $('#windowCardIdArea').val();
+
+    $.ajax({
+        type: 'GET',
+        url: '/api/card/label/'+ cardId,
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+
+    }).done(function (data) {
+        $('#labelsEditArea').css("display","");
+
+        const labelsEditArea = document.getElementById('labelsEditArea');
+
+        while ( labelsEditArea.hasChildNodes() ) { labelsEditArea.removeChild( labelsEditArea.firstChild ); }
+
+        const cardLabelData = data.result;
+
+        for(var i =0; i < cardLabelData.length; i++){
+            const windowLabelsEdit = document.createElement('div');
+            windowLabelsEdit.className = "row";
+
+            const windowLabelsButton = document.createElement('div');
+            windowLabelsButton.style.marginRight = "+0.35rem";
+
+            windowLabelsButton.innerHTML = "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0' id='cardLabel"+cardLabelData[i].labelId+"' value='"+cardLabelData[i].labelName+"' style='background-color: "+cardLabelData[i].color+"; color: white' onclick=''>";
+            windowLabelsEdit.append(windowLabelsButton);
+
+
+            const labelCheckBoxArea = document.createElement('div');
+            const checked = cardLabelData[i].checkFlag == 'Y' ? 'checked' : "";
+            labelCheckBoxArea.innerHTML = "<input type='checkbox' id='checkItem"+cardLabelData[i].labelId+"' onchange='' "+checked+"/>";
+            windowLabelsEdit.append(labelCheckBoxArea);
+
+
+            labelsEditArea.append(windowLabelsEdit);
+        }
+
+
+
 
     }).fail(function (error){
         alert(JSON.stringify(error));
     });
+
 
 }

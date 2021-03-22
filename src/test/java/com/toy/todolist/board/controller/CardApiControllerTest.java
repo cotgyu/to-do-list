@@ -364,4 +364,23 @@ class CardApiControllerTest {
         assertThat(checkLists.get(0).getCheckItems().get(0).getDelFlag()).isEqualTo(checkItemRequestDto.getDelFlag());
     }
 
+
+    @Test
+    @DisplayName("카드아이디의 라벨 조회 테스트")
+    public void getCardLabelApiTest() throws Exception{
+
+        //given
+        Long cardId = 1L;
+
+        // when then
+        mockMvc.perform(
+                get("/api/card/label/{cardId}", cardId)
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+        )
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(jsonPath("resultMessage").value("success"))
+                .andExpect(jsonPath("result").isNotEmpty());
+
+    }
 }

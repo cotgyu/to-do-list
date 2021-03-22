@@ -81,6 +81,19 @@ public class CardApiController {
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
+    @GetMapping("/label/{cardId}")
+    public ResponseEntity findCardLabels(@PathVariable Long cardId){
+        Map<String, Object> resultMap = new HashMap<>();
+
+        List<CardLabelQueryDto> cardLabels = cardService.findCardLabels(cardId);
+
+        resultMap.put("result", cardLabels);
+        resultMap.put("resultMessage", "success");
+
+
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+    }
+
     @PutMapping("/label/{labelId}")
     public ResponseEntity updateLabel(@PathVariable Long labelId, @RequestBody LabelRequestDto labelRequestDto){
         Map<String, Object> resultMap = new HashMap<>();

@@ -81,10 +81,12 @@ public class InitContents {
             Label label1 = new Label("label1", "green");
             Label label2 = new Label("label2", "red");
             Label label3 = new Label("label3", "blue");
+            Label label4 = new Label("label4", "yellow");
 
             em.persist(label1);
             em.persist(label2);
             em.persist(label3);
+            em.persist(label4);
 
             CardLabel cardLabel1 = new CardLabel(card1, label1);
             CardLabel cardLabel2 = new CardLabel(card2, label2);
