@@ -94,6 +94,18 @@ public class CardApiController {
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
+    @PutMapping("/label/cardLabel")
+    public ResponseEntity updateCardLabels(@RequestBody CardLabelRequestDto cardLabelRequestDto){
+        Map<String, Object> resultMap = new HashMap<>();
+
+        cardService.updateCardLabel(cardLabelRequestDto);
+
+        resultMap.put("result", "ok");
+        resultMap.put("resultMessage", "success");
+
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+    }
+
     @PutMapping("/label/{labelId}")
     public ResponseEntity updateLabel(@PathVariable Long labelId, @RequestBody LabelRequestDto labelRequestDto){
         Map<String, Object> resultMap = new HashMap<>();

@@ -366,7 +366,7 @@ class CardApiControllerTest {
 
 
     @Test
-    @DisplayName("카드아이디의 라벨 조회 테스트")
+    @DisplayName("카드아이디의 라벨 조회 api 테스트")
     public void getCardLabelApiTest() throws Exception{
 
         //given
@@ -382,5 +382,36 @@ class CardApiControllerTest {
                 .andExpect(jsonPath("resultMessage").value("success"))
                 .andExpect(jsonPath("result").isNotEmpty());
 
+    }
+
+    @Test
+    @DisplayName("카드라벨 수정 api 테스트")
+    public void updateCardLabelApiTest() throws Exception{
+
+        //given
+        Topic topic = new Topic("topic1");
+        topicRepository.save(topic);
+        Card card1 = new Card("card1", "dis1" ,topic);
+        cardRepository.save(card1);
+        Label label = new Label("label1", "black");
+        labelRepository.save(label);
+        CardLabel cardLabel = new CardLabel(card1, label);
+        card1.addCardLabel(cardLabel);
+
+        // when
+        CardLabelRequestDto cardLabelRequestDto = new CardLabelRequestDto(card1.getId(), label.getId(), "false");
+
+        mockMvc.perform(
+                put("/api/card/label/cardLabel")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(objectMapper.writeValueAsString(cardLabelRequestDto))
+        )
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(jsonPath("resultMessage").value("success"));
+
+        //then
+
+        assertThat(cardLabel.getDelFlag()).isEqualTo("Y");
     }
 }

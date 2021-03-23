@@ -40,4 +40,8 @@ public class CardLabel {
         this.delFlag = "N";
     }
 
+    public void update(String delFlag){
+        this.delFlag = delFlag;
+    }
+
 }

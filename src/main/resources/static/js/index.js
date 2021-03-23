@@ -70,6 +70,11 @@ const getCardDetail = function (cardId) {
         while ( rabelArea.hasChildNodes() ) { rabelArea.removeChild( rabelArea.firstChild ); }
 
         for(var i =0; i < rabelData.length; i++){
+
+            if(rabelData[i].delFlag == 'Y'){
+                continue;
+            }
+
             const divButton = document.createElement('div');
             divButton.innerHTML = "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0'  id='rabel"+rabelData[i].label.label_id+"' value='"+rabelData[i].label.labelName+"' style='background-color: "+rabelData[i].label.color+"; color: white' onclick=''>";
 
@@ -620,20 +625,44 @@ const viewEditLabelsArea = function (){
 
 
             const labelCheckBoxArea = document.createElement('div');
-            const checked = cardLabelData[i].checkFlag == 'Y' ? 'checked' : "";
-            labelCheckBoxArea.innerHTML = "<input type='checkbox' id='checkItem"+cardLabelData[i].labelId+"' onchange='' "+checked+"/>";
+            const checked = (cardLabelData[i].checkFlag == 'Y') ? 'checked' : '';
+            labelCheckBoxArea.innerHTML = "<input type='checkbox' id='checkCardLabel"+cardLabelData[i].labelId+"' onchange='javascript:updateCardLabel("+cardLabelData[i].labelId+")' "+checked+"/>";
             windowLabelsEdit.append(labelCheckBoxArea);
-
 
             labelsEditArea.append(windowLabelsEdit);
         }
-
-
-
 
     }).fail(function (error){
         alert(JSON.stringify(error));
     });
 
+
+}
+
+
+const updateCardLabel = function (labelId){
+
+    const cardId = $('#windowCardIdArea').val();
+    const checkedValue = $('#checkCardLabel'+labelId).is(":checked");
+
+    const data = {
+        label_id: labelId,
+        checkFlag: checkedValue,
+        card_id: cardId
+    }
+
+    $.ajax({
+        type: 'PUT',
+        url: '/api/card/label/cardLabel',
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(data)
+
+    }).done(function () {
+        getCardDetail(cardId);
+        viewEditLabelsArea();
+    }).fail(function (error){
+        alert(JSON.stringify(error));
+    });
 
 }

@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.*;
@@ -114,7 +115,7 @@ public class CardService {
         for (Label allLabel : allLabels) {
             String check = "N";
             for (CardLabel cardLabel : cardLabels) {
-                if(allLabel.getId() == cardLabel.getLabel().getId()){
+                if( (allLabel.getId() == cardLabel.getLabel().getId()) && cardLabel.getDelFlag().equals("N")){
                     check = "Y";
                 }
             }
@@ -123,6 +124,41 @@ public class CardService {
         }
 
         return result;
+    }
+
+    // TODO 연관관계에 따른 올바른 update 필요..
+    @Transactional
+    public void updateCardLabel(CardLabelRequestDto cardLabelRequestDto){
+
+        long cardId = cardLabelRequestDto.getCard_id();
+        Card card = cardRepository.findById(cardId).orElseThrow(() -> new IllegalArgumentException("해당 Card가 없습니다. id=" + cardId));
+
+        List<CardLabel> cardLabels = card.getCardLabels();
+
+        if(cardLabelRequestDto.getCheckFlag().equals("true")){
+            boolean isHaving = false;
+
+            for (CardLabel cardLabel : cardLabels) {
+                if(cardLabel.getLabel().getId() == cardLabelRequestDto.getLabel_id()){
+                        cardLabel.update("N");
+                        isHaving = true;
+                }
+            }
+            if(!isHaving){
+                Label label = labelRepository.findById(cardLabelRequestDto.getLabel_id()).orElseThrow(() -> new IllegalArgumentException("해당 Label가 없습니다."));
+                CardLabel addCardLabel = new CardLabel(card, label);
+
+                card.addCardLabel(addCardLabel);
+            }
+
+        } else{
+            for (CardLabel cardLabel : cardLabels) {
+                if(cardLabel.getLabel().getId() == cardLabelRequestDto.getLabel_id()){
+                    cardLabel.update("Y");
+                }
+            }
+        }
+
     }
 
     @Transactional
