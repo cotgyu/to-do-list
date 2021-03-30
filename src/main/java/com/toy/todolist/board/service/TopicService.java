@@ -1,5 +1,7 @@
 package com.toy.todolist.board.service;
 
+import com.toy.todolist.board.domain.Board;
+import com.toy.todolist.board.domain.BoardRepository;
 import com.toy.todolist.board.domain.Topic;
 import com.toy.todolist.board.domain.TopicRepository;
 import com.toy.todolist.board.dto.TopicRequestDto;
@@ -12,10 +14,16 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class TopicService {
     private final TopicRepository topicRepository;
+    private final BoardRepository boardRepository;
 
     @Transactional
     public Long save(TopicRequestDto topicRequestDto){
+
+        long boardId = topicRequestDto.getBoardId();
+        Board board = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("해당 Board 없습니다. id=" + boardId));
+
         Topic topic = topicRepository.save(topicRequestDto.toEntity());
+        topic.changeBoard(board);
 
         return topic.getId();
     }

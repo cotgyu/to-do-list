@@ -776,3 +776,38 @@ const updateLabel = function (labelId){
         alert(JSON.stringify(error));
     });
 }
+
+const addTopicMode = function (){
+
+    $('#addTopicButton').css('display', 'none');
+    $('#addTopicNameInput').css('display', '');
+    $('#saveTopicButton').css('display', '');
+}
+
+const saveTopic = function (){
+
+    const topicName = $('#addTopicNameInput').val();
+    const boardId = $('#boardIdHidden').val();
+
+    const data = {
+        boardId: boardId,
+        topicName: topicName
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: '/api/topic',
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(data)
+
+    }).done(function () {
+
+        location.reload();
+
+    }).fail(function (error){
+        alert(JSON.stringify(error));
+    });
+
+}
+

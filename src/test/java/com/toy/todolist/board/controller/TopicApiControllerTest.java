@@ -1,10 +1,7 @@
 package com.toy.todolist.board.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.toy.todolist.board.domain.Card;
-import com.toy.todolist.board.domain.CardRepository;
-import com.toy.todolist.board.domain.Topic;
-import com.toy.todolist.board.domain.TopicRepository;
+import com.toy.todolist.board.domain.*;
 import com.toy.todolist.board.dto.CardRequestDto;
 import com.toy.todolist.board.dto.TopicRequestDto;
 import com.toy.todolist.board.service.TopicService;
@@ -46,6 +43,9 @@ class TopicApiControllerTest {
     CardRepository cardRepository;
 
     @Autowired
+    BoardRepository boardRepository;
+
+    @Autowired
     TopicService topicService;
 
     @Autowired
@@ -58,7 +58,10 @@ class TopicApiControllerTest {
     @DisplayName("토픽 등록 api 테스트")
     public void addTopicApiTest() throws Exception{
         //given
-        TopicRequestDto topicRequestDto = new TopicRequestDto("topicName1");
+        Board boardTest1 = new Board("boardTest1");
+        boardRepository.save(boardTest1);
+
+        TopicRequestDto topicRequestDto = new TopicRequestDto(boardTest1.getId(), "topicName1");
 
         //when then
         mockMvc.perform(

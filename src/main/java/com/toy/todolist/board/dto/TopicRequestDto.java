@@ -14,10 +14,16 @@ import java.util.stream.Collectors;
 public class TopicRequestDto {
 
     private Long id;
+    private Long boardId;
     private String topicName;
     private String delFlag;
 
     public TopicRequestDto(String topicName){
+        this.topicName = topicName;
+    }
+
+    public TopicRequestDto(Long boardId, String topicName){
+        this.boardId = boardId;
         this.topicName = topicName;
     }
 
