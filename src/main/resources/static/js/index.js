@@ -596,6 +596,15 @@ const addCheckList = function (){
 
 const viewEditLabelsArea = function (){
 
+    if($('#labelsEditArea').css('display') == 'block'){
+        $('#labelsEditArea').css("display","none");
+
+        const labelsEditArea = document.getElementById('labelsEditArea');
+        while ( labelsEditArea.hasChildNodes() ) { labelsEditArea.removeChild( labelsEditArea.firstChild ); }
+
+        return;
+    }
+
     const cardId = $('#windowCardIdArea').val();
 
     $.ajax({
@@ -608,7 +617,6 @@ const viewEditLabelsArea = function (){
         $('#labelsEditArea').css("display","");
 
         const labelsEditArea = document.getElementById('labelsEditArea');
-
         while ( labelsEditArea.hasChildNodes() ) { labelsEditArea.removeChild( labelsEditArea.firstChild ); }
 
         const cardLabelData = data.result;
@@ -620,7 +628,9 @@ const viewEditLabelsArea = function (){
             const windowLabelsButton = document.createElement('div');
             windowLabelsButton.style.marginRight = "+0.35rem";
 
-            windowLabelsButton.innerHTML = "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0' id='cardLabel"+cardLabelData[i].labelId+"' value='"+cardLabelData[i].labelName+"' style='background-color: "+cardLabelData[i].color+"; color: white' onclick=''>";
+            windowLabelsButton.innerHTML = "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0' id='cardLabel"+cardLabelData[i].labelId+"' value='"+cardLabelData[i].labelName+"' style='background-color: "+cardLabelData[i].color+"; color: white' onclick=''>" +
+                "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0' value='UPDATE' style='background-color: #d6d6d6; color: black' onclick='javascript:editLabelMode("+cardLabelData[i].labelId+")'>" +
+                "<input type='hidden' id='labelColorHidden"+cardLabelData[i].labelId+"' value='"+cardLabelData[i].color+"'>";
             windowLabelsEdit.append(windowLabelsButton);
 
 
@@ -632,13 +642,17 @@ const viewEditLabelsArea = function (){
             labelsEditArea.append(windowLabelsEdit);
         }
 
+        const windowCreateLabelsButton = document.createElement('div')
+        windowCreateLabelsButton.setAttribute("id", "createLabelArea");
+
+        windowCreateLabelsButton.innerHTML = "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0' id='createLabelButton' value='Create new Label' style='background-color: #d6d6d6; color: black' onclick='javascript:createLabelMode()'>";
+        labelsEditArea.append(windowCreateLabelsButton);
+
     }).fail(function (error){
         alert(JSON.stringify(error));
     });
 
-
 }
-
 
 const updateCardLabel = function (labelId){
 
@@ -665,4 +679,100 @@ const updateCardLabel = function (labelId){
         alert(JSON.stringify(error));
     });
 
+}
+
+const createLabelMode = function (){
+
+    const labelsEditArea = document.getElementById('labelsEditArea');
+    while ( labelsEditArea.hasChildNodes() ) { labelsEditArea.removeChild( labelsEditArea.firstChild ); }
+
+    const labelNameInput = document.createElement('div');
+    labelNameInput.innerHTML = "<input type='text' id='windowLabelNameInput'>";
+
+    const labelColorInput = document.createElement('div');
+    labelColorInput.innerHTML = "<input type='text' id='windowLabelColorInput' value='green'>";
+
+    const labelSaveButton = document.createElement('div');
+    labelSaveButton.innerHTML = "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0' id='labelSaveButton' value='SAVE' style='background-color: #d6d6d6; color: black' onclick='javascript:saveLabel()'>";
+
+    labelsEditArea.append(labelNameInput);
+    labelsEditArea.append(labelColorInput);
+    labelsEditArea.append(labelSaveButton);
+}
+
+const saveLabel = function (){
+    const cardId = $('#windowCardIdArea').val();
+
+    const labelName = $('#windowLabelNameInput').val();
+    const labelColor = $('#windowLabelColorInput').val();
+
+    const data = {
+        labelName: labelName,
+        color: labelColor
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: '/api/card/label',
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(data)
+
+    }).done(function () {
+
+        getCardDetail(cardId);
+        viewEditLabelsArea();
+    }).fail(function (error){
+        alert(JSON.stringify(error));
+    });
+}
+
+const editLabelMode = function (labelId){
+
+    const labelName = $('#cardLabel'+labelId).val();
+    const labelColor = $('#labelColorHidden'+labelId).val();
+
+    const labelsEditArea = document.getElementById('labelsEditArea');
+    while ( labelsEditArea.hasChildNodes() ) { labelsEditArea.removeChild( labelsEditArea.firstChild ); }
+
+    const labelNameInput = document.createElement('div');
+    labelNameInput.innerHTML = "<input type='text' id='windowUpdateLabelNameInput' value='"+labelName+"'>";
+
+    const labelColorInput = document.createElement('div');
+    labelColorInput.innerHTML = "<input type='text' id='windowUpdateLabelColorInput' value='"+labelColor+"'>";
+
+    const labelSaveButton = document.createElement('div');
+    labelSaveButton.innerHTML = "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0' id='labelUpdateButton' value='UPDATE' style='background-color: #d6d6d6; color: black' onclick='javascript:updateLabel("+labelId+")'>";
+
+    labelsEditArea.append(labelNameInput);
+    labelsEditArea.append(labelColorInput);
+    labelsEditArea.append(labelSaveButton);
+}
+
+const updateLabel = function (labelId){
+
+    const cardId = $('#windowCardIdArea').val();
+
+    const labelName = $('#windowUpdateLabelNameInput').val();
+    const labelColor = $('#windowUpdateLabelColorInput').val();
+
+    const data = {
+        labelName: labelName,
+        color: labelColor
+    }
+
+    $.ajax({
+        type: 'PUT',
+        url: '/api/card/label/'+labelId,
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(data)
+
+    }).done(function () {
+
+        getCardDetail(cardId);
+        viewEditLabelsArea();
+    }).fail(function (error){
+        alert(JSON.stringify(error));
+    });
 }
