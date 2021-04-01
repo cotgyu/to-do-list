@@ -31,7 +31,12 @@ public class InitContents {
 
             //given
             Board board = new Board("board1");
+            Board board2 = new Board("board2");
+            Board board3 = new Board("board3");
+
             em.persist(board);
+            em.persist(board2);
+            em.persist(board3);
 
             Topic topic1 = new Topic("topic1", board);
             Topic topic2 = new Topic("topic2", board);

@@ -35,5 +35,10 @@ public class Board {
         this.delFlag = "N";
     }
 
+    public void update(String boardName, String delFlag){
+        this.boardName = boardName;
+        this.delFlag = delFlag;
+    }
+
 
 }

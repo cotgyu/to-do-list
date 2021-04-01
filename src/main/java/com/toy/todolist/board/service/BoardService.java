@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -30,24 +31,46 @@ public class BoardService {
         return board.getId();
     }
 
+    public void updateBoard(long boardId, BoardRequestDto boardRequestDto){
+
+        Board board = findBoardById(boardId);
+
+        board.update(boardRequestDto.getBoardName(), boardRequestDto.getDelFlag());
+
+    }
+
     public BoardResponseDto findAllContents(Long boardId){
 
         // TODO - 한방 쿼리로 수정 필요 (delflag 처리포함)
-        Board board = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("해당 Board가 없습니다. id=" + boardId));
+        Board board = findBoardById(boardId);
 
         BoardResponseDto boardResponseDto = new BoardResponseDto(board);
 
-        List<TopicResponseDto> returnList = new ArrayList<>();
         List<TopicResponseDto> topics = boardResponseDto.getTopics();
 
-        for (TopicResponseDto topic : topics) {
-            if(topic.getDelFlag()== null || topic.getDelFlag().equals("N"))
-                returnList.add(topic);
-        }
+        List<TopicResponseDto> returnList = topics.stream()
+                .filter(topicResponseDto -> topicResponseDto.getDelFlag() == null || topicResponseDto.getDelFlag().equals("N"))
+                .collect(Collectors.toList());
 
         boardResponseDto.setTopics(returnList);
 
         return boardResponseDto;
+    }
+
+    private Board findBoardById(Long boardId) {
+        Board board = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("해당 Board가 없습니다. id=" + boardId));
+        return board;
+    }
+
+    public List<BoardResponseDto> findAllBoardList(){
+        List<Board> all = boardRepository.findAll();
+
+        List<BoardResponseDto> boardResponseDtoList = all.stream()
+                .filter(board -> board.getDelFlag() == null || board.getDelFlag().equals("N"))
+                .map(board -> new BoardResponseDto(board))
+                .collect(Collectors.toList());
+
+        return boardResponseDtoList;
     }
 
 

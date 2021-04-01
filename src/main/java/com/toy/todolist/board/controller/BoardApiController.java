@@ -35,4 +35,16 @@ public class BoardApiController {
 
     }
 
+    @PutMapping("/{boardId}")
+    public ResponseEntity updateBoard(@PathVariable Long boardId, @RequestBody BoardRequestDto boardRequestDto){
+        Map<String, Object> resultMap = new HashMap<>();
+
+        boardService.updateBoard(boardId, boardRequestDto);
+
+        resultMap.put("result", boardId);
+        resultMap.put("resultMessage", "success");
+
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+    }
+
 }

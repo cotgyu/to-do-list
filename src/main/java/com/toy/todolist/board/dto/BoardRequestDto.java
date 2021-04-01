@@ -11,9 +11,11 @@ public class BoardRequestDto {
 
     private Long id;
     private String boardName;
+    private String delFlag;
 
     public BoardRequestDto(String boardName){
-     this.boardName = boardName;
+        this.boardName = boardName;
+        this.delFlag = "N";
     }
 
     public Board toEntity(){
