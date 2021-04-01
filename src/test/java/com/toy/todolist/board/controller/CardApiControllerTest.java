@@ -62,7 +62,10 @@ class CardApiControllerTest {
     @DisplayName("카드 등록 api 테스트")
     public void addCardApiTest() throws Exception{
         //given
-        CardRequestDto cardRequestDto = new CardRequestDto("cardName1");
+        Topic topic = new Topic("testTopic");
+        topicRepository.save(topic);
+
+        CardRequestDto cardRequestDto = new CardRequestDto(topic.getId(), "cardName1");
 
         //when then
         mockMvc.perform(

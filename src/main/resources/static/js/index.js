@@ -53,7 +53,7 @@ const getCardDetail = function (cardId) {
 
         $('#windowCardName').text(data.result.cardName);
 
-        if(data.result.description == ''){
+        if(data.result.description == undefined || data.result.description == ''){
             $('#windowCardDescription').text('');
             $('#defaultDescriptionButton').css("display","");
         }else{
@@ -787,6 +787,11 @@ const addTopicMode = function (){
 const saveTopic = function (){
 
     const topicName = $('#addTopicNameInput').val();
+
+    if(topicName == ''){
+        location.reload();
+        return;
+    }
     const boardId = $('#boardIdHidden').val();
 
     const data = {
@@ -802,12 +807,130 @@ const saveTopic = function (){
         data: JSON.stringify(data)
 
     }).done(function () {
-
         location.reload();
-
     }).fail(function (error){
         alert(JSON.stringify(error));
     });
 
 }
 
+const changeTopicNameMode = function (topicId){
+    $('#topicView'+topicId).css('display','none');
+    $('#editTopicNameInput'+topicId).css('display','');
+    $('#editTopicButton'+topicId).css('display','');
+
+    $('#editTopicNameInput'+topicId).focus();
+    $('#editTopicNameInput'+topicId).on('focusout', function (){
+        if($('#editTopicNameInput'+topicId).val() == ''){
+            location.reload();
+        }else {
+            editTopicName(topicId);
+        }
+    });
+
+    $('#editTopicNameInput'+topicId).keyup(function(e){
+        if(e.keyCode == 13){
+            if($('#editTopicNameInput'+topicId).val() == ''){
+                location.reload();
+            }else {
+                editTopicName(topicId);
+            }
+        }
+    });
+}
+
+const editTopicName = function (topicId){
+
+    const topicName = $('#editTopicNameInput'+topicId).val();
+
+    if(topicName == ''){
+        location.reload();
+        return;
+    }
+
+    const data = {
+        id:topicId,
+        topicName: topicName,
+        delFlag: 'N'
+    }
+
+    $.ajax({
+        type: 'PUT',
+        url: '/api/topic/'+topicId,
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(data)
+
+    }).done(function () {
+        location.reload();
+    }).fail(function (error){
+        alert(JSON.stringify(error));
+    });
+}
+
+const addCardMode = function (topicId){
+    $('#addCardButton'+topicId).css('display','none');
+    $('#addCardInput'+topicId).css('display','');
+    $('#saveCardButton'+topicId).css('display','');
+
+    $('#addCardInput'+topicId).focus();
+    $('#addCardInput'+topicId).on('focusout', function (){
+        if($('#addCardInput'+topicId).val() == ''){
+            $('#addCardButton'+topicId).css('display','');
+            $('#addCardInput'+topicId).css('display','none');
+            $('#saveCardButton'+topicId).css('display','none');
+        }else {
+            saveCard(topicId);
+        }
+    });
+
+}
+
+const saveCard = function (topicId){
+
+    const cardName = $('#addCardInput'+topicId).val();
+    const data = {
+        topicId: topicId,
+        cardName: cardName
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: '/api/card',
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(data)
+
+    }).done(function () {
+        location.reload();
+    }).fail(function (error){
+        alert(JSON.stringify(error));
+    });
+}
+
+const deleteTopic = function (topicId) {
+
+    if(confirm('정말로 삭제하시겠습니까?')){
+        const topicName = $('#topicView'+topicId).val();
+
+        const data = {
+            id:topicId,
+            topicName: topicName,
+            delFlag: 'Y'
+        }
+
+        $.ajax({
+            type: 'PUT',
+            url: '/api/topic/'+topicId,
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data)
+
+        }).done(function () {
+            location.reload();
+        }).fail(function (error){
+            alert(JSON.stringify(error));
+        });
+
+    }
+}

@@ -16,6 +16,9 @@ import static java.util.stream.Collectors.*;
 @RequiredArgsConstructor
 @Service
 public class CardService {
+
+    private final TopicRepository topicRepository;
+
     private final CardRepository cardRepository;
 
     private final LabelRepository labelRepository;
@@ -27,9 +30,13 @@ public class CardService {
     @Transactional
     public Long saveCard(CardRequestDto cardRequestDto){
 
+        long topicId = cardRequestDto.getTopicId();
+        Topic topic = topicRepository.findById(topicId).orElseThrow(() -> new IllegalArgumentException("해당 Topic가 없습니다. id=" + topicId));
+
         Card card = cardRequestDto.toEntity();
         Card saveCard = cardRepository.save(card);
 
+        saveCard.changeTopic(topic);
         return saveCard.getId();
     }
 

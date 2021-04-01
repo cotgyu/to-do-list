@@ -110,7 +110,12 @@
                         <th:block th:if="not ${#lists.isEmpty(topics)}">
                             <div class="col-xl-3 col-md-6" th:each="topic: ${topics}">
                                 <div class="card bg-white text-dark mb-4">
-                                    <div class="card-body"><h5 th:text="${topic.getTopicName()}"></h5></div>
+                                    <div class="card-body">
+                                        <input type="button" th:onclick="|javascript:deleteTopic('${topic.getId()}')|" value="X" style="margin-left: 99%; width: 20px; height: 20px; text-align: center; font-size: 10px">
+                                        <h5 th:text="${topic.getTopicName()}" th:id="|topicView${topic.getId()}|" th:onclick="|javascript:changeTopicNameMode('${topic.getId()}')|"></h5>
+                                        <input type="text" th:id="|editTopicNameInput${topic.getId()}|" style="display: none" th:value="${topic.getTopicName()}">
+                                        <input type="button" class='btn btn-link btn-sm order-1 order-lg-0' th:id="|editTopicButton${topic.getId()}|" value='SAVE' style='background-color: #d6d6d6; color: black; display: none' th:onclick="|javascript:editTopicName('${topic.getId()}')|">
+                                    </div>
                                     <th:block th:if="not ${#lists.isEmpty(topic.getCards())}">
                                     <div class="card-footer align-items-center justify-content-between" th:each="card: ${topic.getCards()}">
 
@@ -131,6 +136,9 @@
                                         </th:block>
                                     </div>
                                     </th:block>
+                                    <input type="button" class='btn btn-link btn-sm order-1 order-lg-0' th:id="|addCardButton${topic.getId()}|" value='+ Add another card' style='background-color: #d6d6d6; color: black' th:onclick="|javascript:addCardMode('${topic.getId()}')|">
+                                    <input type="text" th:id="|addCardInput${topic.getId()}|" style="display: none">
+                                    <input type="button" class='btn btn-link btn-sm order-1 order-lg-0' th:id="|saveCardButton${topic.getId()}|" value='SAVE' style='background-color: #d6d6d6; color: black; display: none' th:onclick="|javascript:saveCard('${topic.getId()}')|">
                                 </div>
                             </div>
                         </th:block>
@@ -168,7 +176,7 @@
                                         <h4>Description</h4>
                                         <div id="windowCardDescriptionArea" style="margin-left: +0.35rem; margin-bottom: +2rem;" onclick="javascript:windowCardDescriptionEditMode()">
                                             <h5 id="windowCardDescription"></h5>
-                                            <input type='button' id="defaultDescriptionButton" class='btn btn-link btn-sm order-1 order-lg-0' value='addDescription' style='background-color: #d6d6d6; color: black; display: none' onclick='windowCardDescriptionEditMode()'>
+                                            <input type='button' id="defaultDescriptionButton" class='btn btn-link btn-sm order-1 order-lg-0' value='add Description' style='background-color: #d6d6d6; color: black; display: none' onclick='windowCardDescriptionEditMode()'>
                                         </div>
                                         <div id="windowCardDescriptionEditArea" class="row" style="margin-left: +0.35rem; margin-bottom: +2rem; margin-top: +1rem;">
                                         </div>

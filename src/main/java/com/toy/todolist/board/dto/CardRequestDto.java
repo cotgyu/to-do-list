@@ -8,10 +8,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CardRequestDto {
 
+    private long topicId;
     private String cardName;
     private String description;
     private String delFlag;
@@ -20,6 +20,16 @@ public class CardRequestDto {
         this.cardName = cardName;
     }
 
+    public CardRequestDto(long topicId, String cardName){
+        this.topicId = topicId;
+        this.cardName = cardName;
+    }
+
+    public CardRequestDto(String cardName, String description, String delFlag) {
+        this.cardName = cardName;
+        this.description = description;
+        this.delFlag = delFlag;
+    }
 
     public Card toEntity(){
         return Card.builder()

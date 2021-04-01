@@ -60,7 +60,7 @@ public class Card {
         this.delFlag = "N";
     }
 
-    private void changeTopic(Topic topic){
+    public void changeTopic(Topic topic){
         this.topic = topic;
         topic.getCards().add(this);
     }
