@@ -9,10 +9,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
 </head>
 <body>
-<h1>Login Page</h1>
 
 <th:block th:if="${#lists.isEmpty(userName)}">
-
+    <h1>Login Page</h1>
 <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">Google Login</a>
 <!--<a href="/oauth2/authorization/naver" class="btn btn-secondary active" role="button">Naver Login</a>-->
 
@@ -20,11 +19,32 @@
 
 <th:block th:if="not ${#lists.isEmpty(userName)}">
 
-    <h4 th:text=" ${userName}" ></h4>
+    <h4 th:text=" ${userName}"></h4>
+
+    <div style="margin-left: +1rem">
+        <th:block th:if="not ${#lists.isEmpty(boardList)}">
+            <div th:each="board: ${boardList}">
+                <a th:href="@{board/{boardId}(boardId=${board.getId()})}" th:id="|boardView${board.getId()}|" th:text="${board.getBoardName()}"></a>
+                <input type="text" th:id="|editBoardNameInput${board.getId()}|" style="display: none" th:value="${board.getBoardName()}">
+                <input type="hidden" th:value="${board.getBoardName()}" th:id="|board${board.getId()}|">
+                <input type="button" th:id="|editBoardNameButton${board.getId()}|" th:onclick="|javascript:updateBoardMode('${board.getId()}')|" value="UPDATE" style="width: 60px; height: 20px; text-align: center; font-size: 10px">
+                <input type="button" th:id="|saveBoardNameButton${board.getId()}|" th:onclick="|javascript:updateBoard('${board.getId()}')|" value="SAVE" style="display: none; width: 50px; height: 20px; text-align: center; font-size: 10px">
+                <input type="button" th:onclick="|javascript:deleteBoard('${board.getId()}')|" value="X" style="width: 20px; height: 20px; text-align: center; font-size: 10px">
+            </div>
+
+            <div style="margin-top: +1rem">
+                <input type="button" class='btn btn-link btn-sm order-1 order-lg-0' th:id="|addBoardButton|" value='+ Add another board' style='background-color: #d6d6d6; color: black' th:onclick="|javascript:addBoardMode()|">
+                <input type="text" id="addBoardNameInput" style="display: none">
+                <input type="button" class='btn btn-link btn-sm order-1 order-lg-0' th:id="|saveBoardButton|" value='SAVE' style='background-color: #d6d6d6; color: black; display: none' th:onclick="|javascript:saveBoard()|">
+            </div>
+
+        </th:block>
+    </div>
 
 </th:block>
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="/js/login.js"></script>
 </body>
 </html>

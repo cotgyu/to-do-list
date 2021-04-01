@@ -11,6 +11,7 @@ import com.toy.todolist.board.dto.TopicRequestDto;
 import com.toy.todolist.board.dto.TopicResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,20 +26,24 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
 
+    @Transactional
     public Long save(BoardRequestDto boardRequestDto){
         Board board = boardRepository.save(boardRequestDto.toEntity());
 
         return board.getId();
     }
 
-    public void updateBoard(long boardId, BoardRequestDto boardRequestDto){
+    @Transactional
+    public Long updateBoard(long boardId, BoardRequestDto boardRequestDto){
 
         Board board = findBoardById(boardId);
 
         board.update(boardRequestDto.getBoardName(), boardRequestDto.getDelFlag());
 
+        return board.getId();
     }
 
+    @Transactional(readOnly = true)
     public BoardResponseDto findAllContents(Long boardId){
 
         // TODO - 한방 쿼리로 수정 필요 (delflag 처리포함)
@@ -62,6 +67,7 @@ public class BoardService {
         return board;
     }
 
+    @Transactional(readOnly = true)
     public List<BoardResponseDto> findAllBoardList(){
         List<Board> all = boardRepository.findAll();
 
