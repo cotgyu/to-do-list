@@ -1,6 +1,8 @@
 package com.toy.todolist.board.controller;
 
 import com.toy.todolist.board.domain.*;
+import com.toy.todolist.user.domain.Role;
+import com.toy.todolist.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,10 +31,17 @@ public class InitContents {
         @Transactional
         public void init(){
 
+            User testUser = new User("testUser", "v123v123s@gmail.com", "https://lh6.googleusercontent.com/-XRdI0_dL6cQ/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucm6Uc0lgVjtVlZQFcP1U69RETkOfA/s96-c/photo.jpg", Role.USER);
+            em.persist(testUser);
+
             //given
             Board board = new Board("board1");
             Board board2 = new Board("board2");
             Board board3 = new Board("board3");
+
+            board.changeUser(testUser);
+            board2.changeUser(testUser);
+            board3.changeUser(testUser);
 
             em.persist(board);
             em.persist(board2);

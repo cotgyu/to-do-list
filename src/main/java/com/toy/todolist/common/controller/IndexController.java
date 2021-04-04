@@ -29,7 +29,7 @@ public class IndexController {
         if(user != null){
             model.addAttribute("userName", user.getName());
 
-            List<BoardResponseDto> allBoardList = boardService.findAllBoardList();
+            List<BoardResponseDto> allBoardList = boardService.findAllBoardListByEmail(user.getEmail());
 
             model.addAttribute("boardList", allBoardList);
         }

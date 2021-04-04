@@ -1,11 +1,16 @@
 package com.toy.todolist.user.domain;
 
+import com.toy.todolist.board.domain.Board;
 import com.toy.todolist.common.domain.BaseEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static javax.persistence.CascadeType.ALL;
 
 @Getter
 @NoArgsConstructor
@@ -14,6 +19,7 @@ public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "USER_ID")
     private Long id;
 
     @Column(nullable = false)
@@ -28,6 +34,9 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
+
+    @OneToMany(mappedBy = "user", cascade = ALL)
+    private List<Board> boards = new ArrayList<>();
 
     @Builder
     public User(String name, String email, String picture, Role role){

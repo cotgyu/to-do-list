@@ -31,14 +31,15 @@
                 <input type="button" th:id="|saveBoardNameButton${board.getId()}|" th:onclick="|javascript:updateBoard('${board.getId()}')|" value="SAVE" style="display: none; width: 50px; height: 20px; text-align: center; font-size: 10px">
                 <input type="button" th:onclick="|javascript:deleteBoard('${board.getId()}')|" value="X" style="width: 20px; height: 20px; text-align: center; font-size: 10px">
             </div>
-
-            <div style="margin-top: +1rem">
-                <input type="button" class='btn btn-link btn-sm order-1 order-lg-0' th:id="|addBoardButton|" value='+ Add another board' style='background-color: #d6d6d6; color: black' th:onclick="|javascript:addBoardMode()|">
-                <input type="text" id="addBoardNameInput" style="display: none">
-                <input type="button" class='btn btn-link btn-sm order-1 order-lg-0' th:id="|saveBoardButton|" value='SAVE' style='background-color: #d6d6d6; color: black; display: none' th:onclick="|javascript:saveBoard()|">
-            </div>
-
         </th:block>
+
+
+        <div style="margin-top: +1rem">
+            <input type="button" class='btn btn-link btn-sm order-1 order-lg-0' th:id="|addBoardButton|" value='+ Add another board' style='background-color: #d6d6d6; color: black' th:onclick="|javascript:addBoardMode()|">
+            <input type="text" id="addBoardNameInput" style="display: none">
+            <input type="button" class='btn btn-link btn-sm order-1 order-lg-0' th:id="|saveBoardButton|" value='SAVE' style='background-color: #d6d6d6; color: black; display: none' th:onclick="|javascript:saveBoard()|">
+        </div>
+
     </div>
 
 </th:block>

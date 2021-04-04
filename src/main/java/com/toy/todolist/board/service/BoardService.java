@@ -9,6 +9,9 @@ import com.toy.todolist.board.dto.BoardRequestDto;
 import com.toy.todolist.board.dto.BoardResponseDto;
 import com.toy.todolist.board.dto.TopicRequestDto;
 import com.toy.todolist.board.dto.TopicResponseDto;
+import com.toy.todolist.config.dto.SessionUser;
+import com.toy.todolist.user.domain.User;
+import com.toy.todolist.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,11 +29,19 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
 
-    @Transactional
-    public Long save(BoardRequestDto boardRequestDto){
-        Board board = boardRepository.save(boardRequestDto.toEntity());
+    private final UserRepository userRepository;
 
-        return board.getId();
+    @Transactional
+    public Long save(BoardRequestDto boardRequestDto, String email){
+
+        User user = userRepository.findByEmail(email).orElseThrow((() -> new IllegalArgumentException("해당 User가 없습니다. email=" + email)));
+
+        Board board = boardRequestDto.toEntity();
+        board.changeUser(user);
+
+        Board saveBoard = boardRepository.save(board);
+
+        return saveBoard.getId();
     }
 
     @Transactional
@@ -70,6 +81,21 @@ public class BoardService {
     @Transactional(readOnly = true)
     public List<BoardResponseDto> findAllBoardList(){
         List<Board> all = boardRepository.findAll();
+
+        List<BoardResponseDto> boardResponseDtoList = all.stream()
+                .filter(board -> board.getDelFlag() == null || board.getDelFlag().equals("N"))
+                .map(board -> new BoardResponseDto(board))
+                .collect(Collectors.toList());
+
+        return boardResponseDtoList;
+    }
+
+    @Transactional(readOnly = true)
+    public List<BoardResponseDto> findAllBoardListByEmail(String email){
+
+        User user = userRepository.findByEmail(email).orElseThrow((() -> new IllegalArgumentException("해당 User가 없습니다. email=" + email)));
+
+        List<Board> all = boardRepository.findBoardByUserId(user.getId());
 
         List<BoardResponseDto> boardResponseDtoList = all.stream()
                 .filter(board -> board.getDelFlag() == null || board.getDelFlag().equals("N"))
