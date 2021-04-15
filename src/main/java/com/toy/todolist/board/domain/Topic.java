@@ -31,6 +31,7 @@ public class Topic {
 
     public Topic(String topicName){
         this.topicName = topicName;
+        this.delFlag = "N";
     }
 
     @Builder
@@ -46,6 +47,7 @@ public class Topic {
         if(board != null){
             changeBoard(board);
         }
+        this.delFlag = "N";
     }
 
     public void update(String topicName, String delFlag){

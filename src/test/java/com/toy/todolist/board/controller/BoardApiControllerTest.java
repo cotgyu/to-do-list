@@ -2,9 +2,8 @@ package com.toy.todolist.board.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toy.todolist.board.domain.Board;
-import com.toy.todolist.board.domain.BoardRepository;
+import com.toy.todolist.board.repository.BoardRepository;
 import com.toy.todolist.board.dto.BoardRequestDto;
-import com.toy.todolist.board.dto.TopicRequestDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;

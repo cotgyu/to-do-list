@@ -1,6 +1,9 @@
 package com.toy.todolist.board.service;
 
 import com.toy.todolist.board.domain.*;
+import com.toy.todolist.board.repository.BoardRepository;
+import com.toy.todolist.board.repository.CardRepository;
+import com.toy.todolist.board.repository.TopicRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional

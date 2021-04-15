@@ -50,6 +50,7 @@ public class Card {
         if(topic != null){
             changeTopic(topic);
         }
+        this.delFlag = "N";
     }
 
     @Builder

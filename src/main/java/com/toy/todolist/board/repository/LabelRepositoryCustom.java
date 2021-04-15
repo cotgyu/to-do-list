@@ -1,4 +1,4 @@
-package com.toy.todolist.board.domain;
+package com.toy.todolist.board.repository;
 
 import com.toy.todolist.board.dto.LabelResponseDto;
 

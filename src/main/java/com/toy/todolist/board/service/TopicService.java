@@ -1,9 +1,9 @@
 package com.toy.todolist.board.service;
 
 import com.toy.todolist.board.domain.Board;
-import com.toy.todolist.board.domain.BoardRepository;
+import com.toy.todolist.board.repository.BoardRepository;
 import com.toy.todolist.board.domain.Topic;
-import com.toy.todolist.board.domain.TopicRepository;
+import com.toy.todolist.board.repository.TopicRepository;
 import com.toy.todolist.board.dto.TopicRequestDto;
 import com.toy.todolist.board.dto.TopicResponseDto;
 import lombok.RequiredArgsConstructor;

@@ -26,6 +26,7 @@ public class Label {
     public Label(String labelName, String color){
         this.labelName = labelName;
         this.color = color;
+        this.delFlag = "N";
     }
 
     public void update(String labelName, String color, String delFlag){

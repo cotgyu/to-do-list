@@ -31,6 +31,7 @@ public class Board {
 
     public Board(String boardName){
         this.boardName = boardName;
+        this.delFlag = "N";
     }
 
     @Builder
