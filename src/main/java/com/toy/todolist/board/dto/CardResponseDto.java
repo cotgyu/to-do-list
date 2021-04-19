@@ -29,11 +29,13 @@ public class CardResponseDto {
         this.description = card.getDescription();
         this.cardLabels = card.getCardLabels()
                 .stream()
+                .filter(cardLabel -> cardLabel.getDelFlag().equals("N"))
                 .map(cardLabel -> new CardLabelResponseDto(cardLabel))
                 .collect(Collectors.toList());
 
         this.checkLists = card.getCheckLists()
                 .stream()
+                .filter(checkList -> checkList.getDelFlag().equals("N"))
                 .map(checkList -> new CheckListResponseDto(checkList))
                 .collect(Collectors.toList());
 

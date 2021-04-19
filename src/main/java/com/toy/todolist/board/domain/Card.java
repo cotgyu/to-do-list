@@ -42,6 +42,7 @@ public class Card {
         if(topic != null){
             changeTopic(topic);
         }
+        this.delFlag = "N";
     }
 
     public Card(String cardName, String description, Topic topic){

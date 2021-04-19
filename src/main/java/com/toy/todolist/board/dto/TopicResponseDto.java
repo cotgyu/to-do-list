@@ -20,9 +20,11 @@ public class TopicResponseDto {
     public TopicResponseDto(Topic topic){
         id = topic.getId();
         topicName = topic.getTopicName();
-        cards = topic.getCards().stream()
-            .map(cards -> new CardResponseDto(cards))
-            .collect(Collectors.toList());
+        cards = topic.getCards()
+                .stream()
+                .filter(card -> card.getDelFlag().equals("N"))
+                .map(card -> new CardResponseDto(card))
+                .collect(Collectors.toList());
         delFlag = topic.getDelFlag();
     }
 

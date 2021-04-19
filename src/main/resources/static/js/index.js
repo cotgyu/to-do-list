@@ -71,10 +71,6 @@ const getCardDetail = function (cardId) {
 
         for(var i =0; i < rabelData.length; i++){
 
-            if(rabelData[i].delFlag == 'Y'){
-                continue;
-            }
-
             const divButton = document.createElement('div');
             divButton.innerHTML = "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0'  id='rabel"+rabelData[i].label.label_id+"' value='"+rabelData[i].label.labelName+"' style='background-color: "+rabelData[i].label.color+"; color: white' onclick=''>";
 
@@ -89,11 +85,6 @@ const getCardDetail = function (cardId) {
 
         for (var i=0; i< checkListsData.length; i++){
 
-            // TODO java에서 가공해서 줄 것
-            if(checkListsData[i].delFlag == 'Y'){
-                continue;
-            }
-
             const checkListNameArea = document.createElement('div');
             checkListNameArea.innerHTML = "<a id='checkLists"+checkListsData[i].id+"' onclick='javascript:windowCheckListNameEditMode("+checkListsData[i].id+")'>"+checkListsData[i].checkListName+"</a><input type='button' class='btn btn-link btn-sm' value='Delete List' style='margin-left: 2%; background-color: #d6d6d6; color: black' onclick='deleteCheckList("+checkListsData[i].id+")'>";
 
@@ -106,11 +97,6 @@ const getCardDetail = function (cardId) {
             const checkItemsArea = document.createElement('div');
 
             for(var j=0; j < checkListsData[i].checkItems.length; j++){
-
-                // TODO java에서 가공해서 줄 것
-                if(checkListsData[i].checkItems[j].delFlag== 'Y'){
-                    continue;
-                }
 
                 const rowDataArea = document.createElement('div');
                 rowDataArea.className = "row";

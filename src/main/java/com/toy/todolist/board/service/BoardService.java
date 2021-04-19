@@ -52,7 +52,6 @@ public class BoardService {
     @Transactional(readOnly = true)
     public BoardResponseDto findAllContents(Long boardId){
 
-        // TODO - 한방 쿼리로 수정 필요 (delflag 처리포함)
         Board board = findBoardById(boardId);
 
         BoardResponseDto boardResponseDto = new BoardResponseDto(board);
@@ -69,7 +68,7 @@ public class BoardService {
     }
 
     private Board findBoardById(Long boardId) {
-        Board board = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("해당 Board가 없습니다. id=" + boardId));
+        Board board = boardRepository.findByIdAndDelFlag(boardId, "N").orElseThrow(() -> new IllegalArgumentException("해당 Board가 없습니다. id=" + boardId));
         return board;
     }
 
@@ -78,9 +77,9 @@ public class BoardService {
 
         User user = userRepository.findByEmail(email).orElseThrow((() -> new IllegalArgumentException("해당 User가 없습니다. email=" + email)));
 
-        List<Board> all = boardRepository.findBoardByUserIdAndDelFlag(user.getId(), "N");
+        List<Board> allBoard = boardRepository.findBoardByUserIdAndDelFlag(user.getId(), "N");
 
-        List<BoardResponseDto> boardResponseDtoList = all.stream()
+        List<BoardResponseDto> boardResponseDtoList = allBoard.stream()
                 .map(board -> new BoardResponseDto(board))
                 .collect(Collectors.toList());
 

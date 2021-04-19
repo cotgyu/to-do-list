@@ -24,6 +24,7 @@ public class BoardResponseDto {
 
         topics = board.getTopics()
                 .stream()
+                .filter(topic -> topic.getDelFlag().equals("N"))
                 .map(topic -> new TopicResponseDto(topic))
                 .collect(Collectors.toList());
     }

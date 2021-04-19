@@ -20,7 +20,7 @@ public class TopicService {
     public Long save(TopicRequestDto topicRequestDto){
 
         long boardId = topicRequestDto.getBoardId();
-        Board board = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("해당 Board 없습니다. id=" + boardId));
+        Board board = boardRepository.findByIdAndDelFlag(boardId, "N").orElseThrow(() -> new IllegalArgumentException("해당 Board 없습니다. id=" + boardId));
 
         Topic topic = topicRepository.save(topicRequestDto.toEntity());
         topic.changeBoard(board);

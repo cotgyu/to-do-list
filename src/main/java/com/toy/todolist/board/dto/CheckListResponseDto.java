@@ -29,12 +29,20 @@ public class CheckListResponseDto {
         delFlag = checkList.getDelFlag();
         checkItems = checkList.getCheckItems()
                 .stream()
+                .filter(checkItem -> checkItem.getDelFlag().equals("N"))
                 .map(checkItem -> new CheckItemResponseDto(checkItem))
                 .collect(Collectors.toList());
 
-        totalCount = checkList.getCheckItems().stream().count();
+        totalCount = checkList.getCheckItems()
+                .stream()
+                .filter(checkItem -> checkItem.getDelFlag().equals("N"))
+                .count();
+
         checkedCount = checkList.getCheckItems()
-                .stream().filter(checkItem -> checkItem.getCheckFlag().equals("Y")).count();
+                .stream()
+                .filter(checkItem -> checkItem.getDelFlag().equals("N"))
+                .filter(checkItem -> checkItem.getCheckFlag().equals("Y"))
+                .count();
     }
 
 }

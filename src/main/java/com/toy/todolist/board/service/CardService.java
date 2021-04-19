@@ -48,7 +48,7 @@ public class CardService {
     }
 
     private Card findCardById(Long id) {
-        return cardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 Card가 없습니다. id=" + id));
+        return cardRepository.findByIdAndDelFlag(id,"N").orElseThrow(() -> new IllegalArgumentException("해당 Card가 없습니다. id=" + id));
     }
 
     @Transactional
@@ -72,11 +72,12 @@ public class CardService {
     @Transactional(readOnly = true)
     public List<LabelResponseDto> findAllLabels(){
 
-        List<Label> allLabels = labelRepository.findAll();
+        List<Label> allLabels = labelRepository.findAllByDelFlag("N");
 
-        List<LabelResponseDto> labelResponseDtoList = allLabels.stream()
-                .map(label -> new LabelResponseDto(label))
-                .collect(toList());
+        List<LabelResponseDto> labelResponseDtoList =
+                allLabels.stream()
+                        .map(label -> new LabelResponseDto(label))
+                        .collect(toList());
 
         return labelResponseDtoList;
     }
@@ -102,7 +103,7 @@ public class CardService {
     }
 
     private Label findLabelById(Long id) {
-        Label label = labelRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 Label가 없습니다. id=" + id));
+        Label label = labelRepository.findByIdAndDelFlag(id,"N").orElseThrow(() -> new IllegalArgumentException("해당 Label가 없습니다. id=" + id));
 
         return label;
     }
@@ -115,12 +116,11 @@ public class CardService {
         return result;
     }
 
-    // TODO 연관관계에 따른 올바른 update 필요..
     @Transactional
     public void updateCardLabel(CardLabelRequestDto cardLabelRequestDto){
 
         long cardId = cardLabelRequestDto.getCard_id();
-        Card card = cardRepository.findById(cardId).orElseThrow(() -> new IllegalArgumentException("해당 Card가 없습니다. id=" + cardId));
+        Card card = cardRepository.findByIdAndDelFlag(cardId, "N").orElseThrow(() -> new IllegalArgumentException("해당 Card가 없습니다. id=" + cardId));
 
         List<CardLabel> cardLabels = card.getCardLabels();
 
@@ -169,7 +169,7 @@ public class CardService {
     }
 
     private CheckList findCheckListById(Long id) {
-        CheckList checkList = checkListRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 체크리스트가 없습니다. id=" + id));
+        CheckList checkList = checkListRepository.findByIdAndDelFlag(id, "N").orElseThrow(() -> new IllegalArgumentException("해당 체크리스트가 없습니다. id=" + id));
         return checkList;
     }
 
@@ -186,7 +186,7 @@ public class CardService {
 
     @Transactional
     public void updateCheckItem(Long id, CheckItemRequestDto checkItemRequestDto) {
-        CheckItem checkItem = checkItemRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 체크아이템이 없습니다. id=" + id));
+        CheckItem checkItem = checkItemRepository.findByIdAndDelFlag(id, "N").orElseThrow(() -> new IllegalArgumentException("해당 체크아이템이 없습니다. id=" + id));
 
         checkItem.update(checkItemRequestDto.getCheckItemName(), checkItemRequestDto.getDelFlag(), checkItemRequestDto.getCheckFlag());
     }
