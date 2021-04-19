@@ -6,15 +6,13 @@ import lombok.Data;
 @Data
 public class CardLabelQueryDto {
 
-    private Long cardId;
     private Long labelId;
     private String labelName;
     private String color;
     private String checkFlag;
 
     @QueryProjection
-    public CardLabelQueryDto(Long cardId, Long labelId, String labelName, String color, String checkFlag){
-        this.cardId = cardId;
+    public CardLabelQueryDto(Long labelId, String labelName, String color, String checkFlag){
         this.labelId = labelId;
         this.labelName = labelName;
         this.color = color;

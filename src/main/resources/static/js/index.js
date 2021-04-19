@@ -758,7 +758,8 @@ const updateLabel = function (labelId){
 
     const data = {
         labelName: labelName,
-        color: labelColor
+        color: labelColor,
+        delFlag: 'N'
     }
 
     $.ajax({

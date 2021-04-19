@@ -36,7 +36,7 @@ public class TopicService {
     }
 
     private Topic findById(Long id) {
-        Topic topic = topicRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 Topic이 없습니다. id=" + id));
+        Topic topic = topicRepository.findByIdAndDelFlag(id, "N").orElseThrow(() -> new IllegalArgumentException("해당 Topic이 없습니다. id=" + id));
         return topic;
     }
 

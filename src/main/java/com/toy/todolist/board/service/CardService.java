@@ -30,7 +30,7 @@ public class CardService {
     public Long saveCard(CardRequestDto cardRequestDto){
 
         long topicId = cardRequestDto.getTopicId();
-        Topic topic = topicRepository.findById(topicId).orElseThrow(() -> new IllegalArgumentException("해당 Topic가 없습니다. id=" + topicId));
+        Topic topic = topicRepository.findByIdAndDelFlag(topicId, "N").orElseThrow(() -> new IllegalArgumentException("해당 Topic가 없습니다. id=" + topicId));
 
         Card card = cardRequestDto.toEntity();
         Card saveCard = cardRepository.save(card);
@@ -107,27 +107,10 @@ public class CardService {
         return label;
     }
 
-    // TODO 쿼리로 한번에 조회 - dto 반환 활용해서 간단하게 수정할 것
     @Transactional(readOnly = true)
     public List<CardLabelQueryDto> findCardLabels(Long cardId){
 
-        List<CardLabelQueryDto> result = new ArrayList<>();
-
-        List<Label> allLabels = labelRepository.findAll();
-
-        Card card = findCardById(cardId);
-        List<CardLabel> cardLabels = card.getCardLabels();
-
-        for (Label allLabel : allLabels) {
-            String check = "N";
-            for (CardLabel cardLabel : cardLabels) {
-                if( (allLabel.getId() == cardLabel.getLabel().getId()) && cardLabel.getDelFlag().equals("N")){
-                    check = "Y";
-                }
-            }
-
-            result.add(new CardLabelQueryDto(cardId, allLabel.getId(), allLabel.getLabelName(), allLabel.getColor(), check));
-        }
+        List<CardLabelQueryDto> result = labelRepository.findCardLabels(cardId);
 
         return result;
     }

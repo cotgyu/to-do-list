@@ -106,9 +106,12 @@ public class InitContents {
             CardLabel cardLabel2 = new CardLabel(card2, label2);
             CardLabel cardLabel3 = new CardLabel(card1, label3);
             CardLabel cardLabel4 = new CardLabel(card4, label3);
+            CardLabel cardLabel5 = new CardLabel(card2, label3);
+
 
             card1.addCardLabel(cardLabel1);
             card2.addCardLabel(cardLabel2);
+            card2.addCardLabel(cardLabel5);
             card1.addCardLabel(cardLabel3);
             card4.addCardLabel(cardLabel4);
 
