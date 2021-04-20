@@ -1,7 +1,7 @@
 package com.toy.todolist.security;
 
-import com.toy.todolist.config.dto.OAuthAttributes;
-import com.toy.todolist.config.dto.SessionUser;
+import com.toy.todolist.config.auth.dto.OAuthAttributes;
+import com.toy.todolist.config.auth.dto.SessionUser;
 import com.toy.todolist.user.domain.User;
 import com.toy.todolist.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.toy.todolist.config.dto;
+package com.toy.todolist.config.auth.dto;
 
 import com.toy.todolist.user.domain.User;
 import lombok.Getter;

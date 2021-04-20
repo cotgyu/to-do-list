@@ -1,4 +1,4 @@
-package com.toy.todolist.config;
+package com.toy.todolist.config.auth;
 
 import com.toy.todolist.security.CustomOAuth2UserService;
 import com.toy.todolist.user.domain.Role;

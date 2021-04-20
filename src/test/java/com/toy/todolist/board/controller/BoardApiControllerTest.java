@@ -5,7 +5,7 @@ import com.toy.todolist.board.domain.Board;
 import com.toy.todolist.board.repository.BoardRepository;
 import com.toy.todolist.board.dto.BoardRequestDto;
 import com.toy.todolist.board.service.BoardService;
-import com.toy.todolist.config.dto.SessionUser;
+import com.toy.todolist.config.auth.dto.SessionUser;
 import com.toy.todolist.user.domain.Role;
 import com.toy.todolist.user.domain.User;
 import com.toy.todolist.user.domain.UserRepository;
@@ -21,13 +21,8 @@ import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.persistence.EntityManager;
-import javax.servlet.http.HttpSession;
-
-import java.util.Optional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;

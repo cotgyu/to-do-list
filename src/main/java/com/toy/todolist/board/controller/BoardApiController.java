@@ -1,11 +1,10 @@
 package com.toy.todolist.board.controller;
 
 import com.toy.todolist.board.dto.BoardRequestDto;
-import com.toy.todolist.board.dto.TopicRequestDto;
-import com.toy.todolist.board.dto.TopicResponseDto;
 import com.toy.todolist.board.service.BoardService;
 import com.toy.todolist.board.service.TopicService;
-import com.toy.todolist.config.dto.SessionUser;
+import com.toy.todolist.config.auth.LoginUser;
+import com.toy.todolist.config.auth.dto.SessionUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,13 +23,9 @@ public class BoardApiController {
 
     private final BoardService boardService;
 
-    private final HttpSession httpSession;
-
     @PostMapping
-    public ResponseEntity addBoard(@RequestBody BoardRequestDto boardRequestDto) {
+    public ResponseEntity addBoard(@RequestBody BoardRequestDto boardRequestDto, @LoginUser SessionUser user) {
         Map<String, Object> resultMap = new HashMap<>();
-
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
 
         Long result = boardService.save(boardRequestDto, user.getEmail());
 
