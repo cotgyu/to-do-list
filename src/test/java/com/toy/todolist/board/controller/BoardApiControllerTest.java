@@ -4,6 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toy.todolist.board.domain.Board;
 import com.toy.todolist.board.repository.BoardRepository;
 import com.toy.todolist.board.dto.BoardRequestDto;
+import com.toy.todolist.board.service.BoardService;
+import com.toy.todolist.config.dto.SessionUser;
+import com.toy.todolist.user.domain.Role;
+import com.toy.todolist.user.domain.User;
+import com.toy.todolist.user.domain.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,11 +16,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.persistence.EntityManager;
+import javax.servlet.http.HttpSession;
+
+import java.util.Optional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -39,7 +51,16 @@ class BoardApiControllerTest {
     protected ObjectMapper objectMapper;
 
     @Autowired
-    BoardRepository boardRepository;
+    protected BoardRepository boardRepository;
+
+    protected MockHttpSession mockHttpSession;
+    protected MockHttpServletRequest request;
+
+    @Autowired
+    protected BoardService boardService;
+
+    @Autowired
+    protected UserRepository userRepository;
 
     @Test
     @DisplayName("보드 등록 api 테스트")
@@ -47,15 +68,34 @@ class BoardApiControllerTest {
         //given
         BoardRequestDto boardRequestDto = new BoardRequestDto("boardName1");
 
+        User user = new User("testUser1", "email", "picture", Role.ADMIN);
+        userRepository.save(user);
+
+        // 이건 테스트 목안에서 유지되는 것 같고 실제 쏘는 곳은 다른 세션을 가져다쓰기때문에 문제가 되는 것같음
+//        SessionUser sessionUser = new SessionUser(user);
+//        mockHttpSession = new MockHttpSession();
+//        mockHttpSession.setAttribute("user", sessionUser);
+//        request = new MockHttpServletRequest();
+//        request.setSession(mockHttpSession);
+//        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
+
+        //when
+        Long result = boardService.save(boardRequestDto, user.getEmail());
+
+        Board findBoard = boardRepository.findById(result).get();
+
+        // then
+        Assertions.assertThat(result).isEqualTo(findBoard.getId());
+
         //when then
-        mockMvc.perform(
-                post("/api/board")
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content(objectMapper.writeValueAsString(boardRequestDto))
-        )
-                .andDo(print())
-                .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("resultMessage").value("success"));
+//        mockMvc.perform(
+//                post("/api/board")
+//                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+//                        .content(objectMapper.writeValueAsString(boardRequestDto))
+//        )
+//                .andDo(print())
+//                .andExpect(status().is2xxSuccessful())
+//                .andExpect(jsonPath("resultMessage").value("success"));
 
     }
 

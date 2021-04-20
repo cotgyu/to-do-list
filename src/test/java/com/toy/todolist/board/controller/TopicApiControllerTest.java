@@ -76,11 +76,11 @@ class TopicApiControllerTest {
     @DisplayName("토픽 조회 api 테스트")
     public void findTopicApiTest() throws Exception{
         //given
-        Topic topic = new Topic("topic1");
+        Topic topic = new Topic("testTopic1");
 
         topicRepository.save(topic);
 
-        Card card1 = new Card("card1", topic);
+        Card card1 = new Card("topicTestCard1", topic);
 
         cardRepository.save(card1);
 

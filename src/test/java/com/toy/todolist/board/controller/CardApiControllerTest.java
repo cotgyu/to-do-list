@@ -85,7 +85,7 @@ class CardApiControllerTest {
 
         topicRepository.save(topic);
 
-        Card card1 = new Card("card1", topic);
+        Card card1 = new Card("testCard1", topic);
 
         cardRepository.save(card1);
 
