@@ -31,7 +31,7 @@ public class InitContents {
         @Transactional
         public void init(){
 
-            User testUser = new User("testUser", "v123v123s@gmail.com", "https://lh6.googleusercontent.com/-XRdI0_dL6cQ/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucm6Uc0lgVjtVlZQFcP1U69RETkOfA/s96-c/photo.jpg", Role.USER);
+            User testUser = new User("testUser", "v123v123s@gmail.com", "https://lh6.googleusercontent.com/-XRdI0_dL6cQ/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucm6Uc0lgVjtVlZQFcP1U69RETkOfA/s96-c/photo.jpg", Role.ADMIN);
             em.persist(testUser);
 
             //given

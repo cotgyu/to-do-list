@@ -1,5 +1,6 @@
 package com.toy.todolist.test.domain;
 
+import com.toy.todolist.user.domain.Role;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
