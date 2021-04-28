@@ -38,17 +38,28 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user", cascade = ALL)
     private List<Board> boards = new ArrayList<>();
 
+    private String delFlag;
+
     @Builder
     public User(String name, String email, String picture, Role role){
         this.name = name;
         this.email = email;
         this.picture = picture;
         this.role = role;
+        this.delFlag = "N";
     }
 
     public User update(String name, String picture){
         this.name = name;
         this.picture = picture;
+
+        return this;
+    }
+
+    public User update(String name, String picture, String delFlag){
+        this.name = name;
+        this.picture = picture;
+        this.delFlag = delFlag;
 
         return this;
     }
