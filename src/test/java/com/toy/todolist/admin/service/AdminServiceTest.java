@@ -3,6 +3,7 @@ package com.toy.todolist.admin.service;
 import com.toy.todolist.user.domain.Role;
 import com.toy.todolist.user.domain.User;
 import com.toy.todolist.user.domain.UserRepository;
+import com.toy.todolist.user.dto.UserRequestDto;
 import com.toy.todolist.user.dto.UserResponseDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -56,8 +58,26 @@ class AdminServiceTest {
 
 
         // then
-        Assertions.assertThat(result.size()).isEqualTo(userRepository.findAll().size());
-        Assertions.assertThat(result2.size()).isEqualTo(userRepository.findAll().size());
+        assertThat(result.size()).isEqualTo(userRepository.findAll().size());
+        assertThat(result2.size()).isEqualTo(userRepository.findAll().size());
 
+    }
+    @DisplayName("사용자 수정 서비스테스트")
+    @Test
+    public void updateUserTest() throws Exception{
+        //given
+        User testUser = new User("testUser1", "t1@gmail.com", "a", Role.ADMIN);
+        userRepository.save(testUser);
+
+        UserRequestDto userRequestDto = new UserRequestDto(testUser.getName(), "updateEmail", testUser.getPicture(), testUser.getRole(), "Y");
+
+        //when
+        adminService.updateUser(testUser.getId(), userRequestDto);
+
+        //then
+        User user = userRepository.findById(testUser.getId()).get();
+
+        assertThat(user.getEmail()).isEqualTo("updateEmail");
+        assertThat(user.getDelFlag()).isEqualTo("Y");
     }
 }
