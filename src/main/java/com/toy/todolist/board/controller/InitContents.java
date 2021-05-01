@@ -32,7 +32,16 @@ public class InitContents {
         public void init(){
 
             User testUser = new User("testUser", "v123v123s@gmail.com", "https://lh6.googleusercontent.com/-XRdI0_dL6cQ/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucm6Uc0lgVjtVlZQFcP1U69RETkOfA/s96-c/photo.jpg", Role.ADMIN);
+            User testUser2 = new User("testUser2", "v123v123s2@gmail.com", "2.jpg", Role.USER);
+            User testUser3 = new User("testUser3", "v123v123s3@gmail.com", "3.jpg", Role.USER);
+            User testUser4 = new User("testUser4", "v123v123s4@gmail.com", "4.jpg", Role.USER);
+            User testUser5 = new User("testUser5", "v123v123s5@gmail.com", "5.jpg", Role.USER);
+
             em.persist(testUser);
+            em.persist(testUser2);
+            em.persist(testUser3);
+            em.persist(testUser4);
+            em.persist(testUser5);
 
             //given
             Board board = new Board("board1");

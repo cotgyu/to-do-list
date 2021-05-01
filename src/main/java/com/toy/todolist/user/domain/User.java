@@ -56,6 +56,7 @@ public class User extends BaseEntity {
         this.email = email;
         this.picture = picture;
         this.role = role;
+        this.delFlag = "N";
     }
 
     public User update(String name, String picture){

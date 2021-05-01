@@ -32,7 +32,7 @@ public class UserResponseDto {
         this.role = user.getRole();
         this.delFlag = user.getDelFlag();
         this.createdDate = user.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-        this.modifiedDate = user.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        this.modifiedDate = user.getModifiedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
 
 }
