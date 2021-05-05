@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface UserRepositoryCustom {
 
-    List<MonthlyUserRegisterQueryDto> getMonthlyUserRegisterStatistics();
+    List<MonthlyUserRegisterQueryDto> getMonthlyUserRegisterStatistics(int year);
 
 }

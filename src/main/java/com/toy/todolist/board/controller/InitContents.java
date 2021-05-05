@@ -34,13 +34,13 @@ public class InitContents {
         public void init(){
 
             User testUser = new User("testUser", "v123v123s@gmail.com", "https://lh6.googleusercontent.com/-XRdI0_dL6cQ/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucm6Uc0lgVjtVlZQFcP1U69RETkOfA/s96-c/photo.jpg", Role.ADMIN);
-            User testUser2 = new User("testUser2", "v123v123s2@gmail.com", "2.jpg", Role.USER);
-            User testUser3 = new User("testUser3", "v123v123s3@gmail.com", "3.jpg", Role.USER);
-            User testUser4 = new User("testUser4", "v123v123s4@gmail.com", "4.jpg", Role.USER);
-            User testUser5 = new User("testUser5", "v123v123s5@gmail.com", "5.jpg", Role.USER);
-            User testUser6 = new User("testUser6", "v123v123s6@gmail.com", "6.jpg", Role.USER);
-            User testUser7 = new User("testUser7", "v123v123s7@gmail.com", "7.jpg", Role.USER);
-            User testUser8 = new User("testUser8", "v123v123s8@gmail.com", "8.jpg", Role.USER);
+            User testUser2 = new User("testUser2", "testUser2@gmail.com", "2.jpg", Role.USER);
+            User testUser3 = new User("testUser3", "testUser3@gmail.com", "3.jpg", Role.USER);
+            User testUser4 = new User("testUser4", "testUser4@gmail.com", "4.jpg", Role.USER);
+            User testUser5 = new User("testUser5", "testUser5@gmail.com", "5.jpg", Role.USER);
+            User testUser6 = new User("testUser6", "testUser6@gmail.com", "6.jpg", Role.USER);
+            User testUser7 = new User("testUser7", "testUser7@gmail.com", "7.jpg", Role.USER);
+            User testUser8 = new User("testUser8", "testUser8@gmail.com", "8.jpg", Role.USER);
 
             em.persist(testUser);
             em.persist(testUser2);
@@ -50,6 +50,12 @@ public class InitContents {
             em.persist(testUser6);
             em.persist(testUser7);
             em.persist(testUser8);
+
+            for(int i=0; i<45; i++){
+                User initUser = new User("initUser" + i, "initUser" + i + "@gmail.com", i + ".jpg", Role.USER);
+                em.persist(initUser);
+                initUser.setCreatedDate(LocalDateTime.now().plusMonths(-3));
+            }
 
 
             testUser6.setCreatedDate(LocalDateTime.now().plusMonths(-1));

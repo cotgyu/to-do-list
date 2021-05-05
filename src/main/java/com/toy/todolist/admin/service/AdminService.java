@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,9 +44,23 @@ public class AdminService {
     }
 
     @Transactional(readOnly = true)
-    public List<MonthlyUserRegisterQueryDto> getMonthlyUserRegisterStatistics(){
+    public HashMap<Integer, Long> getMonthlyUserRegisterStatistics(int year){
 
-       return userRepository.getMonthlyUserRegisterStatistics();
+        List<MonthlyUserRegisterQueryDto> monthlyUserRegisterStatistics = userRepository.getMonthlyUserRegisterStatistics(year);
+
+        HashMap<Integer, Long> resultMap = new HashMap<>();
+
+        for (int i = 1; i<=12; i++){
+            resultMap.put(i, 0L);
+        }
+
+        monthlyUserRegisterStatistics
+                .stream()
+                .map(k -> resultMap.put( k.getMonth() - year*100, k.getCount()))
+                .collect(Collectors.toList());
+
+
+        return resultMap;
     }
 
 }

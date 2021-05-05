@@ -18,7 +18,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     }
 
     @Override
-    public List<MonthlyUserRegisterQueryDto> getMonthlyUserRegisterStatistics() {
+    public List<MonthlyUserRegisterQueryDto> getMonthlyUserRegisterStatistics(int year) {
 
         List<MonthlyUserRegisterQueryDto> results =
                 queryFactory
@@ -29,6 +29,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                                 )
                         )
                         .from(user)
+                        .where(user.createdDate.year().eq(year))
                         .groupBy(user.createdDate.yearMonth())
                         .fetch();
 

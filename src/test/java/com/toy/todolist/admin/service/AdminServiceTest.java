@@ -18,6 +18,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -87,14 +88,14 @@ class AdminServiceTest {
     @Test
     public void getMonthlyUserStatsServiceTest() throws Exception{
         //given
+        int year = 2021;
 
         //when
-        List<MonthlyUserRegisterQueryDto> monthlyUserRegisterStatistics = userRepository.getMonthlyUserRegisterStatistics();
-        List<MonthlyUserRegisterQueryDto> monthlyUserRegisterStatistics2 = adminService.getMonthlyUserRegisterStatistics();
+        //List<MonthlyUserRegisterQueryDto> monthlyUserRegisterStatistics = userRepository.getMonthlyUserRegisterStatistics(year);
+        HashMap<Integer, Long> monthlyUserRegisterStatistics2 = adminService.getMonthlyUserRegisterStatistics(year);
 
         //then
-        assertThat(monthlyUserRegisterStatistics.size()).isEqualTo(3);
-        assertThat(monthlyUserRegisterStatistics2.size()).isEqualTo(3);
+        assertThat(monthlyUserRegisterStatistics2.size()).isEqualTo(12);
 
     }
 }

@@ -29,6 +29,19 @@ public class AdminApiController {
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
+    @GetMapping("/monthlyUserStats/{year}")
+    public ResponseEntity monthlyUserStats(@PathVariable int year) {
+        Map<String, Object> resultMap = new HashMap<>();
+
+        HashMap<Integer, Long> monthlyUserRegisterStatistics = adminService.getMonthlyUserRegisterStatistics(year);
+
+        resultMap.put("result", monthlyUserRegisterStatistics);
+        resultMap.put("resultMessage", "success");
+
+
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+    }
+
 
 
 }
