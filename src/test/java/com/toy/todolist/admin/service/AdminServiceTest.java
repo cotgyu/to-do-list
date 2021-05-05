@@ -1,8 +1,10 @@
 package com.toy.todolist.admin.service;
 
+import com.querydsl.core.QueryResults;
 import com.toy.todolist.user.domain.Role;
 import com.toy.todolist.user.domain.User;
 import com.toy.todolist.user.domain.UserRepository;
+import com.toy.todolist.user.dto.MonthlyUserRegisterQueryDto;
 import com.toy.todolist.user.dto.UserRequestDto;
 import com.toy.todolist.user.dto.UserResponseDto;
 import org.assertj.core.api.Assertions;
@@ -79,5 +81,20 @@ class AdminServiceTest {
 
         assertThat(user.getEmail()).isEqualTo("updateEmail");
         assertThat(user.getDelFlag()).isEqualTo("Y");
+    }
+
+    @DisplayName("월별 가입자 통계 서비스 호출 테스트")
+    @Test
+    public void getMonthlyUserStatsServiceTest() throws Exception{
+        //given
+
+        //when
+        List<MonthlyUserRegisterQueryDto> monthlyUserRegisterStatistics = userRepository.getMonthlyUserRegisterStatistics();
+        List<MonthlyUserRegisterQueryDto> monthlyUserRegisterStatistics2 = adminService.getMonthlyUserRegisterStatistics();
+
+        //then
+        assertThat(monthlyUserRegisterStatistics.size()).isEqualTo(3);
+        assertThat(monthlyUserRegisterStatistics2.size()).isEqualTo(3);
+
     }
 }

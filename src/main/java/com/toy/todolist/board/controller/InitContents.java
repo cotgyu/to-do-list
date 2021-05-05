@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Component
 @RequiredArgsConstructor
@@ -36,12 +38,24 @@ public class InitContents {
             User testUser3 = new User("testUser3", "v123v123s3@gmail.com", "3.jpg", Role.USER);
             User testUser4 = new User("testUser4", "v123v123s4@gmail.com", "4.jpg", Role.USER);
             User testUser5 = new User("testUser5", "v123v123s5@gmail.com", "5.jpg", Role.USER);
+            User testUser6 = new User("testUser6", "v123v123s6@gmail.com", "6.jpg", Role.USER);
+            User testUser7 = new User("testUser7", "v123v123s7@gmail.com", "7.jpg", Role.USER);
+            User testUser8 = new User("testUser8", "v123v123s8@gmail.com", "8.jpg", Role.USER);
 
             em.persist(testUser);
             em.persist(testUser2);
             em.persist(testUser3);
             em.persist(testUser4);
             em.persist(testUser5);
+            em.persist(testUser6);
+            em.persist(testUser7);
+            em.persist(testUser8);
+
+
+            testUser6.setCreatedDate(LocalDateTime.now().plusMonths(-1));
+            testUser7.setCreatedDate(LocalDateTime.now().plusMonths(-1));
+            testUser8.setCreatedDate(LocalDateTime.now().plusMonths(-2));
+
 
             //given
             Board board = new Board("board1");

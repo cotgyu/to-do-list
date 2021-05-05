@@ -2,6 +2,7 @@ package com.toy.todolist.admin.service;
 
 import com.toy.todolist.user.domain.User;
 import com.toy.todolist.user.domain.UserRepository;
+import com.toy.todolist.user.dto.MonthlyUserRegisterQueryDto;
 import com.toy.todolist.user.dto.UserRequestDto;
 import com.toy.todolist.user.dto.UserResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -40,4 +41,11 @@ public class AdminService {
     private User findUserById(long userId) {
         return userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다. id = " + userId));
     }
+
+    @Transactional(readOnly = true)
+    public List<MonthlyUserRegisterQueryDto> getMonthlyUserRegisterStatistics(){
+
+       return userRepository.getMonthlyUserRegisterStatistics();
+    }
+
 }
