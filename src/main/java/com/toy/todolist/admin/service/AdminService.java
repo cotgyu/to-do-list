@@ -3,6 +3,7 @@ package com.toy.todolist.admin.service;
 import com.toy.todolist.user.domain.User;
 import com.toy.todolist.user.domain.UserRepository;
 import com.toy.todolist.user.dto.MonthlyUserRegisterQueryDto;
+import com.toy.todolist.user.dto.UserBoardStatsQueryDto;
 import com.toy.todolist.user.dto.UserRequestDto;
 import com.toy.todolist.user.dto.UserResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -61,6 +62,12 @@ public class AdminService {
 
 
         return resultMap;
+    }
+
+    @Transactional(readOnly = true)
+    public List<UserBoardStatsQueryDto> getAllUserBoardStatistics(){
+
+        return userRepository.getUserBoardStatistics();
     }
 
 }

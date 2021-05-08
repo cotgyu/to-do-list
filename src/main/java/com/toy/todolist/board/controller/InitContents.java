@@ -67,19 +67,24 @@ public class InitContents {
             Board board = new Board("board1");
             Board board2 = new Board("board2");
             Board board3 = new Board("board3");
+            Board board4 = new Board("board4");
 
             board.changeUser(testUser);
             board2.changeUser(testUser);
             board3.changeUser(testUser);
+            board4.changeUser(testUser2);
 
             em.persist(board);
             em.persist(board2);
             em.persist(board3);
+            em.persist(board4);
 
             Topic topic1 = new Topic("topic1", board);
             Topic topic2 = new Topic("topic2", board);
+            Topic topic3 = new Topic("topic3", board4);
             em.persist(topic1);
             em.persist(topic2);
+            em.persist(topic3);
 
 
             Card card1 = new Card("card1", "des1", topic1);
@@ -88,12 +93,15 @@ public class InitContents {
             Card card4 = new Card("card4", "des4", topic2);
             Card card5 = new Card("card5", "des5", topic2);
             Card card6 = new Card("card6", "des6", topic2);
+            Card card7 = new Card("card7", "des7", topic3);
+
             em.persist(card1);
             em.persist(card2);
             em.persist(card3);
             em.persist(card4);
             em.persist(card5);
             em.persist(card6);
+            em.persist(card7);
 
             CheckList checkList1 = new CheckList("checkList1", card1);
             CheckList checkList2 = new CheckList("checkList2", card1);

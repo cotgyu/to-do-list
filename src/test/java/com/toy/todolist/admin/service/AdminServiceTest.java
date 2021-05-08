@@ -5,6 +5,7 @@ import com.toy.todolist.user.domain.Role;
 import com.toy.todolist.user.domain.User;
 import com.toy.todolist.user.domain.UserRepository;
 import com.toy.todolist.user.dto.MonthlyUserRegisterQueryDto;
+import com.toy.todolist.user.dto.UserBoardStatsQueryDto;
 import com.toy.todolist.user.dto.UserRequestDto;
 import com.toy.todolist.user.dto.UserResponseDto;
 import org.assertj.core.api.Assertions;
@@ -97,5 +98,22 @@ class AdminServiceTest {
         //then
         assertThat(monthlyUserRegisterStatistics2.size()).isEqualTo(12);
 
+    }
+
+    @DisplayName("사용자 board 사용 통계 테스트")
+    @Test
+    public void getUserBoardStatsService() throws Exception{
+        //given
+
+        //when
+        //List<UserBoardStatsQueryDto> userBoardStatics = userRepository.getUserBoardStatistics();
+        List<UserBoardStatsQueryDto> allUserBoardStatistics = adminService.getAllUserBoardStatistics();
+
+
+
+        //then
+        //assertThat(allUserBoardStatistics.size()).isEqualTo(2);
+        assertThat(allUserBoardStatistics.isEmpty()).isEqualTo(false);
+        System.out.println("size: " + allUserBoardStatistics.size());
     }
 }

@@ -4,14 +4,14 @@ import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;
 
 @Data
-public class MonthlyUserRegisterQueryDto {
+public class UserBoardStatsQueryDto {
 
-    private int month;
     private Long count;
+    private Long userId;
 
     @QueryProjection
-    public MonthlyUserRegisterQueryDto(int month, Long count) {
-        this.month = month;
+    public UserBoardStatsQueryDto(Long count, Long userId) {
         this.count = count;
+        this.userId = userId;
     }
 }
