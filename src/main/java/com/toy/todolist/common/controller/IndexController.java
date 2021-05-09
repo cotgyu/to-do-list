@@ -24,13 +24,14 @@ public class IndexController {
 
         if(user != null){
             model.addAttribute("userName", user.getName());
+            model.addAttribute("user", user);
 
             List<BoardResponseDto> allBoardList = boardService.findAllBoardListByEmail(user.getEmail());
 
             model.addAttribute("boardList", allBoardList);
         }
 
-        return "login";
+        return "loginPage";
     }
 
     @GetMapping("/home")
