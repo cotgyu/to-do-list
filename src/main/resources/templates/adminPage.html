@@ -106,13 +106,13 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid">
-                        <h1 class="mt-4">Dashboard</h1>
-                        <div class="card mb-4">
+
+                        <div class="card mb-4" style="margin-top: 20px">
                             <div class="card-header">
                                 <i class="fas fa-table mr-1"></i>
                                 사용자 관리
                             </div>
-                            <div class="card-body">
+                            <div class="card-body" style="margin-top: 10px">
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
@@ -176,10 +176,10 @@
                             <div class="col-xl-6">
                                 <div class="card mb-4">
                                     <div class="card-header">
-                                        <i class="fas fa-chart-bar mr-1"></i>
+                                        <i class="fas fa-chart-area mr-1"></i>
                                         사용자별 가입 통계
                                     </div>
-                                    <div class="card-body">
+                                    <div class="card-body" style="margin-top: 5px">
                                         <canvas id="monthlyUserRegisterChart" width="100%" height="40"></canvas>
                                     </div>
                                 </div>
@@ -188,10 +188,12 @@
                             <div class="col-xl-6">
                                 <div class="card mb-4">
                                     <div class="card-header">
-                                        <i class="fas fa-chart-area mr-1"></i>
-                                        Area Chart Example
+                                        <i class="fas fa-chart-bar mr-1"></i>
+                                        사용자별 Board 사용량 통계
                                     </div>
-                                    <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+                                    <div class="card-body" style="margin-top: 5px">
+                                        <canvas id="userBoardStatsChart" width="100%" height="40"></canvas>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -216,8 +218,8 @@
         <script src="/js/scripts.js"></script>
         <script src="/js/admin.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        <script src="/assets/demo/chart-area-demo.js"></script>
-        <script src="/js/admin-chart.js"></script>
+        <script src="/js/admin-chart-line.js"></script>
+        <script src="/js/admin-chart-bar.js"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
         <script src="/assets/demo/datatables-demo.js"></script>

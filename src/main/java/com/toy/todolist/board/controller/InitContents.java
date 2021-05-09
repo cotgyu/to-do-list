@@ -68,16 +68,29 @@ public class InitContents {
             Board board2 = new Board("board2");
             Board board3 = new Board("board3");
             Board board4 = new Board("board4");
+            Board board5 = new Board("board5");
+            Board board6 = new Board("board6");
 
             board.changeUser(testUser);
             board2.changeUser(testUser);
             board3.changeUser(testUser);
             board4.changeUser(testUser2);
+            board5.changeUser(testUser3);
+            board6.changeUser(testUser3);
 
             em.persist(board);
             em.persist(board2);
             em.persist(board3);
             em.persist(board4);
+            em.persist(board5);
+            em.persist(board6);
+
+
+            for (int a=10; a<30; a++){
+                Board testBoard = new Board("testBoard" + a);
+                testBoard.changeUser(testUser4);
+                em.persist(testBoard);
+            }
 
             Topic topic1 = new Topic("topic1", board);
             Topic topic2 = new Topic("topic2", board);

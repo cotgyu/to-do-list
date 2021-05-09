@@ -47,7 +47,8 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                 .select(
                         new QUserBoardStatsQueryDto(
                                 board.id.count(),
-                                user.id
+                                user.id,
+                                user.name
                         )
                 )
                 .from(board)

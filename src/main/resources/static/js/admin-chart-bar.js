@@ -3,23 +3,26 @@ Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSyste
 Chart.defaults.global.defaultFontColor = '#292b2c';
 
 // Bar Chart Example
-var ctx = document.getElementById("monthlyUserRegisterChart");
+var ctx = document.getElementById("userBoardStatsChart");
 
-const monthlyData = [];
+const countData = [];
+const userNameData = [];
 
-var chartMain = {
+
+var barChartMain = {
   init: function () {
 
     $.ajax({
       type: 'GET',
-      url: '/api/admin/monthlyUserStats/'+ 2021,
+      url: '/api/admin/userBoardStatistics/',
       dataType: 'json',
       contentType: 'application/json; charset=utf-8'
 
     }).done(function (data) {
 
-      for(var i=1; i<=12; i++){
-        monthlyData[i-1] = data.result[i];
+      for(var i=0; i<= data.result.length; i++){
+        countData[i] = data.result[i].count;
+        userNameData[i] = data.result[i].name;
       }
 
     }).fail(function (error){
@@ -29,25 +32,17 @@ var chartMain = {
   }
 }
 
-chartMain.init();
+barChartMain.init();
 
-var myLineChart = new Chart(ctx, {
-  type: 'line',
+var myBarChart = new Chart(ctx, {
+  type: 'bar',
   data: {
-    labels: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+    labels: userNameData,
     datasets: [{
-      label: "가입자",
-      lineTension: 0.3,
-      backgroundColor: "rgba(2,117,216,0.2)",
+      label: "Boards",
+      backgroundColor: "rgba(2,117,216,1)",
       borderColor: "rgba(2,117,216,1)",
-      pointRadius: 5,
-      pointBackgroundColor: "rgba(2,117,216,1)",
-      pointBorderColor: "rgba(255,255,255,0.8)",
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: "rgba(2,117,216,1)",
-      pointHitRadius: 50,
-      pointBorderWidth: 2,
-      data: monthlyData,
+      data: countData,
     }],
   },
   options: {
@@ -60,14 +55,14 @@ var myLineChart = new Chart(ctx, {
           display: false
         },
         ticks: {
-          maxTicksLimit: 12
+          maxTicksLimit: 6
         }
       }],
       yAxes: [{
         ticks: {
           min: 0,
           max: 100,
-          maxTicksLimit: 10
+          maxTicksLimit: 5
         },
         gridLines: {
           display: true

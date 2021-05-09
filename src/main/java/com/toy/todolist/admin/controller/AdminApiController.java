@@ -1,6 +1,7 @@
 package com.toy.todolist.admin.controller;
 
 import com.toy.todolist.admin.service.AdminService;
+import com.toy.todolist.user.dto.UserBoardStatsQueryDto;
 import com.toy.todolist.user.dto.UserRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -36,6 +38,19 @@ public class AdminApiController {
         HashMap<Integer, Long> monthlyUserRegisterStatistics = adminService.getMonthlyUserRegisterStatistics(year);
 
         resultMap.put("result", monthlyUserRegisterStatistics);
+        resultMap.put("resultMessage", "success");
+
+
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+    }
+
+    @GetMapping("/userBoardStatistics")
+    public ResponseEntity userBoardStatistics() {
+        Map<String, Object> resultMap = new HashMap<>();
+
+        List<UserBoardStatsQueryDto> allUserBoardStatistics = adminService.getAllUserBoardStatistics();
+
+        resultMap.put("result", allUserBoardStatistics);
         resultMap.put("resultMessage", "success");
 
 
