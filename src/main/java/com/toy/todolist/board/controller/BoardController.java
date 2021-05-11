@@ -29,6 +29,10 @@ public class BoardController {
     public String allBoardContents(@PathVariable Long boardId, Model model, @LoginUser SessionUser user){
 
         BoardResponseDto board = boardService.findAllContents(boardId);
+
+        if(board.getUser().getId() != user.getId()){
+            return "dist/401";
+        }
         model.addAttribute("board", board);
 
         List<TopicResponseDto> topics = board.getTopics();

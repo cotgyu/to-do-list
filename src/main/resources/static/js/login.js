@@ -60,7 +60,11 @@ const updateBoard = function (boardId){
     }).done(function () {
         location.reload();
     }).fail(function (error){
-        alert(JSON.stringify(error));
+
+        if(error.responseJSON.resultMessage == 'fail'){
+            alert(error.responseJSON.result);
+        }
+
     });
 }
 

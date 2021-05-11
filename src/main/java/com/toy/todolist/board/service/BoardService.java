@@ -7,6 +7,7 @@ import com.toy.todolist.board.repository.TopicRepository;
 import com.toy.todolist.board.dto.BoardRequestDto;
 import com.toy.todolist.board.dto.BoardResponseDto;
 import com.toy.todolist.board.dto.TopicResponseDto;
+import com.toy.todolist.config.auth.dto.SessionUser;
 import com.toy.todolist.user.domain.User;
 import com.toy.todolist.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -40,9 +41,13 @@ public class BoardService {
     }
 
     @Transactional
-    public Long updateBoard(long boardId, BoardRequestDto boardRequestDto){
+    public Long updateBoard(long boardId, BoardRequestDto boardRequestDto, SessionUser user){
 
         Board board = findBoardById(boardId);
+
+        if(board.getUser().getId() != user.getId()){
+            return -1L;
+        }
 
         board.update(boardRequestDto.getBoardName(), boardRequestDto.getDelFlag());
 

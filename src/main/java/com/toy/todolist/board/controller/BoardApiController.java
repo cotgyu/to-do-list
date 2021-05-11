@@ -37,10 +37,16 @@ public class BoardApiController {
     }
 
     @PutMapping("/{boardId}")
-    public ResponseEntity updateBoard(@PathVariable Long boardId, @RequestBody BoardRequestDto boardRequestDto){
+    public ResponseEntity updateBoard(@PathVariable Long boardId, @RequestBody BoardRequestDto boardRequestDto, @LoginUser SessionUser user){
         Map<String, Object> resultMap = new HashMap<>();
+        Long updateBoardId = boardService.updateBoard(boardId, boardRequestDto, user);
 
-        Long updateBoardId = boardService.updateBoard(boardId, boardRequestDto);
+        if(updateBoardId == -1){
+            resultMap.put("result", "해당 Board 수정 권한이 없습니다.");
+            resultMap.put("resultMessage", "fail");
+
+            return new ResponseEntity<>(resultMap, HttpStatus.UNAUTHORIZED);
+        }
 
         resultMap.put("result", updateBoardId);
         resultMap.put("resultMessage", "success");

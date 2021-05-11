@@ -1,6 +1,7 @@
 package com.toy.todolist.board.dto;
 
 import com.toy.todolist.board.domain.Board;
+import com.toy.todolist.user.dto.UserResponseDto;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ public class BoardResponseDto {
     private String boardName;
     private String delFlag;
     private List<TopicResponseDto> topics = new ArrayList<>();
+    private UserResponseDto user;
 
     public BoardResponseDto(Board board){
         id = board.getId();
@@ -27,6 +29,8 @@ public class BoardResponseDto {
                 .filter(topic -> topic.getDelFlag().equals("N"))
                 .map(topic -> new TopicResponseDto(topic))
                 .collect(Collectors.toList());
+
+        user = new UserResponseDto(board.getUser());
     }
 
 }
