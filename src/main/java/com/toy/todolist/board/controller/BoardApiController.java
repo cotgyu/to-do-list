@@ -36,6 +36,7 @@ public class BoardApiController {
 
     }
 
+    // TODO 시큐리티를 활용하여 rest api 인증 확인하기
     @PutMapping("/{boardId}")
     public ResponseEntity updateBoard(@PathVariable Long boardId, @RequestBody BoardRequestDto boardRequestDto, @LoginUser SessionUser user){
         Map<String, Object> resultMap = new HashMap<>();
