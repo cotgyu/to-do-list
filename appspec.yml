@@ -13,5 +13,5 @@ permissions:
 
 hooks:
   ApplicationStart:
-    - location: deploy.sh
+    - location: start.sh
       runas: ec2-user
