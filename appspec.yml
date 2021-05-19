@@ -3,6 +3,7 @@ os: linux
 files:
   - source:  /
     destination: /home/ec2-user/project/todolist/zip
+    overwrite: yes
 
 permissions:
   - object: /
