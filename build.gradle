@@ -9,34 +9,9 @@ group = 'com.toy'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
-}
-
 repositories {
 	mavenCentral()
-}
-
-bootJar.enabled = false
-
-
-
-//querydsl 추가
-def querydslDir = "$buildDir/generated/querydsl"
-querydsl {
-	jpa = true
-	querydslSourcesDir = querydslDir
-}
-sourceSets {
-	main.java.srcDir querydslDir
-}
-configurations {
-	querydsl.extendsFrom compileClasspath
-}
-compileQuerydsl {
-	options.annotationProcessorPath = configurations.querydsl
+	maven { url "https://plugins.gradle.org/m2/" }
 }
 
 
@@ -49,10 +24,21 @@ subprojects {
 	apply plugin: 'io.spring.dependency-management'
 	apply plugin: 'com.ewerk.gradle.plugins.querydsl'
 
-	sourceCompatibility = '11'
+	sourceCompatibility = 11
 
 	repositories {
 		mavenCentral()
+	}
+
+	dependencies {
+		compileOnly 'org.projectlombok:lombok'
+		annotationProcessor 'org.projectlombok:lombok'
+
+		testImplementation('org.springframework.boot:spring-boot-starter-test') {
+			exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+		}
+		testImplementation 'org.springframework.security:spring-security-test'
+		developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	}
 
 	configurations {
@@ -61,11 +47,38 @@ subprojects {
 		}
 	}
 
-}
+	test {
+		useJUnitPlatform()
+	}
 
+	//querydsl
+	def querydslDir = "$buildDir/generated/querydsl"
+
+	querydsl {
+		library = "com.querydsl:querydsl-apt"
+		jpa = true
+		querydslSourcesDir = querydslDir
+	}
+	sourceSets {
+		main {
+			java {
+				srcDirs = ['src/main/java', querydslDir]
+			}
+		}
+	}
+	compileQuerydsl{
+		options.annotationProcessorPath = configurations.querydsl
+	}
+	configurations {
+		querydsl.extendsFrom compileClasspath
+	}
+
+}
 
 project(':module-web') {
 	dependencies {
-		compile project(':module-domain')
+		implementation project(path: ':module-domain', configuration: 'default')
 	}
 }
+
+bootJar { enabled = false }
