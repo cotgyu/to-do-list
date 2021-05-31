@@ -81,4 +81,11 @@ project(':module-web') {
 	}
 }
 
+
+project(':module-batch') {
+	dependencies {
+		implementation project(path: ':module-domain', configuration: 'default')
+	}
+}
+
 bootJar { enabled = false }

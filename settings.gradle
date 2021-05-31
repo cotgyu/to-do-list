@@ -1,3 +1,3 @@
 rootProject.name = 'to-do-list'
 
-include 'module-domain', 'module-web'
+include 'module-domain', 'module-web', 'module-batch'
