@@ -1,4 +1,4 @@
-package com.example.modulebatch;
+package com.toy.modulebatch;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
