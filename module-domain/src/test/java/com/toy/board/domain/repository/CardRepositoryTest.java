@@ -1,4 +1,4 @@
-package com.toy.moduleweb.board.domain;
+package com.toy.board.domain.repository;
 
 import com.toy.board.domain.Card;
 import com.toy.board.domain.Topic;
@@ -19,16 +19,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-class CardRepositoryTest {
+public class CardRepositoryTest {
 
     @Autowired
-    EntityManager em;
+    private EntityManager em;
 
     @Autowired
-    CardRepository cardRepository;
+    private CardRepository cardRepository;
 
     @Autowired
-    TopicRepository topicRepository;
+    private TopicRepository topicRepository;
 
     @Test
     @DisplayName("card, topic 등록 테스트")
@@ -57,5 +57,6 @@ class CardRepositoryTest {
 
         assertThat(cards.get(0).getTopic().getTopicName()).isEqualTo(topic.getTopicName());
     }
+
 
 }

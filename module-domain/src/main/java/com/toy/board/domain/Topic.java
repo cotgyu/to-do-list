@@ -1,5 +1,6 @@
 package com.toy.board.domain;
 
+import com.toy.common.domain.BaseEntity;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(of ={"id", "topicName"})
-public class Topic {
+public class Topic extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

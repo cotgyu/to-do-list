@@ -1,5 +1,6 @@
 package com.toy.board.domain;
 
+import com.toy.common.domain.BaseEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,7 +13,7 @@ import static javax.persistence.CascadeType.ALL;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(of ={"id", "cardName"})
-public class Card {
+public class Card extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
