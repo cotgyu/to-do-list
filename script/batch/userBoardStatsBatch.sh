@@ -1,7 +1,7 @@
 REPOSITORY=/Users/sg/IdeaProjects/to-do-list/module-batch/build/libs
 PROJECT_NAME=module-batch
 
-CURRENT_DATE=date
+CURRENT_DATE=$(date +"%Y-%m-%d-%H")
 
 echo "> Build 파일복사"
 

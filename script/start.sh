@@ -1,5 +1,5 @@
 REPOSITORY=/home/ec2-user/project/todolist
-PROJECT_NAME=to-do-list
+PROJECT_NAME=module-web
 
 echo "> Build 파일복사"
 
