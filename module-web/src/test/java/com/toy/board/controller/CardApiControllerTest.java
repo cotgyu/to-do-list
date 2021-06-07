@@ -1,4 +1,4 @@
-package com.toy.moduleweb.board.controller;
+package com.toy.board.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toy.board.domain.*;

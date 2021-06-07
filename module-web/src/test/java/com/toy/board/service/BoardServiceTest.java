@@ -1,4 +1,4 @@
-package com.toy.moduleweb.board.service;
+package com.toy.board.service;
 
 import com.toy.board.domain.Board;
 import com.toy.board.domain.Card;
@@ -6,7 +6,6 @@ import com.toy.board.domain.Topic;
 import com.toy.board.repository.BoardRepository;
 import com.toy.board.repository.CardRepository;
 import com.toy.board.repository.TopicRepository;
-import com.toy.board.service.BoardService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

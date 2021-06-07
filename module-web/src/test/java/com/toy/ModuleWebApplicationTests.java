@@ -1,4 +1,4 @@
-package com.toy.moduleweb;
+package com.toy;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

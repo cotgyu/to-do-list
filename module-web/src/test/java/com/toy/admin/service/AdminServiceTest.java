@@ -1,6 +1,5 @@
-package com.toy.moduleweb.admin.service;
+package com.toy.admin.service;
 
-import com.toy.admin.service.AdminService;
 import com.toy.user.domain.Role;
 import com.toy.user.domain.User;
 import com.toy.user.domain.UserRepository;

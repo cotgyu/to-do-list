@@ -1,4 +1,4 @@
-package com.toy.moduleweb.admin.controller;
+package com.toy.admin.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toy.board.repository.BoardRepository;
@@ -17,7 +17,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
