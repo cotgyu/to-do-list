@@ -1,4 +1,4 @@
-package com.toy.user.domain;
+package com.toy.admin.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

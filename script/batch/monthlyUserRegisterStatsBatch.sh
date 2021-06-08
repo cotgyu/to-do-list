@@ -1,11 +1,11 @@
-REPOSITORY=/Users/sg/IdeaProjects/to-do-list/module-batch/build/libs
+REPOSITORY=/home/ec2-user/project/todolist
 PROJECT_NAME=module-batch
 
 CURRENT_DATE=$(date +"%Y-%m-%d-%H")
 
 echo "> Build 파일복사"
 
-cp $REPOSITORY/zip/*.jar $REPOSITORY/
+cp $REPOSITORY/zip/module-batch*.jar $REPOSITORY/
 
 
 echo "> 현재 구동중인 애플리케이션 pid 확인"

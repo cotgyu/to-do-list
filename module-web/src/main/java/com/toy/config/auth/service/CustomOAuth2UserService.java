@@ -3,7 +3,7 @@ package com.toy.config.auth.service;
 import com.toy.config.auth.dto.OAuthAttributes;
 import com.toy.config.auth.dto.SessionUser;
 import com.toy.user.domain.User;
-import com.toy.user.domain.UserRepository;
+import com.toy.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;

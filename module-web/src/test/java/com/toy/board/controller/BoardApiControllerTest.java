@@ -7,7 +7,7 @@ import com.toy.board.repository.BoardRepository;
 import com.toy.board.service.BoardService;
 import com.toy.user.domain.Role;
 import com.toy.user.domain.User;
-import com.toy.user.domain.UserRepository;
+import com.toy.user.repository.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

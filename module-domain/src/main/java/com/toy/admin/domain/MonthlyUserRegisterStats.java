@@ -1,4 +1,4 @@
-package com.toy.user.domain;
+package com.toy.admin.domain;
 
 import com.querydsl.core.annotations.QueryProjection;
 import com.toy.common.domain.BaseEntity;

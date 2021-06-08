@@ -1,4 +1,4 @@
-package com.toy.user.dto;
+package com.toy.admin.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;

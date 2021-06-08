@@ -10,7 +10,7 @@ import com.toy.board.repository.BoardRepository;
 import com.toy.board.repository.TopicRepository;
 import com.toy.config.auth.dto.SessionUser;
 import com.toy.user.domain.User;
-import com.toy.user.domain.UserRepository;
+import com.toy.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

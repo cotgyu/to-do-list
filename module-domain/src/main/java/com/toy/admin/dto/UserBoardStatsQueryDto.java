@@ -1,6 +1,7 @@
-package com.toy.user.dto;
+package com.toy.admin.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
+import com.toy.admin.domain.UserBoardStats;
 import lombok.Data;
 
 @Data
@@ -15,5 +16,11 @@ public class UserBoardStatsQueryDto {
         this.count = count;
         this.userId = userId;
         this.name = name;
+    }
+
+    public UserBoardStatsQueryDto(UserBoardStats userBoardStats){
+        this.count = userBoardStats.getCount();
+        this.userId = userBoardStats.getUserId();
+        this.name = userBoardStats.getName();
     }
 }

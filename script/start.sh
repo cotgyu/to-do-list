@@ -3,7 +3,7 @@ PROJECT_NAME=module-web
 
 echo "> Build 파일복사"
 
-cp $REPOSITORY/zip/*.jar $REPOSITORY/
+cp $REPOSITORY/zip/module-web*.jar $REPOSITORY/
 
 
 echo "> 현재 구동중인 애플리케이션 pid 확인"

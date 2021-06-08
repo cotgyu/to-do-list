@@ -2,7 +2,7 @@ package com.toy.admin.controller;
 
 
 import com.toy.admin.service.AdminService;
-import com.toy.user.dto.UserBoardStatsQueryDto;
+import com.toy.admin.dto.UserBoardStatsQueryDto;
 import com.toy.user.dto.UserRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

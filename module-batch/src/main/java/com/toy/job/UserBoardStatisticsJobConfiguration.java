@@ -1,7 +1,7 @@
 package com.toy.job;
 
 
-import com.toy.user.domain.UserBoardStats;
+import com.toy.admin.domain.UserBoardStats;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;

@@ -1,10 +1,11 @@
-package com.toy.user.domain;
+package com.toy.user.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.toy.user.dto.MonthlyUserRegisterQueryDto;
-import com.toy.user.dto.QMonthlyUserRegisterQueryDto;
-import com.toy.user.dto.QUserBoardStatsQueryDto;
-import com.toy.user.dto.UserBoardStatsQueryDto;
+import com.toy.admin.dto.MonthlyUserRegisterQueryDto;
+
+import com.toy.admin.dto.QMonthlyUserRegisterQueryDto;
+import com.toy.admin.dto.QUserBoardStatsQueryDto;
+import com.toy.admin.dto.UserBoardStatsQueryDto;
 
 import javax.persistence.EntityManager;
 import java.util.List;

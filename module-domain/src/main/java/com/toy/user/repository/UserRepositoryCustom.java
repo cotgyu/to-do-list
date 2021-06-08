@@ -1,8 +1,8 @@
-package com.toy.user.domain;
+package com.toy.user.repository;
 
 
-import com.toy.user.dto.MonthlyUserRegisterQueryDto;
-import com.toy.user.dto.UserBoardStatsQueryDto;
+import com.toy.admin.dto.MonthlyUserRegisterQueryDto;
+import com.toy.admin.dto.UserBoardStatsQueryDto;
 
 import java.util.List;
 

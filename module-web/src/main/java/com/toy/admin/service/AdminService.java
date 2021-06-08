@@ -1,10 +1,13 @@
 package com.toy.admin.service;
 
 
+import com.toy.admin.domain.MonthlyUserRegisterStats;
+import com.toy.admin.domain.UserBoardStats;
+import com.toy.admin.repository.MonthlyUserRegisterStatsRepository;
+import com.toy.admin.repository.UserBoardStatsRepository;
 import com.toy.user.domain.User;
-import com.toy.user.domain.UserRepository;
-import com.toy.user.dto.MonthlyUserRegisterQueryDto;
-import com.toy.user.dto.UserBoardStatsQueryDto;
+import com.toy.user.repository.UserRepository;
+import com.toy.admin.dto.UserBoardStatsQueryDto;
 import com.toy.user.dto.UserRequestDto;
 import com.toy.user.dto.UserResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +24,11 @@ import java.util.stream.Collectors;
 public class AdminService {
 
     private final UserRepository userRepository;
-
+    
+    private final UserBoardStatsRepository userBoardStatsRepository;
+    
+    private final MonthlyUserRegisterStatsRepository monthlyUserRegisterStatsRepository;
+    
     @Transactional(readOnly = true)
     public List<UserResponseDto> getAllUserInfo(){
 
@@ -47,7 +54,10 @@ public class AdminService {
     @Transactional(readOnly = true)
     public HashMap<Integer, Long> getMonthlyUserRegisterStatistics(int year){
 
-        List<MonthlyUserRegisterQueryDto> monthlyUserRegisterStatistics = userRepository.getMonthlyUserRegisterStatistics(year);
+        //List<MonthlyUserRegisterQueryDto> monthlyUserRegisterStatistics = userRepository.getMonthlyUserRegisterStatistics(year);
+
+        // TODO - 연별로 데이터 뽑을 수 있게 수정 필요
+        List<MonthlyUserRegisterStats> allData = monthlyUserRegisterStatsRepository.findAll();
 
         HashMap<Integer, Long> resultMap = new HashMap<>();
 
@@ -55,11 +65,10 @@ public class AdminService {
             resultMap.put(i, 0L);
         }
 
-        monthlyUserRegisterStatistics
+        allData
                 .stream()
                 .map(k -> resultMap.put( k.getMonth() - year*100, k.getCount()))
                 .collect(Collectors.toList());
-
 
         return resultMap;
     }
@@ -67,7 +76,15 @@ public class AdminService {
     @Transactional(readOnly = true)
     public List<UserBoardStatsQueryDto> getAllUserBoardStatistics(){
 
-        return userRepository.getUserBoardStatistics();
+        List<UserBoardStats> allData = userBoardStatsRepository.findAll();
+
+        List<UserBoardStatsQueryDto> resultData = allData
+                .stream()
+                .map(k -> new UserBoardStatsQueryDto(k))
+                .collect(Collectors.toList());
+
+        //return userRepository.getUserBoardStatistics();
+        return resultData;
     }
 
 }
