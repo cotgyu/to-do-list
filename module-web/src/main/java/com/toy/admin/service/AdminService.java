@@ -54,8 +54,8 @@ public class AdminService {
     @Transactional(readOnly = true)
     public HashMap<Integer, Long> getMonthlyUserRegisterStatistics(int year){
 
+        // 직접 통계 조회
         //List<MonthlyUserRegisterQueryDto> monthlyUserRegisterStatistics = userRepository.getMonthlyUserRegisterStatistics(year);
-
         // TODO - 연별로 데이터 뽑을 수 있게 수정 필요
         List<MonthlyUserRegisterStats> allData = monthlyUserRegisterStatsRepository.findAll();
 
@@ -67,7 +67,7 @@ public class AdminService {
 
         allData
                 .stream()
-                .map(k -> resultMap.put( k.getMonth() - year*100, k.getCount()))
+                .map(k -> resultMap.put( k.getMonth(), k.getCount()))
                 .collect(Collectors.toList());
 
         return resultMap;
@@ -83,6 +83,7 @@ public class AdminService {
                 .map(k -> new UserBoardStatsQueryDto(k))
                 .collect(Collectors.toList());
 
+        // 직접 통계 조회
         //return userRepository.getUserBoardStatistics();
         return resultData;
     }
