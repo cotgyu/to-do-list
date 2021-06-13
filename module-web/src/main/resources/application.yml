@@ -36,7 +36,10 @@ logging.level:
 ---
 
 spring:
-  profiles: test
+  profiles:
+    active: test
+    include: oauth-test
+
   datasource:
     url: jdbc:mariadb://book-springboot-webservice.c6vmpkf8olpt.ap-northeast-2.rds.amazonaws.com:3306/to_do_list_test
     username: cotgyu
