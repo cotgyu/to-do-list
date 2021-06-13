@@ -1,5 +1,4 @@
 bootJar {
-    archiveFileName = 'to-do-list-web.jar'
 }
 
 
