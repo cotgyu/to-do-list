@@ -33,4 +33,4 @@ echo "> JAR Name: $JAR_NAME"
 echo "> $JAR_NAME 실행"
 
 nohup java -jar \
-      $JAR_NAME --job.name=monthlyUserRegisterStatsBatch version=$CURRENT_DATE > $REPOSITORY/nohup.out 2>&1 &
+      $JAR_NAME --job.name=monthlyUserRegisterStatsBatch version=$CURRENT_DATE > $REPOSITORY/nohup_batch.out 2>&1 &

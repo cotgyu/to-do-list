@@ -8,8 +8,6 @@ spring:
       names: ${job.name:NONE}
 
   jpa:
-    hibernate:
-      ddl-auto: validate
     properties:
       hibernate:
         # show_sql: true
