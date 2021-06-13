@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    include: real-db-config
 
 logging.level:
   org.hibernate.SQL: debug
@@ -14,7 +16,7 @@ logging.level:
 spring:
   profiles: test
   datasource:
-    url: jdbc:h2:tcp://localhost/~/to-do-list-test
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: jdbc:mariadb://book-springboot-webservice.c6vmpkf8olpt.ap-northeast-2.rds.amazonaws.com:3306/to_do_list_test
+    username: cotgyu
+    password: cotgyu123123
+    driver-class-name: org.mariadb.jdbc.Driver
