@@ -1,4 +1,4 @@
-REPOSITORY=/home/ec2-user/project/todolist/module-batch/build/libs
+REPOSITORY=/home/ec2-user/project/todolist
 PROJECT_NAME=module-batch
 
 CURRENT_DATE=$(date +"%Y-%m-%d-%H")
@@ -33,4 +33,6 @@ echo "> JAR Name: $JAR_NAME"
 echo "> $JAR_NAME 실행"
 
 nohup java -jar \
+        -Dspring.config.location=classpath:/application.yml,/home/ec2-user/project/properties/application-real-db-config.properties \
+        -Dspring.profiles.active=real \
       $JAR_NAME --job.name=userBoardStatsBatch version=$CURRENT_DATE > $REPOSITORY/nohup_batch.out 2>&1 &

@@ -33,4 +33,6 @@ echo "> JAR Name: $JAR_NAME"
 echo "> $JAR_NAME 실행"
 
 nohup java -jar \
+        -Dspring.config.location=classpath:/application.yml,/home/ec2-user/project/properties/application-real-db-config.properties \
+        -Dspring.profiles.active=real \
       $JAR_NAME --job.name=monthlyUserRegisterStatsBatch version=$CURRENT_DATE > $REPOSITORY/nohup_batch.out 2>&1 &
