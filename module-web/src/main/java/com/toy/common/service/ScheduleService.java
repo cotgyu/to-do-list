@@ -28,7 +28,7 @@ public class ScheduleService {
         rt.exec("sh /home/ec2-user/project/todolist/zip/monthlyUserRegisterStatsBatch.sh");
     }
 
-    @Scheduled(cron="0 12 0,8 * * ?")
+    @Scheduled(cron="0 30 0,12 * * ?")
     public void userBoardStatsBatchExecute()  throws IOException {
         log.info("userBoardStatsBatch 배치 실행");
 

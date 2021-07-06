@@ -86,7 +86,7 @@ const getCardDetail = function (cardId) {
         for (var i=0; i< checkListsData.length; i++){
 
             const checkListNameArea = document.createElement('div');
-            checkListNameArea.innerHTML = "<a id='checkLists"+checkListsData[i].id+"' onclick='javascript:windowCheckListNameEditMode("+checkListsData[i].id+")'>"+checkListsData[i].checkListName+"</a><input type='button' class='btn btn-link btn-sm' value='Delete List' style='margin-left: 2%; background-color: #d6d6d6; color: black' onclick='deleteCheckList("+checkListsData[i].id+")'>";
+            checkListNameArea.innerHTML = "<a id='checkLists"+checkListsData[i].id+"' onclick='javascript:windowCheckListNameEditMode("+checkListsData[i].id+")'>"+checkListsData[i].checkListName+"</a><input type='button' id='deleteListButton"+checkListsData[i].id+"' class='btn btn-link btn-sm' value='Delete List' style='margin-left: 2%; background-color: #d6d6d6; color: black' onclick='deleteCheckList("+checkListsData[i].id+")'>";
 
             const checkListNameEditArea = document.createElement('div');
             checkListNameEditArea.innerHTML = "<input type='textbox' name = 'windowCheckListsEdit' id='windowCheckListsEdit"+checkListsData[i].id+"' value='"+checkListsData[i].checkListName+"' style='display: none;'>";
@@ -115,7 +115,7 @@ const getCardDetail = function (cardId) {
                 rowDataArea.append(checkItemsArea);
 
                 const checkItemsEditArea = document.createElement('div');
-                checkItemsEditArea.innerHTML = "<input type='textbox' id='checkItemNameEdit"+checkListsData[i].checkItems[j].checkItemId+"' value='"+checkListsData[i].checkItems[j].checkItemName+"' style='display: none;'><input type='button' class='btn btn-link btn-sm' value='Delete Item' style='margin-left: 80%; height: 90%; background-color: #d6d6d6; color: black' onclick='deleteCheckItem("+checkListsData[i].checkItems[j].checkItemId+")'>";
+                checkItemsEditArea.innerHTML = "<input type='textbox' id='checkItemNameEdit"+checkListsData[i].checkItems[j].checkItemId+"' value='"+checkListsData[i].checkItems[j].checkItemName+"' style='display: none;'><input type='button' id='deleteItemButton"+checkListsData[i].checkItems[j].checkItemId+"' class='btn btn-link btn-sm' value='Delete Item' style='margin-left: 80%; height: 90%; background-color: #d6d6d6; color: black' onclick='deleteCheckItem("+checkListsData[i].checkItems[j].checkItemId+")'>";
                 rowDataArea.append(checkItemsEditArea);
 
             }
@@ -274,7 +274,7 @@ const windowCardDescriptionEditMode = function (){
 
     const description = $('#windowCardDescription').text();
     const windowCardDescriptionEdit = document.createElement('div');
-    windowCardDescriptionEdit.innerHTML = "<input type='textbox' id='windowCardDescriptionEdit' value="+description+">";
+    windowCardDescriptionEdit.innerHTML = "<input type='textbox' id='windowCardDescriptionEdit' style='width: 80%' size='100' value="+description+">";
 
     const windowCardDescriptionEditButton = document.createElement('div');
     windowCardDescriptionEditButton.innerHTML = "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0' style='background-color: green; color: white;' value='SAVE' onclick='javascript:updateCardDescription()'>";
@@ -327,6 +327,8 @@ const changeCheckItemChecked = function (itemId){
 const windowCheckListNameEditMode = function (checkListId){
 
     $('#checkLists'+checkListId).css("display","none");
+    $('#deleteListButton'+checkListId).css("display","none");
+
     $('#windowCheckListsEdit'+checkListId).css("display","");
     $('#windowCheckListsEditButton'+checkListId).css("display","");
 
@@ -414,6 +416,7 @@ const deleteCheckList = function (checkListId){
 const checkItemNameEditMode = function (checkItemId){
 
     $('#checkItemName'+checkItemId).css("display","none");
+    $('#deleteItemButton'+checkItemId).css("display","none");
     $('#checkItemNameEdit'+checkItemId).css("display","");
     $('#checkItemNameEditButton'+checkItemId).css("display","");
 
