@@ -511,7 +511,8 @@ const addCheckItem = function (checkListId){
     const checkItemsViewArea = $('#checkItemsViewArea'+checkListId);
 
     const addCheckItemDiv = document.createElement('div');
-    addCheckItemDiv.innerHTML = "<input type='textbox' id='addCheckItemText'>";
+    addCheckItemDiv.innerHTML = "<input type='textbox' id='addCheckItemText'>" +
+        "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0' id='labelSaveButton' value='SAVE' style='background-color: #d6d6d6; color: black' onclick='javascript:saveCheckItem("+checkListId+")'>";
 
     checkItemsViewArea.append(addCheckItemDiv);
 
@@ -522,11 +523,17 @@ const addCheckItem = function (checkListId){
     $('#addCheckItemText').on('focusout', function (){
         if($('#addCheckItemText').val() == ''){
             getCardDetail(cardId);
-        } else {
-            saveCheckItem(checkListId);
         }
+    });
 
-        return;
+    $('#addCheckItemText').keyup(function(e){
+        if(e.keyCode == 13){
+            if($('#addCheckItemText').val() == ''){
+                getCardDetail(cardId);
+            } else {
+                saveCheckItem(checkListId);
+            }
+        }
     });
 
 }
