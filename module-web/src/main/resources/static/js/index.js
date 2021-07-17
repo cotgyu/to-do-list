@@ -195,7 +195,7 @@ const windowCardEditMode = function (){
         }
     });
 
-    $('#windowCardNameEdit').keyup(function(e){
+    $('#windowCardNameEdit').keypress(function(e){
         if(e.keyCode == 13){
             if($('#windowCardNameEdit').val() == ''){
                 getCardDetail(cardId);
@@ -274,19 +274,16 @@ const windowCardDescriptionEditMode = function (){
 
     const description = $('#windowCardDescription').text();
     const windowCardDescriptionEdit = document.createElement('div');
-    windowCardDescriptionEdit.innerHTML = "<input type='textbox' id='windowCardDescriptionEdit' style='width: 80%' size='100' value="+description+">";
-
-    const windowCardDescriptionEditButton = document.createElement('div');
-    windowCardDescriptionEditButton.innerHTML = "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0' style='background-color: green; color: white;' value='SAVE' onclick='javascript:updateCardDescription()'>";
+    windowCardDescriptionEdit.innerHTML = "<input type='textbox' id='windowCardDescriptionEdit' style='width: 85%; margin-right: 5px' size='100' value="+description+">" +
+        "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0' style='background-color: green; color: white;' value='SAVE' onclick='javascript:updateCardDescription()'>";
 
     windowCardDescriptionEditArea.append(windowCardDescriptionEdit);
-    windowCardDescriptionEditArea.append(windowCardDescriptionEditButton);
 
     $('#windowCardDescriptionEdit').on('focusout', function (){
         updateCardDescription();
     });
 
-    $('#windowCardDescriptionEdit').keyup(function(e){
+    $('#windowCardDescriptionEdit').keypress(function(e){
         if(e.keyCode == 13){
             updateCardDescription();
         }
@@ -343,7 +340,7 @@ const windowCheckListNameEditMode = function (checkListId){
         }
     });
 
-    $('#windowCheckListsEdit'+checkListId).keyup(function(e){
+    $('#windowCheckListsEdit'+checkListId).keypress(function(e){
         if(e.keyCode == 13){
             if($('#windowCheckListsEdit'+checkListId).val() == ''){
                 getCardDetail(cardId);
@@ -431,7 +428,7 @@ const checkItemNameEditMode = function (checkItemId){
         }
     });
 
-    $('#checkItemNameEdit'+checkItemId).keyup(function(e){
+    $('#checkItemNameEdit'+checkItemId).keypress(function(e){
         if(e.keyCode == 13){
             if($('#checkItemNameEdit'+checkItemId).val() == ''){
                 getCardDetail(cardId);
@@ -526,7 +523,7 @@ const addCheckItem = function (checkListId){
         }
     });
 
-    $('#addCheckItemText').keyup(function(e){
+    $('#addCheckItemText').keypress(function(e){
         if(e.keyCode == 13){
             if($('#addCheckItemText').val() == ''){
                 getCardDetail(cardId);
@@ -779,6 +776,23 @@ const addTopicMode = function (){
     $('#addTopicButton').css('display', 'none');
     $('#addTopicNameInput').css('display', '');
     $('#saveTopicButton').css('display', '');
+
+    $('#addTopicNameInput').on('focusout', function (){
+        if($('#addTopicNameInput').val() == ''){
+            location.reload();
+        }
+    });
+
+    $('#addTopicNameInput').keypress(function(e){
+        if(e.keyCode == 13){
+            if($('#addTopicNameInput').val() == ''){
+                location.reload();
+            }else {
+                saveTopic();
+            }
+        }
+    });
+
 }
 
 const saveTopic = function (){
@@ -825,7 +839,7 @@ const changeTopicNameMode = function (topicId){
         }
     });
 
-    $('#editTopicNameInput'+topicId).keyup(function(e){
+    $('#editTopicNameInput'+topicId).keypress(function(e){
         if(e.keyCode == 13){
             if($('#editTopicNameInput'+topicId).val() == ''){
                 location.reload();
@@ -876,8 +890,18 @@ const addCardMode = function (topicId){
             $('#addCardButton'+topicId).css('display','');
             $('#addCardInput'+topicId).css('display','none');
             $('#saveCardButton'+topicId).css('display','none');
-        }else {
-            saveCard(topicId);
+        }
+    });
+
+    $('#addCardInput'+topicId).keypress(function(e){
+        if(e.keyCode == 13){
+            if($('#addCardInput'+topicId).val() == ''){
+                $('#addCardButton'+topicId).css('display','');
+                $('#addCardInput'+topicId).css('display','none');
+                $('#saveCardButton'+topicId).css('display','none');
+            } else {
+                saveCard(topicId);
+            }
         }
     });
 
