@@ -10054,7 +10054,7 @@ body {
   transform: translateX(0);
 }
 .sb-sidenav-toggled #layoutSidenav #layoutSidenav_content:before {
-  content: "";
+
   display: block;
   position: absolute;
   top: 0;

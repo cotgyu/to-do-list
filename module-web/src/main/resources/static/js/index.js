@@ -777,6 +777,7 @@ const addTopicMode = function (){
     $('#addTopicNameInput').css('display', '');
     $('#saveTopicButton').css('display', '');
 
+    $('#addTopicNameInput').focus();
     $('#addTopicNameInput').on('focusout', function (){
         if($('#addTopicNameInput').val() == ''){
             location.reload();

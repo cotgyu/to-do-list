@@ -74,6 +74,23 @@ const addBoardMode = function (){
     $('#addBoardNameInput').css('display','');
     $('#saveBoardButton').css('display','');
 
+    $('#addBoardNameInput').focus();
+    $('#addBoardNameInput').on('focusout', function (){
+        if($('#addBoardNameInput').val() == ''){
+            location.reload();
+        }
+    });
+
+    $('#addBoardNameInput').keypress(function(e){
+        if(e.keyCode == 13){
+            if($('#addBoardNameInput').val() == ''){
+                location.reload();
+            }else {
+                saveBoard();
+            }
+        }
+    });
+
 }
 
 const saveBoard = function (){
