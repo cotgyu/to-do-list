@@ -33,7 +33,22 @@ const updateBoardMode = function (boardId){
     $('#editBoardNameButton'+boardId).css('display', 'none');
     $('#saveBoardNameButton'+boardId).css('display', '');
 
+    $('#editBoardNameInput'+boardId).focus();
+    $('#editBoardNameInput'+boardId).on('focusout', function (){
+        if($('#editBoardNameInput'+boardId).val() == ''){
+            location.reload();
+        }
+    });
 
+    $('#editBoardNameInput'+boardId).keypress(function(e){
+        if(e.keyCode == 13){
+            if($('#editBoardNameInput'+boardId).val() == ''){
+                location.reload();
+            }else {
+                updateBoard(boardId);
+            }
+        }
+    });
 }
 
 const updateBoard = function (boardId){
