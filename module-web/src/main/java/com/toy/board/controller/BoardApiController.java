@@ -4,15 +4,23 @@ package com.toy.board.controller;
 import com.toy.board.dto.BoardRequestDto;
 import com.toy.board.service.BoardService;
 import com.toy.board.service.TopicService;
+import com.toy.common.CommonResource;
 import com.toy.config.auth.LoginUser;
 import com.toy.config.auth.dto.SessionUser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RequiredArgsConstructor
 @RestController
@@ -23,20 +31,27 @@ public class BoardApiController {
 
     private final BoardService boardService;
 
+    // TODO
+    // validator 생성 처리
+    // docs 한번 생각
     @PostMapping
-    public ResponseEntity addBoard(@RequestBody BoardRequestDto boardRequestDto, @LoginUser SessionUser user) {
-        Map<String, Object> resultMap = new HashMap<>();
+    public ResponseEntity addBoard(@RequestBody @Valid BoardRequestDto boardRequestDto, @LoginUser SessionUser user) {
+
 
         Long result = boardService.save(boardRequestDto, user.getEmail());
 
-        resultMap.put("result", result);
-        resultMap.put("resultMessage", "success");
+        WebMvcLinkBuilder webMvcLinkBuilder = linkTo(BoardApiController.class).slash(result);
+        URI uri = webMvcLinkBuilder.toUri();
 
-        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        // update 링크 제공
+        CommonResource commonResource = new CommonResource(boardRequestDto);
+        commonResource.add(webMvcLinkBuilder.withRel("update-board"));
+
+        return ResponseEntity.created(uri).body(commonResource);
 
     }
 
-    // TODO 시큐리티를 활용하여 rest api 인증 확인하기
+
     @PutMapping("/{boardId}")
     public ResponseEntity updateBoard(@PathVariable Long boardId, @RequestBody BoardRequestDto boardRequestDto, @LoginUser SessionUser user){
         Map<String, Object> resultMap = new HashMap<>();
