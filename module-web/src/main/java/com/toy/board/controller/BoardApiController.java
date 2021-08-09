@@ -2,12 +2,15 @@ package com.toy.board.controller;
 
 
 import com.toy.board.dto.BoardRequestDto;
+import com.toy.board.dto.BoardValidator;
 import com.toy.board.service.BoardService;
 import com.toy.board.service.TopicService;
 import com.toy.common.CommonResource;
+import com.toy.common.controller.IndexController;
 import com.toy.config.auth.LoginUser;
 import com.toy.config.auth.dto.SessionUser;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
@@ -24,6 +27,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RequiredArgsConstructor
 @RestController
+@Slf4j
 @RequestMapping(value = "/api/board")
 public class BoardApiController {
 
@@ -31,12 +35,22 @@ public class BoardApiController {
 
     private final BoardService boardService;
 
-    // TODO
-    // validator 생성 처리
+    private final BoardValidator boardValidator;
+
     // docs 한번 생각
     @PostMapping
-    public ResponseEntity addBoard(@RequestBody @Valid BoardRequestDto boardRequestDto, @LoginUser SessionUser user) {
+    public ResponseEntity addBoard(@RequestBody BoardRequestDto boardRequestDto, @LoginUser SessionUser user, Errors errors) {
 
+        boardValidator.validate(boardRequestDto, errors);
+
+        if(errors.hasErrors()){
+            CommonResource commonResource = new CommonResource(errors);
+            commonResource.add(linkTo(IndexController.class).withSelfRel());
+
+            log.debug("잘못된 요청입니다. error: " + errors.getFieldError());
+
+            return ResponseEntity.badRequest().body(commonResource);
+        }
 
         Long result = boardService.save(boardRequestDto, user.getEmail());
 
@@ -50,7 +64,6 @@ public class BoardApiController {
         return ResponseEntity.created(uri).body(commonResource);
 
     }
-
 
     @PutMapping("/{boardId}")
     public ResponseEntity updateBoard(@PathVariable Long boardId, @RequestBody BoardRequestDto boardRequestDto, @LoginUser SessionUser user){

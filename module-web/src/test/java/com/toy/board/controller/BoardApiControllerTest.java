@@ -98,6 +98,43 @@ class BoardApiControllerTest {
     }
 
     @Test
+    @DisplayName("보드 등록 api Bad Request 테스트")
+    public void addBoardApiBadRequestTest() throws Exception{
+        //given
+        BoardRequestDto boardRequestDto = new BoardRequestDto("");
+
+        User user = new User("testUser1", "email", "picture", Role.ADMIN);
+        userRepository.save(user);
+
+        // 세션 정보
+        SessionUser sessionUser = new SessionUser(user);
+        mockHttpSession = new MockHttpSession();
+        mockHttpSession.setAttribute("user", sessionUser);
+
+        //when
+        Long result = boardService.save(boardRequestDto, user.getEmail());
+
+        Board findBoard = boardRepository.findById(result).get();
+
+        // then
+        Assertions.assertThat(result).isEqualTo(findBoard.getId());
+
+        //when then
+        mockMvc.perform(
+                post("/api/board")
+                        .session(mockHttpSession)
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .accept(MediaTypes.HAL_JSON)
+                        .content(objectMapper.writeValueAsString(boardRequestDto))
+        )
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+        ;
+
+    }
+
+
+    @Test
     @DisplayName("보드 수정 api 테스트")
     public void updateBoardApiTest() throws Exception{
         //given
