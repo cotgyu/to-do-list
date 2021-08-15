@@ -76,8 +76,12 @@ const updateBoard = function (boardId){
         location.reload();
     }).fail(function (error){
 
-        if(error.responseJSON.resultMessage == 'fail'){
-            alert(error.responseJSON.result);
+        if(error.status == 400){
+            alert('잘못된 요청입니다.');
+        }
+
+        if(error.status == 401){
+            alert('보드 수정 권한이 없습니다.');
         }
 
     });

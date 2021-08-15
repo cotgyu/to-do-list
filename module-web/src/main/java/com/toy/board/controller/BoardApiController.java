@@ -31,13 +31,10 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 @RequestMapping(value = "/api/board")
 public class BoardApiController {
 
-    private final TopicService topicService;
-
     private final BoardService boardService;
 
     private final BoardValidator boardValidator;
 
-    // docs 한번 생각
     @PostMapping
     public ResponseEntity addBoard(@RequestBody BoardRequestDto boardRequestDto, @LoginUser SessionUser user, Errors errors) {
 
@@ -62,25 +59,40 @@ public class BoardApiController {
         commonResource.add(webMvcLinkBuilder.withRel("update-board"));
 
         return ResponseEntity.created(uri).body(commonResource);
-
     }
 
     @PutMapping("/{boardId}")
-    public ResponseEntity updateBoard(@PathVariable Long boardId, @RequestBody BoardRequestDto boardRequestDto, @LoginUser SessionUser user){
-        Map<String, Object> resultMap = new HashMap<>();
+    public ResponseEntity updateBoard(@PathVariable Long boardId, @RequestBody BoardRequestDto boardRequestDto, @LoginUser SessionUser user, Errors errors){
+
+        boardValidator.validate(boardRequestDto, errors);
+
+        if(errors.hasErrors()){
+            CommonResource commonResource = new CommonResource(errors);
+            commonResource.add(linkTo(IndexController.class).withSelfRel());
+
+            log.debug("잘못된 요청입니다. error: " + errors.getFieldError());
+
+            return ResponseEntity.badRequest().body(commonResource);
+        }
+
         Long updateBoardId = boardService.updateBoard(boardId, boardRequestDto, user);
 
         if(updateBoardId == -1){
-            resultMap.put("result", "해당 Board 수정 권한이 없습니다.");
-            resultMap.put("resultMessage", "fail");
+            CommonResource commonResource = new CommonResource(errors);
+            commonResource.add(linkTo(IndexController.class).withSelfRel());
+            log.debug("해당 Board 수정 권한이 없습니다.");
 
-            return new ResponseEntity<>(resultMap, HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         }
 
-        resultMap.put("result", updateBoardId);
-        resultMap.put("resultMessage", "success");
+        WebMvcLinkBuilder webMvcLinkBuilder = linkTo(BoardController.class).slash(updateBoardId);
+        URI uri = webMvcLinkBuilder.toUri();
 
-        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        // 조회 링크 제공
+        CommonResource commonResource = new CommonResource(boardRequestDto);
+        commonResource.add(webMvcLinkBuilder.withRel("get-boards"));
+
+        return ResponseEntity.created(uri).body(commonResource);
     }
 
 }
