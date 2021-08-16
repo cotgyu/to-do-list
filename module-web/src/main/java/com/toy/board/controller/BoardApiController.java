@@ -46,9 +46,13 @@ public class BoardApiController {
         WebMvcLinkBuilder webMvcLinkBuilder = linkTo(BoardApiController.class).slash(result);
         URI uri = webMvcLinkBuilder.toUri();
 
-        // update 링크 제공
+        // 링크 제공
         EntityModel<BoardRequestDto> commonEntityModel = EntityModel.of(boardRequestDto);
+        // self
+        commonEntityModel.add(linkTo(BoardApiController.class).slash(result).withSelfRel());
+        // update
         commonEntityModel.add(webMvcLinkBuilder.withRel("update-board"));
+
 
         return ResponseEntity.created(uri).body(commonEntityModel);
     }
@@ -74,8 +78,11 @@ public class BoardApiController {
         WebMvcLinkBuilder webMvcLinkBuilder = linkTo(BoardController.class).slash(updateBoardId);
         URI uri = webMvcLinkBuilder.toUri();
 
-        // 조회 링크 제공
+        // 링크 제공
         EntityModel<BoardRequestDto> commonEntityModel = EntityModel.of(boardRequestDto);
+        // self
+        commonEntityModel.add(linkTo(BoardApiController.class).slash(boardRequestDto.getId()).withSelfRel());
+        // get
         commonEntityModel.add(webMvcLinkBuilder.withRel("get-board"));
 
         return ResponseEntity.created(uri).body(commonEntityModel);

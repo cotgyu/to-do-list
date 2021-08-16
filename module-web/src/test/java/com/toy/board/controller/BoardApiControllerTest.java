@@ -13,9 +13,11 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.hateoas.MediaTypes;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpSession;
@@ -27,6 +29,11 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.persistence.EntityManager;
 
+import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
+import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -36,6 +43,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @Transactional
 @AutoConfigureMockMvc
+@AutoConfigureRestDocs
 @ActiveProfiles("test")
 class BoardApiControllerTest {
 
@@ -93,6 +101,17 @@ class BoardApiControllerTest {
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("_links.update-board").exists())
+                .andDo(document("create-board",
+                        links(
+                                linkWithRel("self").description("link to self"),
+                                linkWithRel("update-board").description("link to update an existing board")
+                            ),
+                        relaxedResponseFields(
+                                fieldWithPath("id").description("identifier of new Board"),
+                                fieldWithPath("boardName").description("name of new Board"),
+                                fieldWithPath("delFlag").description("delFlag of new Board")
+                                )
+                        ))
         ;
 
     }
@@ -162,7 +181,18 @@ class BoardApiControllerTest {
         )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("_links.get-board").exists());
+                .andExpect(jsonPath("_links.get-board").exists())
+                .andDo(document("update-board",
+                        links(
+                            linkWithRel("self").description("link to self"),
+                            linkWithRel("get-board").description("link to get an existing board")
+                            ),
+                            relaxedResponseFields(
+                                    fieldWithPath("id").description("identifier of new Board"),
+                                    fieldWithPath("boardName").description("name of new Board"),
+                                    fieldWithPath("delFlag").description("delFlag of new Board")
+                            ))
+                        );
 
         //then
         Board updateBoard = boardRepository.findById(testBoard.getId()).get();
