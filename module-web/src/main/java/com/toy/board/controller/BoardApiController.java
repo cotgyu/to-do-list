@@ -4,31 +4,26 @@ package com.toy.board.controller;
 import com.toy.board.dto.BoardRequestDto;
 import com.toy.board.dto.BoardValidator;
 import com.toy.board.service.BoardService;
-import com.toy.board.service.TopicService;
-import com.toy.common.CommonResource;
-import com.toy.common.controller.IndexController;
 import com.toy.config.auth.LoginUser;
 import com.toy.config.auth.dto.SessionUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.hateoas.Link;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RequiredArgsConstructor
 @RestController
 @Slf4j
-@RequestMapping(value = "/api/board")
+@RequestMapping(value = "/api/board", produces = "application/hal+json;charset=utf8")
 public class BoardApiController {
 
     private final BoardService boardService;
@@ -41,24 +36,21 @@ public class BoardApiController {
         boardValidator.validate(boardRequestDto, errors);
 
         if(errors.hasErrors()){
-            CommonResource commonResource = new CommonResource(errors);
-            commonResource.add(linkTo(IndexController.class).withSelfRel());
-
             log.debug("잘못된 요청입니다. error: " + errors.getFieldError());
-
-            return ResponseEntity.badRequest().body(commonResource);
+            return ResponseEntity.badRequest().body(CollectionModel.of(errors.getAllErrors()));
         }
 
         Long result = boardService.save(boardRequestDto, user.getEmail());
+        boardRequestDto.setId(result);
 
         WebMvcLinkBuilder webMvcLinkBuilder = linkTo(BoardApiController.class).slash(result);
         URI uri = webMvcLinkBuilder.toUri();
 
         // update 링크 제공
-        CommonResource commonResource = new CommonResource(boardRequestDto);
-        commonResource.add(webMvcLinkBuilder.withRel("update-board"));
+        EntityModel<BoardRequestDto> commonEntityModel = EntityModel.of(boardRequestDto);
+        commonEntityModel.add(webMvcLinkBuilder.withRel("update-board"));
 
-        return ResponseEntity.created(uri).body(commonResource);
+        return ResponseEntity.created(uri).body(commonEntityModel);
     }
 
     @PutMapping("/{boardId}")
@@ -67,21 +59,15 @@ public class BoardApiController {
         boardValidator.validate(boardRequestDto, errors);
 
         if(errors.hasErrors()){
-            CommonResource commonResource = new CommonResource(errors);
-            commonResource.add(linkTo(IndexController.class).withSelfRel());
-
             log.debug("잘못된 요청입니다. error: " + errors.getFieldError());
-
-            return ResponseEntity.badRequest().body(commonResource);
+            return ResponseEntity.badRequest().body(CollectionModel.of(errors.getAllErrors()));
         }
 
         Long updateBoardId = boardService.updateBoard(boardId, boardRequestDto, user);
+        boardRequestDto.setId(updateBoardId);
 
         if(updateBoardId == -1){
-            CommonResource commonResource = new CommonResource(errors);
-            commonResource.add(linkTo(IndexController.class).withSelfRel());
             log.debug("해당 Board 수정 권한이 없습니다.");
-
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         }
 
@@ -89,10 +75,10 @@ public class BoardApiController {
         URI uri = webMvcLinkBuilder.toUri();
 
         // 조회 링크 제공
-        CommonResource commonResource = new CommonResource(boardRequestDto);
-        commonResource.add(webMvcLinkBuilder.withRel("get-boards"));
+        EntityModel<BoardRequestDto> commonEntityModel = EntityModel.of(boardRequestDto);
+        commonEntityModel.add(webMvcLinkBuilder.withRel("get-board"));
 
-        return ResponseEntity.created(uri).body(commonResource);
+        return ResponseEntity.created(uri).body(commonEntityModel);
     }
 
 }

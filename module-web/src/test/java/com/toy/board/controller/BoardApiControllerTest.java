@@ -162,7 +162,7 @@ class BoardApiControllerTest {
         )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("resultMessage").value("success"));
+                .andExpect(jsonPath("_links.get-board").exists());
 
         //then
         Board updateBoard = boardRepository.findById(testBoard.getId()).get();
