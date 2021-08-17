@@ -4,12 +4,14 @@ package com.toy.board.controller;
 import com.toy.board.dto.BoardRequestDto;
 import com.toy.board.dto.BoardValidator;
 import com.toy.board.service.BoardService;
+import com.toy.common.controller.IndexController;
 import com.toy.config.auth.LoginUser;
 import com.toy.config.auth.dto.SessionUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,17 +46,17 @@ public class BoardApiController {
         boardRequestDto.setId(result);
 
         WebMvcLinkBuilder webMvcLinkBuilder = linkTo(BoardApiController.class).slash(result);
-        URI uri = webMvcLinkBuilder.toUri();
 
         // 링크 제공
-        EntityModel<BoardRequestDto> commonEntityModel = EntityModel.of(boardRequestDto);
+        EntityModel<BoardRequestDto> entityModel = EntityModel.of(boardRequestDto);
+        // profile
+        entityModel.add(linkTo(IndexController.class).slash("/docs/index.html#resources-add-board").withRel("profile"));
         // self
-        commonEntityModel.add(linkTo(BoardApiController.class).slash(result).withSelfRel());
+        entityModel.add(webMvcLinkBuilder.withSelfRel());
         // update
-        commonEntityModel.add(webMvcLinkBuilder.withRel("update-board"));
+        entityModel.add(webMvcLinkBuilder.withRel("update-board"));
 
-
-        return ResponseEntity.created(uri).body(commonEntityModel);
+        return ResponseEntity.created(webMvcLinkBuilder.toUri()).body(entityModel);
     }
 
     @PutMapping("/{boardId}")
@@ -76,16 +78,17 @@ public class BoardApiController {
         }
 
         WebMvcLinkBuilder webMvcLinkBuilder = linkTo(BoardController.class).slash(updateBoardId);
-        URI uri = webMvcLinkBuilder.toUri();
 
         // 링크 제공
-        EntityModel<BoardRequestDto> commonEntityModel = EntityModel.of(boardRequestDto);
+        EntityModel<BoardRequestDto> entityModel = EntityModel.of(boardRequestDto);
+        // profile
+        entityModel.add(linkTo(IndexController.class).slash("/docs/index.html#resources-update-board").withRel("profile"));
         // self
-        commonEntityModel.add(linkTo(BoardApiController.class).slash(boardRequestDto.getId()).withSelfRel());
+        entityModel.add(webMvcLinkBuilder.withSelfRel());
         // get
-        commonEntityModel.add(webMvcLinkBuilder.withRel("get-board"));
+        entityModel.add(webMvcLinkBuilder.withRel("get-board"));
 
-        return ResponseEntity.created(uri).body(commonEntityModel);
+        return ResponseEntity.created(webMvcLinkBuilder.toUri()).body(entityModel);
     }
 
 }

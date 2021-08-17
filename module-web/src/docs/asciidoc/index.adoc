@@ -1,0 +1,63 @@
+= Do do List - REST API Guide
+
+== Board
+
+Board 를 추가하거나 수정할 때 사용한다.
+
+[[resources-add-board]]
+=== Board 추가
+
+'POST' 요청을 사용하여 새 Board를 만들 수 있다.
+
+Curl Request
+include::{snippets}/create-board/curl-request.adoc[]
+
+HTTP Request
+include::{snippets}/create-board/http-request.adoc[]
+
+Request body
+include::{snippets}/create-board/request-body.adoc[]
+
+
+HTTP response
+include::{snippets}/create-board/http-response.adoc[]
+
+Response Body
+include::{snippets}/create-board/response-body.adoc[]
+
+Response fields
+include::{snippets}/create-board/response-fields.adoc[]
+
+Links
+include::{snippets}/create-board/links.adoc[]
+
+
+[[resources-update-board]]
+=== Board 수정
+
+'PUT' 요청을 사용하여 Board를 수정할 수 있다.
+
+
+Curl Request
+include::{snippets}/update-board/curl-request.adoc[]
+
+HTTP Request
+include::{snippets}/update-board/http-request.adoc[]
+
+Request body
+include::{snippets}/update-board/request-body.adoc[]
+
+
+HTTP response
+include::{snippets}/update-board/http-response.adoc[]
+
+Response Body
+include::{snippets}/update-board/response-body.adoc[]
+
+Response fields
+include::{snippets}/update-board/response-fields.adoc[]
+
+Links
+include::{snippets}/update-board/links.adoc[]
+
+

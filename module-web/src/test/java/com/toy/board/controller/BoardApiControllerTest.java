@@ -82,14 +82,6 @@ class BoardApiControllerTest {
         mockHttpSession = new MockHttpSession();
         mockHttpSession.setAttribute("user", sessionUser);
 
-        //when
-        Long result = boardService.save(boardRequestDto, user.getEmail());
-
-        Board findBoard = boardRepository.findById(result).get();
-
-        // then
-        Assertions.assertThat(result).isEqualTo(findBoard.getId());
-
         //when then
         mockMvc.perform(
                 post("/api/board")
@@ -103,6 +95,7 @@ class BoardApiControllerTest {
                 .andExpect(jsonPath("_links.update-board").exists())
                 .andDo(document("create-board",
                         links(
+                                linkWithRel("profile").description("link to profile"),
                                 linkWithRel("self").description("link to self"),
                                 linkWithRel("update-board").description("link to update an existing board")
                             ),
@@ -129,14 +122,6 @@ class BoardApiControllerTest {
         SessionUser sessionUser = new SessionUser(user);
         mockHttpSession = new MockHttpSession();
         mockHttpSession.setAttribute("user", sessionUser);
-
-        //when
-        Long result = boardService.save(boardRequestDto, user.getEmail());
-
-        Board findBoard = boardRepository.findById(result).get();
-
-        // then
-        Assertions.assertThat(result).isEqualTo(findBoard.getId());
 
         //when then
         mockMvc.perform(
@@ -184,6 +169,7 @@ class BoardApiControllerTest {
                 .andExpect(jsonPath("_links.get-board").exists())
                 .andDo(document("update-board",
                         links(
+                            linkWithRel("profile").description("link to profile"),
                             linkWithRel("self").description("link to self"),
                             linkWithRel("get-board").description("link to get an existing board")
                             ),

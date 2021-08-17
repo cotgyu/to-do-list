@@ -2,7 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.3.8.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
-	id 'org.asciidoctor.jvm.convert' version '3.3.2'
+	id 'org.asciidoctor.convert' version '1.5.3'
 	id 'java'
 }
 
@@ -24,6 +24,7 @@ subprojects {
 	apply plugin: 'org.springframework.boot'
 	apply plugin: 'io.spring.dependency-management'
 	apply plugin: 'com.ewerk.gradle.plugins.querydsl'
+	apply plugin: 'org.asciidoctor.convert'
 
 	sourceCompatibility = 11
 
@@ -32,6 +33,7 @@ subprojects {
 	}
 
 	dependencies {
+		asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 		compileOnly 'org.projectlombok:lombok'
 		annotationProcessor 'org.projectlombok:lombok'
 		compile("org.mariadb.jdbc:mariadb-java-client")
@@ -44,6 +46,10 @@ subprojects {
 		developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	}
 
+	ext { //4
+		snippetsDir = "${buildDir}/generated-snippets"
+	}
+
 	configurations {
 		compileOnly {
 			extendsFrom annotationProcessor
@@ -51,8 +57,15 @@ subprojects {
 	}
 
 	test {
+		outputs.dir snippetsDir
 		useJUnitPlatform()
 	}
+
+	asciidoctor {
+		inputs.dir snippetsDir
+		dependsOn test
+	}
+
 
 	//querydsl
 	def querydslDir = "$buildDir/generated/querydsl"
@@ -81,6 +94,17 @@ subprojects {
 project(':module-web') {
 	dependencies {
 		implementation project(path: ':module-domain', configuration: 'default')
+	}
+
+	task copyDocument(type: Copy) {
+		dependsOn asciidoctor
+
+		from file("build/asciidoc/html5/")
+		into file("src/main/resources/static/docs")
+	}
+
+	build {
+		dependsOn copyDocument
 	}
 }
 
