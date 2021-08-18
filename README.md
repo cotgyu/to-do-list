@@ -42,3 +42,5 @@
 - [gradle task - bootJar, build 비교 메모](https://cotmulgyu.blogspot.com/2021/06/gradle-task-bootjar-build.html)
 
 - [AWS 자동배포 연습해보기](https://cotmulgyu.blogspot.com/2021/05/aws.html)
+
+- [API REST 하게 개선하기](https://cotmulgyu.blogspot.com/2021/08/api-rest.html)
