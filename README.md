@@ -11,13 +11,14 @@
   - 젠킨스-aws 자동배포 연습
   - 멀티모듈 실습 (web, domain, batch)
   - 스프링 배치 실습
+  - REST한 API 연습
   - 테스트 코드 습관 
 
 ### 사용 기술
 
 - BackEnd 
       
-    - Java11 (11의 특징을 활용하지 못함)
+    - Java
     - Spring Boot 2.3.x
     - Spring Data JPA
     - Spring Security   
