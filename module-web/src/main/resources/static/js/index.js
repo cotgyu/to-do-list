@@ -180,7 +180,7 @@ const windowCardEditMode = function (){
 
     const cardName = $('#windowCardName').text();
     const windowCardNameEdit = document.createElement('div');
-    windowCardNameEdit.innerHTML = "<input type='text' id='windowCardNameEdit' value="+cardName+">";
+    windowCardNameEdit.innerHTML = "<input type='text' id='windowCardNameEdit' value='"+cardName+"'>";
 
     windowCardNameEditArea.append(windowCardNameEdit);
 
@@ -274,7 +274,7 @@ const windowCardDescriptionEditMode = function (){
 
     const description = $('#windowCardDescription').text();
     const windowCardDescriptionEdit = document.createElement('div');
-    windowCardDescriptionEdit.innerHTML = "<input type='textbox' id='windowCardDescriptionEdit' style='width: 85%; margin-right: 5px' size='100' value="+description+">" +
+    windowCardDescriptionEdit.innerHTML = "<input type='textbox' id='windowCardDescriptionEdit' style='width: 85%; margin-right: 5px' size='100' value='"+description+"'>" +
         "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0' style='background-color: green; color: white;' value='SAVE' onclick='javascript:updateCardDescription()'>";
 
     windowCardDescriptionEditArea.append(windowCardDescriptionEdit);
