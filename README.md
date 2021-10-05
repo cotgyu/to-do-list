@@ -6,8 +6,8 @@
 
 - 토이프로젝트 (21.02 ~ 21.10)
 
-<img src="https://github.com/cotgyu/to-do-list/blob/master/images/intro1.png?raw=true" width="300">
-<img src="https://github.com/cotgyu/to-do-list/blob/master/images/intro2.png?raw=true" width="300">
+  <img src="https://github.com/cotgyu/to-do-list/blob/master/images/intro1.png?raw=true" width="650">
+  <img src="https://github.com/cotgyu/to-do-list/blob/master/images/intro2.png?raw=true" width="650">
 
 ## 사용 기술
 
@@ -42,13 +42,14 @@
 
   - 공통 모듈 domain 
 
-<img src="https://github.com/cotgyu/to-do-list/blob/master/images/module2.png?raw=true" width="150">
-<img src="https://github.com/cotgyu/to-do-list/blob/master/images/module1.png?raw=true" width="200">
+    <img src="https://github.com/cotgyu/to-do-list/blob/master/images/module2.png?raw=true" width="200">
+    
+    <img src="https://github.com/cotgyu/to-do-list/blob/master/images/module1.png?raw=true" width="300">
 
 
 #### 테스트 주도 개발 
 
-<img src="https://github.com/cotgyu/to-do-list/blob/master/images/testcase.png?raw=true" width="200">
+  <img src="https://github.com/cotgyu/to-do-list/blob/master/images/testcase.png?raw=true" width="230">
 
 
 ## 주요 기능 소개 
@@ -59,12 +60,12 @@
 
   - Hypermedia as the Engine of Application State(HATEOAS) :  **Spring HATEOAS 적용**
 
-    <img src="https://github.com/cotgyu/to-do-list/blob/master/images/response.png?raw=true" width="200">
+    <img src="https://github.com/cotgyu/to-do-list/blob/master/images/response.png?raw=true" width="260">
 
 
   - Self-descriptive message : **Spring Rest Docs 적용**
 
-    <img src="https://github.com/cotgyu/to-do-list/blob/master/images/apidocs.png?raw=true" width="200">
+    <img src="https://github.com/cotgyu/to-do-list/blob/master/images/apiDocs.png?raw=true" width="300">
 
   
   - [토이프로젝트 적용과정 링크(블로그)](https://cotmulgyu.blogspot.com/2021/08/api-rest.html)
@@ -76,17 +77,17 @@
 
   - 메타 데이터 및 통계 데이터
     
-    <img src="https://github.com/cotgyu/to-do-list/blob/master/images/batchtable.png?raw=true" width="200">
+    <img src="https://github.com/cotgyu/to-do-list/blob/master/images/batchTable.png?raw=true" width="300">
   
   - 어드민 페이지 통계 화면 
 
-    <img src="https://github.com/cotgyu/to-do-list/blob/master/images/adminPage.png?raw=true" width="200">
+    <img src="https://github.com/cotgyu/to-do-list/blob/master/images/adminPage.png?raw=true" width="300">
 
   
 #### Spring Security 를 활용한 OAuth2 소셜 로그인 연동
 
-  <img src="https://github.com/cotgyu/to-do-list/blob/master/images/naver.png?raw=true" width="200">
-  <img src="https://github.com/cotgyu/to-do-list/blob/master/images/google.png?raw=true" width="200">
+  <img src="https://github.com/cotgyu/to-do-list/blob/master/images/naver.png?raw=true" width="230">
+  <img src="https://github.com/cotgyu/to-do-list/blob/master/images/google.png?raw=true" width="230">
 
   
 ### 개발 메모
