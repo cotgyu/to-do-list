@@ -31,7 +31,7 @@ public class CardRepositoryTest {
     private TopicRepository topicRepository;
 
     @Test
-    @DisplayName("card, topic 등록 테스트")
+    @DisplayName("card, topic Repository 테스트")
     public void card_save_test(){
 
         Topic topic = new Topic("topic1");

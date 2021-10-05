@@ -32,7 +32,7 @@ public class ScheduleService {
     public void userBoardStatsBatchExecute()  throws IOException {
         log.info("userBoardStatsBatch 배치 실행");
 
-        userBoardStatsRepository.deleteAll();;
+        userBoardStatsRepository.deleteAll();
 
         Runtime rt = Runtime.getRuntime();
         rt.exec("sh /home/ec2-user/project/todolist/zip/userBoardStatsBatch.sh");
