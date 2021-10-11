@@ -12,7 +12,7 @@
 ## 사용 기술
 
   - Java 11 
-  - Spring Boot 2.3.x
+  - Spring Boot 2.3.8
     - Spring Batch
     - Spring Data JPA
     - Spring Security
@@ -36,10 +36,8 @@
 
 ### Gradle 을 이용한 Multi Module 구성
 
-- domain, web, batch 모듈로 구성
-
-  - 공통 모듈 domain 
-
+- domain, web, batch 모듈로 구성 (공통 모듈 domain)
+    
     <img src="https://github.com/cotgyu/to-do-list/blob/master/images/module2.png?raw=true" width="200">
     
     <img src="https://github.com/cotgyu/to-do-list/blob/master/images/module1.png?raw=true" width="550">

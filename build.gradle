@@ -25,6 +25,7 @@ subprojects {
 	apply plugin: 'io.spring.dependency-management'
 	apply plugin: 'com.ewerk.gradle.plugins.querydsl'
 	apply plugin: 'org.asciidoctor.convert'
+	apply plugin: 'jacoco'
 
 	sourceCompatibility = 11
 
@@ -59,13 +60,71 @@ subprojects {
 	test {
 		outputs.dir snippetsDir
 		useJUnitPlatform()
+		finalizedBy 'jacocoTestReport'
+	}
+
+	jacoco {
+		toolVersion = '0.8.6'
+		// reportsDir = ${project.reporting.baseDir}/jacoco
+	}
+
+	jacocoTestReport {
+		reports {
+			html.enabled true
+			csv.enabled true
+			xml.enabled false
+		}
+
+		def Qdomains = []
+
+		for (qPattern in '**/QA'..'**/QZ') { // qPattern = '*.QA', '*.QB', ... '*.QZ'
+			Qdomains.add(qPattern + '*')
+		}
+
+		afterEvaluate {
+			classDirectories.setFrom(
+					files(classDirectories.files.collect {
+						fileTree(dir: it, excludes: [] + Qdomains)
+					})
+			)
+		}
+
+		finalizedBy 'jacocoTestCoverageVerification'
+	}
+
+	jacocoTestCoverageVerification {
+		def Qdomains = []
+
+		for (qPattern in '*.QA'..'*.QZ') { // qPattern = '*.QA', '*.QB', ... '*.QZ'
+			Qdomains.add(qPattern + '*')
+		}
+
+		violationRules {
+			rule {
+				enabled = true
+				element = 'CLASS'
+
+				limit {
+					counter = 'LINE'
+					value = 'COVEREDRATIO'
+					minimum = 0.00
+				}
+
+				limit {
+					counter = 'BRANCH'
+					value = 'COVEREDRATIO'
+					minimum = 0.00
+				}
+
+				excludes = [] + Qdomains
+			}
+		}
 	}
 
 	asciidoctor {
 		inputs.dir snippetsDir
 		dependsOn test
 	}
-
 
 	//querydsl
 	def querydslDir = "$buildDir/generated/querydsl"
