@@ -28,7 +28,7 @@
 
 ## 배포 과정
 
-![배포 과정](images/deploy%20img.png)
+![배포 과정](images/deploy.png)
 
 
 
@@ -46,7 +46,9 @@
 ### 테스트 주도 개발 
 
   
-  <img src="https://github.com/cotgyu/to-do-list/blob/master/images/testcase.png?raw=true" width="230">
+  <img src="https://github.com/cotgyu/to-do-list/blob/master/images/testcase.png?raw=true" width="200">
+
+  <img src="https://github.com/cotgyu/to-do-list/blob/master/images/jacoco1.png?raw=true" width="200">
 
 
 ## 주요 기능 소개 
