@@ -79,7 +79,7 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true)
-    public List<BoardResponseDto> findAllBoardListByEmail(String email){
+    public List<BoardResponseDto> findAllBoardListByEmail(String email) {
 
         User user = userRepository.findByEmail(email).orElseThrow((() -> new IllegalArgumentException("해당 User가 없습니다. email=" + email)));
 
@@ -91,6 +91,4 @@ public class BoardService {
 
         return boardResponseDtoList;
     }
-
-
 }
