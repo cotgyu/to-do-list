@@ -1,6 +1,7 @@
 package com.toy.board.dto;
 
 import com.toy.board.domain.Board;
+import com.toy.board.domain.Topic;
 import com.toy.user.dto.UserResponseDto;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -23,8 +24,15 @@ public class BoardResponseDto {
         id = board.getId();
         boardName = board.getBoardName();
         delFlag = board.getDelFlag();
+        user = new UserResponseDto(board.getUser());
+    }
 
-        topics = board.getTopics()
+    public BoardResponseDto(Board board, List<Topic> topicList){
+        id = board.getId();
+        boardName = board.getBoardName();
+        delFlag = board.getDelFlag();
+
+        topics = topicList
                 .stream()
                 .filter(topic -> topic.getDelFlag().equals("N"))
                 .map(topic -> new TopicResponseDto(topic))

@@ -23,9 +23,6 @@ public class Board extends BaseEntity {
 
     private String delFlag;
 
-    @OneToMany(mappedBy = "board")
-    private List<Topic> topics = new ArrayList<>();
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -36,9 +33,8 @@ public class Board extends BaseEntity {
     }
 
     @Builder
-    public Board(String boardName, List<Topic> topics, User user){
+    public Board(String boardName, User user){
         this.boardName = boardName;
-        this.topics = topics;
         this.user = user;
         this.delFlag = "N";
     }

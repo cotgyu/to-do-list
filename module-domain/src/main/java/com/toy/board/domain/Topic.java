@@ -57,6 +57,5 @@ public class Topic extends BaseEntity {
 
     public void changeBoard(Board board){
         this.board = board;
-        board.getTopics().add(this);
     }
 }

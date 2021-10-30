@@ -3,6 +3,7 @@ package com.toy.board.service;
 
 
 import com.toy.board.domain.Board;
+import com.toy.board.domain.Topic;
 import com.toy.board.dto.BoardRequestDto;
 import com.toy.board.dto.BoardResponseDto;
 import com.toy.board.dto.TopicResponseDto;
@@ -59,13 +60,12 @@ public class BoardService {
     public BoardResponseDto findAllContents(Long boardId){
 
         Board board = findBoardById(boardId);
+        List<Topic> topicList = topicRepository.findAllByBoard_idAndDelFlag(boardId, "N");
 
         BoardResponseDto boardResponseDto = new BoardResponseDto(board);
-
-        List<TopicResponseDto> topics = boardResponseDto.getTopics();
-
-        List<TopicResponseDto> returnList = topics.stream()
-                .filter(topicResponseDto -> topicResponseDto.getDelFlag() == null || topicResponseDto.getDelFlag().equals("N"))
+        List<TopicResponseDto> returnList = topicList
+                .stream()
+                .map(topic -> new TopicResponseDto(topic))
                 .collect(Collectors.toList());
 
         boardResponseDto.setTopics(returnList);
