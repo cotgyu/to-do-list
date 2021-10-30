@@ -46,7 +46,7 @@
 ### 테스트 주도 개발
 
 
-<img src="https://github.com/cotgyu/to-do-list/blob/master/images/testcase.png?raw=true" width="230"><img src="https://github.com/cotgyu/to-do-list/blob/master/images/jacoco1.png?raw=true" width="570">
+<img src="https://github.com/cotgyu/to-do-list/blob/master/images/testResult.png?raw=true" width="230"><img src="https://github.com/cotgyu/to-do-list/blob/master/images/jacoco2.png?raw=true" width="570">
 
 
 ## 주요 기능 소개
