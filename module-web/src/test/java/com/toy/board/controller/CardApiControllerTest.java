@@ -7,6 +7,7 @@ import com.toy.board.repository.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -18,6 +19,11 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
+import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -26,9 +32,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @Transactional
 @AutoConfigureMockMvc
+@AutoConfigureRestDocs
 @ActiveProfiles("test")
 class CardApiControllerTest {
-
 
     @Autowired
     EntityManager em;
@@ -71,7 +77,21 @@ class CardApiControllerTest {
         )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("resultMessage").value("success"));
+                .andExpect(jsonPath("_links.update-card").exists())
+                .andDo(document("create-card",
+                        links(
+                                linkWithRel("profile").description("link to card"),
+                                linkWithRel("self").description("link to self"),
+                                linkWithRel("update-card").description("link to update an existing card")
+                        ),
+                        relaxedResponseFields(
+                                fieldWithPath("topicId").description("identifier of new Card of Board"),
+                                fieldWithPath("cardName").description("name of new Board")
+                        )
+                ))
+        ;
+
+
 
 
     }

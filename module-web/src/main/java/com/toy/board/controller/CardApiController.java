@@ -3,33 +3,56 @@ package com.toy.board.controller;
 
 import com.toy.board.dto.*;
 import com.toy.board.service.CardService;
+import com.toy.common.controller.IndexController;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+
 @RequiredArgsConstructor
 @RestController
+@Slf4j
 @RequestMapping(value = "/api/card")
 public class CardApiController {
 
     private final CardService cardService;
 
+    private final CardValidator cardValidator;
+
     @PostMapping
-    public ResponseEntity saveCard(@RequestBody CardRequestDto cardRequestDto) {
-        Map<String, Object> resultMap = new HashMap<>();
+    public ResponseEntity saveCard(@RequestBody CardRequestDto cardRequestDto, Errors errors) {
+
+        cardValidator.validate(cardRequestDto, errors);
+
+        if(errors.hasErrors()){
+            log.debug("잘못된 요청입니다. error: " + errors.getFieldError());
+            return ResponseEntity.badRequest().body(CollectionModel.of(errors.getAllErrors()));
+        }
 
         Long result = cardService.saveCard(cardRequestDto);
 
-        resultMap.put("result", result);
-        resultMap.put("resultMessage", "success");
+        WebMvcLinkBuilder webMvcLinkBuilder = linkTo(CardApiController.class).slash(result);
+        // 링크 제공
+        EntityModel<CardRequestDto> entityModel = EntityModel.of(cardRequestDto);
+        // profile
+        entityModel.add(linkTo(IndexController.class).slash("/docs/index.html#resources-add-card").withRel("profile"));
+        // self
+        entityModel.add(webMvcLinkBuilder.withSelfRel());
+        // update
+        entityModel.add(webMvcLinkBuilder.withRel("update-card"));
 
-        return new ResponseEntity<>(resultMap, HttpStatus.OK);
-
+        return ResponseEntity.created(webMvcLinkBuilder.toUri()).body(entityModel);
     }
 
     @GetMapping("/{cardId}")
