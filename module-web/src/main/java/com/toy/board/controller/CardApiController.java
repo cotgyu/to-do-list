@@ -68,15 +68,28 @@ public class CardApiController {
     }
 
     @PutMapping("/{cardId}")
-    public ResponseEntity updateCard(@PathVariable Long cardId, @RequestBody CardRequestDto cardRequestDto){
-        Map<String, Object> resultMap = new HashMap<>();
+    public ResponseEntity updateCard(@PathVariable Long cardId, @RequestBody CardRequestDto cardRequestDto, Errors errors){
 
-        cardService.updateCard(cardId, cardRequestDto);
+        cardValidator.validate(cardRequestDto, errors);
 
-        resultMap.put("result", cardId);
-        resultMap.put("resultMessage", "success");
+        if(errors.hasErrors()){
+            log.debug("잘못된 요청입니다. error: " + errors.getFieldError());
+            return ResponseEntity.badRequest().body(CollectionModel.of(errors.getAllErrors()));
+        }
 
-        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        Long result = cardService.updateCard(cardId, cardRequestDto);
+
+        WebMvcLinkBuilder webMvcLinkBuilder = linkTo(CardApiController.class).slash(result);
+
+        EntityModel<CardRequestDto> entityModel = EntityModel.of(cardRequestDto);
+        // profile
+        entityModel.add(linkTo(IndexController.class).slash("/docs/index.html#resources-update-card").withRel("profile"));
+        // self
+        entityModel.add(webMvcLinkBuilder.withSelfRel());
+        // select
+        entityModel.add(webMvcLinkBuilder.withRel("select-card"));
+
+        return ResponseEntity.created(webMvcLinkBuilder.toUri()).body(entityModel);
     }
 
     @PostMapping("/label")

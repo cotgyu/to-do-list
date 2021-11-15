@@ -139,10 +139,20 @@ class CardApiControllerTest {
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .content(objectMapper.writeValueAsString(cardRequestDto))
         )
-                .andDo(print())
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("resultMessage").value("success"))
-                .andExpect(jsonPath("result").isNotEmpty());
+                .andExpect(jsonPath("_links.select-card").exists())
+                .andDo(document("create-card",
+                        links(
+                                linkWithRel("profile").description("link to card"),
+                                linkWithRel("self").description("link to self"),
+                                linkWithRel("select-card").description("link to select an existing card")
+                        ),
+                        relaxedResponseFields(
+                                fieldWithPath("topicId").description("identifier of new Card of Board"),
+                                fieldWithPath("cardName").description("name of new Board")
+                        )
+                ))
+        ;
 
         // then
         Card result = cardRepository.findById(card1.getId()).get();
