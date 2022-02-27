@@ -472,16 +472,16 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/api/board/28
+Location: http://localhost:8080/api/board/2
 Content-Type: application/hal+json;charset=utf8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
-Content-Length: 252
+Content-Length: 249
 
-{"id":28,"boardName":"boardName1","delFlag":"N","_links":{"profile":{"href":"http://localhost:8080/docs/index.html#resources-add-board"},"self":{"href":"http://localhost:8080/api/board/28"},"update-board":{"href":"http://localhost:8080/api/board/28"}}}</code></pre>
+{"id":2,"boardName":"boardName1","delFlag":"N","_links":{"profile":{"href":"http://localhost:8080/docs/index.html#resources-add-board"},"self":{"href":"http://localhost:8080/api/board/2"},"update-board":{"href":"http://localhost:8080/api/board/2"}}}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -489,7 +489,7 @@ Content-Length: 252
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code>{"id":28,"boardName":"boardName1","delFlag":"N","_links":{"profile":{"href":"http://localhost:8080/docs/index.html#resources-add-board"},"self":{"href":"http://localhost:8080/api/board/28"},"update-board":{"href":"http://localhost:8080/api/board/28"}}}</code></pre>
+<pre class="highlight nowrap"><code>{"id":2,"boardName":"boardName1","delFlag":"N","_links":{"profile":{"href":"http://localhost:8080/docs/index.html#resources-add-board"},"self":{"href":"http://localhost:8080/api/board/2"},"update-board":{"href":"http://localhost:8080/api/board/2"}}}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -566,7 +566,7 @@ Content-Length: 252
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/api/board/27' -i -X PUT \
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/api/board/1' -i -X PUT \
     -H 'Content-Type: application/json;charset=UTF-8' \
     -d '{"id":null,"boardName":"boardName1","delFlag":"N"}'</code></pre>
 </div>
@@ -576,7 +576,7 @@ Content-Length: 252
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/board/27 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/board/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 50
 Host: localhost:8080
@@ -598,16 +598,16 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/board/27
+Location: http://localhost:8080/board/1
 Content-Type: application/hal+json;charset=utf8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
-Content-Length: 244
+Content-Length: 241
 
-{"id":27,"boardName":"boardName1","delFlag":"N","_links":{"profile":{"href":"http://localhost:8080/docs/index.html#resources-update-board"},"self":{"href":"http://localhost:8080/board/27"},"get-board":{"href":"http://localhost:8080/board/27"}}}</code></pre>
+{"id":1,"boardName":"boardName1","delFlag":"N","_links":{"profile":{"href":"http://localhost:8080/docs/index.html#resources-update-board"},"self":{"href":"http://localhost:8080/board/1"},"get-board":{"href":"http://localhost:8080/board/1"}}}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -615,7 +615,7 @@ Content-Length: 244
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code>{"id":27,"boardName":"boardName1","delFlag":"N","_links":{"profile":{"href":"http://localhost:8080/docs/index.html#resources-update-board"},"self":{"href":"http://localhost:8080/board/27"},"get-board":{"href":"http://localhost:8080/board/27"}}}</code></pre>
+<pre class="highlight nowrap"><code>{"id":1,"boardName":"boardName1","delFlag":"N","_links":{"profile":{"href":"http://localhost:8080/docs/index.html#resources-update-board"},"self":{"href":"http://localhost:8080/board/1"},"get-board":{"href":"http://localhost:8080/board/1"}}}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -687,7 +687,7 @@ Content-Length: 244
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-08-16 22:49:49 +09:00
+Last updated 2022-02-22 22:32:02 +09:00
 </div>
 </div>
 </body>

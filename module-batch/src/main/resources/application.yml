@@ -1,7 +1,10 @@
 spring:
 
-  profiles:
-    include: real-db-config
+  datasource:
+    url: jdbc:mariadb://localhost:3306/to-do-list
+    username: user
+    password: user1234
+    driver-class-name: org.mariadb.jdbc.Driver
 
   batch:
     job:
@@ -20,20 +23,3 @@ logging.level:
 
   org.springframework.security : debug
 #  org.hibernate.type: trace
-
-
-## test 환경
----
-
-spring:
-  profiles: test
-
-  jpa:
-    hibernate:
-      ddl-auto: create
-
-  datasource:
-    url: jdbc:mariadb://book-springboot-webservice.c6vmpkf8olpt.ap-northeast-2.rds.amazonaws.com:3306/to_do_list_test
-    username: cotgyu
-    password: cotgyu123123
-    driver-class-name: org.mariadb.jdbc.Driver

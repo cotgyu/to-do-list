@@ -399,7 +399,16 @@ class CardApiControllerTest {
     public void getCardLabelApiTest() throws Exception{
 
         //given
-        Long cardId = 1L;
+        Topic topic = new Topic("topic1");
+        topicRepository.save(topic);
+        Card card1 = new Card("card1", "dis1" ,topic);
+        cardRepository.save(card1);
+        Label label = new Label("label1", "black");
+        labelRepository.save(label);
+        CardLabel cardLabel = new CardLabel(card1, label);
+        card1.addCardLabel(cardLabel);
+
+        Long cardId = card1.getId();
 
         // when then
         mockMvc.perform(

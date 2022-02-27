@@ -20,7 +20,8 @@ public class InitContents {
 
     @PostConstruct
     public void init(){
-        initContentsService.init();
+        // .sql 로 대체
+        //initContentsService.init();
     }
 
     @Component
