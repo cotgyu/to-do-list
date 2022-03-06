@@ -83,6 +83,23 @@
 
   <img src="https://github.com/cotgyu/to-do-list/blob/master/images/naver.png?raw=true" width="230"> <img src="https://github.com/cotgyu/to-do-list/blob/master/images/google.png?raw=true" width="230">
 
+--- 
+## How To Run
+
+- docker 설치
+  
+- 로컬 DB 설치 및 실행 (초기 데이터 insert) 
+  ~~~
+  local/local.sh
+  ~~~ 
+
+- 빌드 
+  ~~~
+  ~~~
+- 실행
+  ~~~
+  ~~~
+
 ---
 
 #### 개발 메모
