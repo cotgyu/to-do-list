@@ -22,9 +22,9 @@ public class AdminController {
     private final AdminService adminService;
 
     @GetMapping("/index")
-    public String home(Model model, @LoginUser SessionUser user){
+    public String home(Model model, @LoginUser SessionUser user) {
 
-        if(user.getRole() != Role.ADMIN){
+        if (user.getRole() != Role.ADMIN) {
 
             return "dist/404";
         }

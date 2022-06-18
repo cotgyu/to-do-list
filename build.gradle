@@ -1,9 +1,9 @@
 plugins {
-	id 'org.springframework.boot' version '2.3.8.RELEASE'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
-	id 'org.asciidoctor.convert' version '1.5.3'
-	id 'java'
+    id 'org.springframework.boot' version '2.3.8.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+    id 'org.asciidoctor.convert' version '1.5.3'
+    id 'java'
 }
 
 group = 'com.toy'
@@ -11,167 +11,167 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 repositories {
-	mavenCentral()
-	maven { url "https://plugins.gradle.org/m2/" }
+    mavenCentral()
+    maven { url "https://plugins.gradle.org/m2/" }
 }
 
 
 subprojects {
-	group = 'com.toy'
-	version = '0.0.1-SNAPSHOT'
+    group = 'com.toy'
+    version = '0.0.1-SNAPSHOT'
 
-	apply plugin: 'java'
-	apply plugin: 'org.springframework.boot'
-	apply plugin: 'io.spring.dependency-management'
-	apply plugin: 'com.ewerk.gradle.plugins.querydsl'
-	apply plugin: 'org.asciidoctor.convert'
-	apply plugin: 'jacoco'
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'com.ewerk.gradle.plugins.querydsl'
+    apply plugin: 'org.asciidoctor.convert'
+    apply plugin: 'jacoco'
 
-	sourceCompatibility = 11
+    sourceCompatibility = 11
 
-	repositories {
-		mavenCentral()
-	}
+    repositories {
+        mavenCentral()
+    }
 
-	dependencies {
-		asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor'
-		compileOnly 'org.projectlombok:lombok'
-		annotationProcessor 'org.projectlombok:lombok'
-		compile("org.mariadb.jdbc:mariadb-java-client")
+    dependencies {
+        asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+        compile("org.mariadb.jdbc:mariadb-java-client")
 
-		testImplementation('org.springframework.boot:spring-boot-starter-test') {
-			exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-		}
-		testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
-		testImplementation 'org.springframework.security:spring-security-test'
-		developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	}
+        testImplementation('org.springframework.boot:spring-boot-starter-test') {
+            exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+        }
+        testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
+        testImplementation 'org.springframework.security:spring-security-test'
+        developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    }
 
-	ext { //4
-		snippetsDir = "${buildDir}/generated-snippets"
-	}
+    ext { //4
+        snippetsDir = "${buildDir}/generated-snippets"
+    }
 
-	configurations {
-		compileOnly {
-			extendsFrom annotationProcessor
-		}
-	}
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
 
-	test {
-		outputs.dir snippetsDir
-		useJUnitPlatform()
-		finalizedBy 'jacocoTestReport'
-	}
+    test {
+        outputs.dir snippetsDir
+        useJUnitPlatform()
+        finalizedBy 'jacocoTestReport'
+    }
 
-	jacoco {
-		toolVersion = '0.8.6'
-		// reportsDir = ${project.reporting.baseDir}/jacoco
-	}
+    jacoco {
+        toolVersion = '0.8.6'
+        // reportsDir = ${project.reporting.baseDir}/jacoco
+    }
 
-	jacocoTestReport {
-		reports {
-			html.enabled true
-			csv.enabled true
-			xml.enabled false
-		}
+    jacocoTestReport {
+        reports {
+            html.enabled true
+            csv.enabled true
+            xml.enabled false
+        }
 
-		def Qdomains = []
+        def Qdomains = []
 
-		for (qPattern in '**/QA'..'**/QZ') { // qPattern = '*.QA', '*.QB', ... '*.QZ'
-			Qdomains.add(qPattern + '*')
-		}
+        for (qPattern in '**/QA'..'**/QZ') { // qPattern = '*.QA', '*.QB', ... '*.QZ'
+            Qdomains.add(qPattern + '*')
+        }
 
-		afterEvaluate {
-			classDirectories.setFrom(
-					files(classDirectories.files.collect {
-						fileTree(dir: it, excludes: [] + Qdomains)
-					})
-			)
-		}
+        afterEvaluate {
+            classDirectories.setFrom(
+                    files(classDirectories.files.collect {
+                        fileTree(dir: it, excludes: [] + Qdomains)
+                    })
+            )
+        }
 
-		finalizedBy 'jacocoTestCoverageVerification'
-	}
+        finalizedBy 'jacocoTestCoverageVerification'
+    }
 
-	jacocoTestCoverageVerification {
-		def Qdomains = []
+    jacocoTestCoverageVerification {
+        def Qdomains = []
 
-		for (qPattern in '*.QA'..'*.QZ') { // qPattern = '*.QA', '*.QB', ... '*.QZ'
-			Qdomains.add(qPattern + '*')
-		}
+        for (qPattern in '*.QA'..'*.QZ') { // qPattern = '*.QA', '*.QB', ... '*.QZ'
+            Qdomains.add(qPattern + '*')
+        }
 
-		violationRules {
-			rule {
-				enabled = true
-				element = 'CLASS'
+        violationRules {
+            rule {
+                enabled = true
+                element = 'CLASS'
 
-				limit {
-					counter = 'LINE'
-					value = 'COVEREDRATIO'
-					minimum = 0.00
-				}
+                limit {
+                    counter = 'LINE'
+                    value = 'COVEREDRATIO'
+                    minimum = 0.00
+                }
 
-				limit {
-					counter = 'BRANCH'
-					value = 'COVEREDRATIO'
-					minimum = 0.00
-				}
+                limit {
+                    counter = 'BRANCH'
+                    value = 'COVEREDRATIO'
+                    minimum = 0.00
+                }
 
-				excludes = [] + Qdomains
-			}
-		}
-	}
+                excludes = [] + Qdomains
+            }
+        }
+    }
 
-	asciidoctor {
-		inputs.dir snippetsDir
-		dependsOn test
-	}
+    asciidoctor {
+        inputs.dir snippetsDir
+        dependsOn test
+    }
 
-	//querydsl
-	def querydslDir = "$buildDir/generated/querydsl"
+    //querydsl
+    def querydslDir = "$buildDir/generated/querydsl"
 
-	querydsl {
-		library = "com.querydsl:querydsl-apt"
-		jpa = true
-		querydslSourcesDir = querydslDir
-	}
-	sourceSets {
-		main {
-			java {
-				srcDirs = ['src/main/java', querydslDir]
-			}
-		}
-	}
-	compileQuerydsl{
-		options.annotationProcessorPath = configurations.querydsl
-	}
-	configurations {
-		querydsl.extendsFrom compileClasspath
-	}
+    querydsl {
+        library = "com.querydsl:querydsl-apt"
+        jpa = true
+        querydslSourcesDir = querydslDir
+    }
+    sourceSets {
+        main {
+            java {
+                srcDirs = ['src/main/java', querydslDir]
+            }
+        }
+    }
+    compileQuerydsl {
+        options.annotationProcessorPath = configurations.querydsl
+    }
+    configurations {
+        querydsl.extendsFrom compileClasspath
+    }
 
 }
 
 project(':module-web') {
-	dependencies {
-		implementation project(path: ':module-domain', configuration: 'default')
-	}
+    dependencies {
+        implementation project(path: ':module-domain', configuration: 'default')
+    }
 
-	task copyDocument(type: Copy) {
-		dependsOn asciidoctor
+    task copyDocument(type: Copy) {
+        dependsOn asciidoctor
 
-		from file("build/asciidoc/html5/")
-		into file("src/main/resources/static/docs")
-	}
+        from file("build/asciidoc/html5/")
+        into file("src/main/resources/static/docs")
+    }
 
-	build {
-		dependsOn copyDocument
-	}
+    build {
+        dependsOn copyDocument
+    }
 }
 
 
 project(':module-batch') {
-	dependencies {
-		implementation project(path: ':module-domain', configuration: 'default')
-	}
+    dependencies {
+        implementation project(path: ':module-domain', configuration: 'default')
+    }
 }
 
 bootJar { enabled = false }

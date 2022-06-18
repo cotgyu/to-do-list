@@ -37,32 +37,25 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class CardApiControllerTest {
 
     @Autowired
+    protected MockMvc mockMvc;
+    @Autowired
+    protected ObjectMapper objectMapper;
+    @Autowired
     EntityManager em;
-
     @Autowired
     CardRepository cardRepository;
-
     @Autowired
     TopicRepository topicRepository;
-
     @Autowired
     LabelRepository labelRepository;
-
     @Autowired
     CheckListRepository checkListRepository;
-
     @Autowired
     CheckItemRepository checkItemRepository;
 
-    @Autowired
-    protected MockMvc mockMvc;
-
-    @Autowired
-    protected ObjectMapper objectMapper;
-
     @Test
     @DisplayName("카드 등록 api 테스트")
-    public void addCardApiTest() throws Exception{
+    void addCardApiTest() throws Exception {
         //given
         Topic topic = new Topic("testTopic");
         topicRepository.save(topic);
@@ -71,10 +64,10 @@ class CardApiControllerTest {
 
         //when then
         mockMvc.perform(
-                post("/api/card")
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content(objectMapper.writeValueAsString(cardRequestDto))
-        )
+                        post("/api/card")
+                                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                                .content(objectMapper.writeValueAsString(cardRequestDto))
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("_links.update-card").exists())
@@ -92,13 +85,11 @@ class CardApiControllerTest {
         ;
 
 
-
-
     }
 
     @Test
     @DisplayName("카드 조회 api 테스트")
-    public void findCardApiTest() throws Exception{
+    void findCardApiTest() throws Exception {
         //given
         Topic topic = new Topic("topic1");
 
@@ -111,9 +102,9 @@ class CardApiControllerTest {
 
         //when then
         mockMvc.perform(
-                get("/api/card/{id}", card1.getId())
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-        )
+                        get("/api/card/{id}", card1.getId())
+                                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("resultMessage").value("success"))
@@ -123,11 +114,11 @@ class CardApiControllerTest {
 
     @Test
     @DisplayName("카드 수정 api 테스트")
-    public void updateCardApiTest() throws Exception{
+    void updateCardApiTest() throws Exception {
         //given
         Topic topic = new Topic("topic1");
         topicRepository.save(topic);
-        Card card1 = new Card("card1", "dis1" ,topic);
+        Card card1 = new Card("card1", "dis1", topic);
         cardRepository.save(card1);
 
         CardRequestDto cardRequestDto = new CardRequestDto("cardName1", "desName1", "N");
@@ -135,10 +126,10 @@ class CardApiControllerTest {
 
         //when
         mockMvc.perform(
-                put("/api/card/{id}", card1.getId())
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content(objectMapper.writeValueAsString(cardRequestDto))
-        )
+                        put("/api/card/{id}", card1.getId())
+                                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                                .content(objectMapper.writeValueAsString(cardRequestDto))
+                )
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("_links.select-card").exists())
                 .andDo(document("create-card",
@@ -164,16 +155,16 @@ class CardApiControllerTest {
 
     @Test
     @DisplayName("라벨 생성 api 테스트")
-    public void addLabelApiTest() throws Exception{
+    void addLabelApiTest() throws Exception {
         //given
         LabelRequestDto labelRequestDto = new LabelRequestDto("label1", "black");
 
         //when then
         mockMvc.perform(
-                post("/api/card/label")
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content(objectMapper.writeValueAsString(labelRequestDto))
-        )
+                        post("/api/card/label")
+                                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                                .content(objectMapper.writeValueAsString(labelRequestDto))
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("resultMessage").value("success"));
@@ -183,11 +174,11 @@ class CardApiControllerTest {
 
     @Test
     @DisplayName("라벨 등록 api 테스트")
-    public void registerLabelApiTest() throws Exception{
+    void registerLabelApiTest() throws Exception {
         //given
         Topic topic = new Topic("topic1");
         topicRepository.save(topic);
-        Card card1 = new Card("card1", "dis1" ,topic);
+        Card card1 = new Card("card1", "dis1", topic);
         cardRepository.save(card1);
 
         Label label = new Label("label1", "black");
@@ -197,10 +188,10 @@ class CardApiControllerTest {
 
         //when then
         mockMvc.perform(
-                post("/api/card/label/register")
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content(objectMapper.writeValueAsString(cardLabelRequestDto))
-        )
+                        post("/api/card/label/register")
+                                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                                .content(objectMapper.writeValueAsString(cardLabelRequestDto))
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("resultMessage").value("success"));
@@ -210,7 +201,7 @@ class CardApiControllerTest {
 
     @Test
     @DisplayName("라벨 조회 api 테스트")
-    public void findLabelsApiTest() throws Exception{
+    void findLabelsApiTest() throws Exception {
         //given
         Label label = new Label("label1", "black");
         Label label2 = new Label("label2", "black2");
@@ -224,9 +215,9 @@ class CardApiControllerTest {
 
         //when then
         mockMvc.perform(
-                get("/api/card/label")
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-        )
+                        get("/api/card/label")
+                                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("resultMessage").value("success"))
@@ -235,7 +226,7 @@ class CardApiControllerTest {
 
     @Test
     @DisplayName("라벨 수정 api 테스트")
-    public void updateLabelsApiTest() throws Exception{
+    void updateLabelsApiTest() throws Exception {
         //given
         Label label = new Label("label1", "black");
         Label saveLabel = labelRepository.save(label);
@@ -245,10 +236,10 @@ class CardApiControllerTest {
 
         //when then
         mockMvc.perform(
-                put("/api/card/label/{id}",saveLabel.getId())
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content(objectMapper.writeValueAsString(labelRequestDto))
-        )
+                        put("/api/card/label/{id}", saveLabel.getId())
+                                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                                .content(objectMapper.writeValueAsString(labelRequestDto))
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("resultMessage").value("success"));
@@ -262,21 +253,21 @@ class CardApiControllerTest {
 
     @Test
     @DisplayName("체크리스트 추가 api 테스트")
-    public void addCheckListApiTest() throws Exception{
+    void addCheckListApiTest() throws Exception {
         // given
         Topic topic = new Topic("topic1");
         topicRepository.save(topic);
-        Card card1 = new Card("card1", "dis1" ,topic);
+        Card card1 = new Card("card1", "dis1", topic);
         cardRepository.save(card1);
 
         //when
         CheckListRequestDto checkListRequestDto = new CheckListRequestDto("checkList1", card1.getId());
 
         mockMvc.perform(
-                post("/api/card/checkList")
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content(objectMapper.writeValueAsString(checkListRequestDto))
-        )
+                        post("/api/card/checkList")
+                                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                                .content(objectMapper.writeValueAsString(checkListRequestDto))
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("resultMessage").value("success"));
@@ -291,11 +282,11 @@ class CardApiControllerTest {
 
     @Test
     @DisplayName("체크리스트 수정 api 테스트")
-    public void updateCheckListApiTest() throws Exception{
+    void updateCheckListApiTest() throws Exception {
         // given
         Topic topic = new Topic("topic1");
         topicRepository.save(topic);
-        Card card1 = new Card("card1", "dis1" ,topic);
+        Card card1 = new Card("card1", "dis1", topic);
         cardRepository.save(card1);
 
         CheckList checkList = new CheckList("checkList1", card1);
@@ -308,10 +299,10 @@ class CardApiControllerTest {
         CheckListRequestDto checkListRequestDto = new CheckListRequestDto("updateList1", "Y");
 
         mockMvc.perform(
-                put("/api/card/checkList/{id}", checkList.getId())
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content(objectMapper.writeValueAsString(checkListRequestDto))
-        )
+                        put("/api/card/checkList/{id}", checkList.getId())
+                                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                                .content(objectMapper.writeValueAsString(checkListRequestDto))
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("resultMessage").value("success"));
@@ -327,11 +318,11 @@ class CardApiControllerTest {
 
     @Test
     @DisplayName("체크아이템 추가 api 테스트")
-    public void addCheckItemApiTest() throws Exception{
+    void addCheckItemApiTest() throws Exception {
         // given
         Topic topic = new Topic("topic1");
         topicRepository.save(topic);
-        Card card1 = new Card("card1", "dis1" ,topic);
+        Card card1 = new Card("card1", "dis1", topic);
         cardRepository.save(card1);
         CheckList checkList = new CheckList("checkList1", card1);
         checkListRepository.save(checkList);
@@ -341,10 +332,10 @@ class CardApiControllerTest {
         CheckItemRequestDto checkItemRequestDto = new CheckItemRequestDto("item1", checkList.getId());
 
         mockMvc.perform(
-                post("/api/card/checkList/checkItem")
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content(objectMapper.writeValueAsString(checkItemRequestDto))
-        )
+                        post("/api/card/checkList/checkItem")
+                                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                                .content(objectMapper.writeValueAsString(checkItemRequestDto))
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("resultMessage").value("success"));
@@ -359,11 +350,11 @@ class CardApiControllerTest {
 
     @Test
     @DisplayName("체크아이템 수정 api 테스트")
-    public void updateCheckItemApiTest() throws Exception{
+    void updateCheckItemApiTest() throws Exception {
         // given
         Topic topic = new Topic("topic1");
         topicRepository.save(topic);
-        Card card1 = new Card("card1", "dis1" ,topic);
+        Card card1 = new Card("card1", "dis1", topic);
         cardRepository.save(card1);
         CheckList checkList = new CheckList("checkList1", card1);
         checkListRepository.save(checkList);
@@ -376,10 +367,10 @@ class CardApiControllerTest {
         CheckItemRequestDto checkItemRequestDto = new CheckItemRequestDto("updateItem", "Y");
 
         mockMvc.perform(
-                put("/api/card/checkList/checkItem/{id}", checkItem.getId())
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content(objectMapper.writeValueAsString(checkItemRequestDto))
-        )
+                        put("/api/card/checkList/checkItem/{id}", checkItem.getId())
+                                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                                .content(objectMapper.writeValueAsString(checkItemRequestDto))
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("resultMessage").value("success"));
@@ -396,12 +387,12 @@ class CardApiControllerTest {
 
     @Test
     @DisplayName("카드아이디의 라벨 조회 api 테스트")
-    public void getCardLabelApiTest() throws Exception{
+    void getCardLabelApiTest() throws Exception {
 
         //given
         Topic topic = new Topic("topic1");
         topicRepository.save(topic);
-        Card card1 = new Card("card1", "dis1" ,topic);
+        Card card1 = new Card("card1", "dis1", topic);
         cardRepository.save(card1);
         Label label = new Label("label1", "black");
         labelRepository.save(label);
@@ -412,9 +403,9 @@ class CardApiControllerTest {
 
         // when then
         mockMvc.perform(
-                get("/api/card/label/{cardId}", cardId)
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-        )
+                        get("/api/card/label/{cardId}", cardId)
+                                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("resultMessage").value("success"))
@@ -424,12 +415,12 @@ class CardApiControllerTest {
 
     @Test
     @DisplayName("카드라벨 수정 api 테스트")
-    public void updateCardLabelApiTest() throws Exception{
+    void updateCardLabelApiTest() throws Exception {
 
         //given
         Topic topic = new Topic("topic1");
         topicRepository.save(topic);
-        Card card1 = new Card("card1", "dis1" ,topic);
+        Card card1 = new Card("card1", "dis1", topic);
         cardRepository.save(card1);
         Label label = new Label("label1", "black");
         labelRepository.save(label);
@@ -440,10 +431,10 @@ class CardApiControllerTest {
         CardLabelRequestDto cardLabelRequestDto = new CardLabelRequestDto(card1.getId(), label.getId(), "false");
 
         mockMvc.perform(
-                put("/api/card/label/cardLabel")
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content(objectMapper.writeValueAsString(cardLabelRequestDto))
-        )
+                        put("/api/card/label/cardLabel")
+                                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                                .content(objectMapper.writeValueAsString(cardLabelRequestDto))
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("resultMessage").value("success"));

@@ -12,7 +12,7 @@ public class CardLabelQueryDto {
     private String checkFlag;
 
     @QueryProjection
-    public CardLabelQueryDto(Long labelId, String labelName, String color, String checkFlag){
+    public CardLabelQueryDto(Long labelId, String labelName, String color, String checkFlag) {
         this.labelId = labelId;
         this.labelName = labelName;
         this.color = color;

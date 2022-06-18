@@ -7,9 +7,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.*;
 
 import static javax.persistence.CascadeType.ALL;
 
@@ -42,7 +42,7 @@ public class User extends BaseEntity {
     private String delFlag;
 
     @Builder
-    public User(long id, String name, String email, String picture, Role role){
+    public User(long id, String name, String email, String picture, Role role) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -59,14 +59,14 @@ public class User extends BaseEntity {
         this.delFlag = "N";
     }
 
-    public User update(String name, String picture){
+    public User update(String name, String picture) {
         this.name = name;
         this.picture = picture;
 
         return this;
     }
 
-    public User update(String name, String picture, String email, String delFlag){
+    public User update(String name, String picture, String email, String delFlag) {
         this.name = name;
         this.picture = picture;
         this.email = email;
@@ -75,7 +75,7 @@ public class User extends BaseEntity {
         return this;
     }
 
-    public User update(UserRequestDto userRequestDto){
+    public User update(UserRequestDto userRequestDto) {
         this.name = userRequestDto.getName();
         this.picture = userRequestDto.getPicture();
         this.email = userRequestDto.getEmail();
@@ -85,7 +85,7 @@ public class User extends BaseEntity {
         return this;
     }
 
-    public String getRoleKey(){
+    public String getRoleKey() {
         return this.role.getKey();
     }
 

@@ -21,7 +21,7 @@ public class CardResponseDto {
 
     private String delFlag;
 
-    public CardResponseDto(Card card){
+    public CardResponseDto(Card card) {
         this.id = card.getId();
         this.cardName = card.getCardName();
         this.description = card.getDescription();

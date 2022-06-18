@@ -16,18 +16,17 @@ public class LabelRequestDto {
     private String color;
     private String delFlag;
 
-    public LabelRequestDto(String labelName, String color){
+    public LabelRequestDto(String labelName, String color) {
         this.labelName = labelName;
         this.color = color;
     }
 
-    public Label toEntity(){
+    public Label toEntity() {
         return Label.builder()
                 .labelName(labelName)
                 .color(color)
                 .build();
     }
-
 
 
 }

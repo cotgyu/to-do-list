@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toy.board.repository.BoardRepository;
 import com.toy.user.domain.Role;
 import com.toy.user.domain.User;
-import com.toy.user.repository.UserRepository;
 import com.toy.user.dto.UserRequestDto;
+import com.toy.user.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +45,7 @@ class AdminApiControllerTest {
 
     @Test
     @DisplayName("사용자 수정 api 테스트")
-    public void updateUserApiTest() throws Exception{
+    void updateUserApiTest() throws Exception {
         //given
         User testUser = new User("testUser1", "t1@gmail.com", "a", Role.ADMIN);
         userRepository.save(testUser);
@@ -54,10 +54,10 @@ class AdminApiControllerTest {
 
         //when
         mockMvc.perform(
-                put("/api/admin/" + testUser.getId())
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content(objectMapper.writeValueAsString(userRequestDto))
-        )
+                        put("/api/admin/" + testUser.getId())
+                                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                                .content(objectMapper.writeValueAsString(userRequestDto))
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("resultMessage").value("success"));

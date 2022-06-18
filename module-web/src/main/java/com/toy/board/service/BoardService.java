@@ -1,7 +1,6 @@
 package com.toy.board.service;
 
 
-
 import com.toy.board.domain.Board;
 import com.toy.board.domain.Topic;
 import com.toy.board.dto.BoardRequestDto;
@@ -30,7 +29,7 @@ public class BoardService {
     private final UserRepository userRepository;
 
     @Transactional
-    public Long save(BoardRequestDto boardRequestDto, String email){
+    public Long save(BoardRequestDto boardRequestDto, String email) {
 
         User user = userRepository.findByEmail(email).orElseThrow((() -> new IllegalArgumentException("해당 User가 없습니다. email=" + email)));
 
@@ -43,11 +42,11 @@ public class BoardService {
     }
 
     @Transactional
-    public Long updateBoard(long boardId, BoardRequestDto boardRequestDto, SessionUser user){
+    public Long updateBoard(long boardId, BoardRequestDto boardRequestDto, SessionUser user) {
 
         Board board = findBoardById(boardId);
 
-        if(board.getUser().getId() != user.getId()){
+        if (board.getUser().getId() != user.getId()) {
             return -1L;
         }
 
@@ -57,10 +56,10 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true)
-    public BoardResponseDto findAllContents(Long boardId){
+    public BoardResponseDto findAllContents(Long boardId) {
 
         Board board = findBoardById(boardId);
-        List<Topic> topicList = topicRepository.findAllByBoard_idAndDelFlag(boardId, "N");
+        List<Topic> topicList = topicRepository.findAllByIdAndDelFlag(boardId, "N");
 
         BoardResponseDto boardResponseDto = new BoardResponseDto(board);
         List<TopicResponseDto> returnList = topicList
@@ -74,21 +73,17 @@ public class BoardService {
     }
 
     private Board findBoardById(Long boardId) {
-        Board board = boardRepository.findByIdAndDelFlag(boardId, "N").orElseThrow(() -> new IllegalArgumentException("해당 Board가 없습니다. id=" + boardId));
-        return board;
+        return boardRepository.findByIdAndDelFlag(boardId, "N").orElseThrow(() -> new IllegalArgumentException("해당 Board가 없습니다. id=" + boardId));
     }
 
     @Transactional(readOnly = true)
     public List<BoardResponseDto> findAllBoardListByEmail(String email) {
-
         User user = userRepository.findByEmail(email).orElseThrow((() -> new IllegalArgumentException("해당 User가 없습니다. email=" + email)));
 
         List<Board> allBoard = boardRepository.findBoardByUserIdAndDelFlag(user.getId(), "N");
 
-        List<BoardResponseDto> boardResponseDtoList = allBoard.stream()
+        return allBoard.stream()
                 .map(board -> new BoardResponseDto(board))
                 .collect(Collectors.toList());
-
-        return boardResponseDtoList;
     }
 }

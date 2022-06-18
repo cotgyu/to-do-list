@@ -18,7 +18,7 @@ public class TopicResponseDto {
     private List<CardResponseDto> cards;
     private String delFlag;
 
-    public TopicResponseDto(Topic topic){
+    public TopicResponseDto(Topic topic) {
         id = topic.getId();
         topicName = topic.getTopicName();
         cards = topic.getCards()

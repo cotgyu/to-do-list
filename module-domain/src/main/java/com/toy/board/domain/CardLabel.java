@@ -30,18 +30,18 @@ public class CardLabel extends BaseEntity {
 
     private String delFlag;
 
-    public void setCard(Card card){
-        this.card = card;
-    }
-
     @Builder
-    public CardLabel(Card card, Label label){
+    public CardLabel(Card card, Label label) {
         this.card = card;
         this.label = label;
         this.delFlag = "N";
     }
 
-    public void update(String delFlag){
+    public void setCard(Card card) {
+        this.card = card;
+    }
+
+    public void update(String delFlag) {
         this.delFlag = delFlag;
     }
 

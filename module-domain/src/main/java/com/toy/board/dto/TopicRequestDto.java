@@ -15,11 +15,11 @@ public class TopicRequestDto {
     private String topicName;
     private String delFlag;
 
-    public TopicRequestDto(String topicName){
+    public TopicRequestDto(String topicName) {
         this.topicName = topicName;
     }
 
-    public TopicRequestDto(Long boardId, String topicName){
+    public TopicRequestDto(Long boardId, String topicName) {
         this.boardId = boardId;
         this.topicName = topicName;
     }
@@ -30,8 +30,6 @@ public class TopicRequestDto {
                 .topicName(topicName)
                 .build();
     }
-
-
 
 
 }

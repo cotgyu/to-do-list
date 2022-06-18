@@ -24,13 +24,9 @@
 - H2, MariaDB
 - Docker, Jenkins, AWS Code Deploy, AWS S3, AWS EC2
 
-
-
 ## 배포 과정
 
 ![배포 과정](images/deployImage.png)
-
-
 
 ## 프로젝트 환경
 
@@ -42,12 +38,9 @@
 
     <img src="https://github.com/cotgyu/to-do-list/blob/master/images/module1.png?raw=true" width="550">
 
-
 ### 테스트 주도 개발
 
-
 <img src="https://github.com/cotgyu/to-do-list/blob/master/images/testResult.png?raw=true" width="300"><img src="https://github.com/cotgyu/to-do-list/blob/master/images/jacoco2.png?raw=true" width="570">
-
 
 ## 주요 기능 소개
 
@@ -64,8 +57,6 @@
 
   <img src="https://github.com/cotgyu/to-do-list/blob/master/images/apiDocs.png?raw=true" width="600">
 
-
-
 ### Spring Batch 를 활용한 통계 데이터 생성
 
 - 매일 12시에 실행할 수 있도록 설정
@@ -78,25 +69,25 @@
 
       <img src="https://github.com/cotgyu/to-do-list/blob/master/images/adminPage.png?raw=true" width="850">
 
-
 ### Spring Security 를 활용한 OAuth2 소셜 로그인 연동
 
   <img src="https://github.com/cotgyu/to-do-list/blob/master/images/naver.png?raw=true" width="230"> <img src="https://github.com/cotgyu/to-do-list/blob/master/images/google.png?raw=true" width="230">
 
 --- 
+
 ## How To Run
 
 - docker 설치
-  
-- 로컬 DB 설치 및 실행 (초기 데이터 insert) 
+
+- 로컬 DB 설치 및 실행 (초기 데이터 insert)
   ~~~
   local/local.sh
   ~~~ 
 
-- 빌드 
+- 빌드
   ~~~
   ~~~
-  
+
 - 실행
   ~~~
   ~~~

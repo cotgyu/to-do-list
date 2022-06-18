@@ -1,11 +1,11 @@
 package com.toy.admin.service;
 
+import com.toy.admin.dto.UserBoardStatsQueryDto;
 import com.toy.user.domain.Role;
 import com.toy.user.domain.User;
-import com.toy.user.repository.UserRepository;
-import com.toy.admin.dto.UserBoardStatsQueryDto;
 import com.toy.user.dto.UserRequestDto;
 import com.toy.user.dto.UserResponseDto;
+import com.toy.user.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +16,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -39,7 +39,7 @@ class AdminServiceTest {
 
     @Test
     @DisplayName("전체조회 정렬 테스트")
-    public void findAllSort(){
+    void findAllSort() {
         // given
         User testUser = new User("testUser1", "t1@gmail.com", "a", Role.ADMIN);
         User testUser2 = new User("testUser2", "t2@gmail.com", "a", Role.USER);
@@ -62,9 +62,10 @@ class AdminServiceTest {
         assertThat(result2.size()).isEqualTo(userRepository.findAll().size());
 
     }
+
     @DisplayName("사용자 수정 서비스테스트")
     @Test
-    public void updateUserTest() throws Exception{
+    void updateUserTest() throws Exception {
         //given
         User testUser = new User("testUser1", "t1@gmail.com", "a", Role.ADMIN);
         userRepository.save(testUser);
@@ -83,13 +84,13 @@ class AdminServiceTest {
 
     @DisplayName("월별 가입자 통계 서비스 호출 테스트")
     @Test
-    public void getMonthlyUserStatsServiceTest() throws Exception{
+    void getMonthlyUserStatsServiceTest() throws Exception {
         //given
         int year = 2021;
 
         //when
         //List<MonthlyUserRegisterQueryDto> monthlyUserRegisterStatistics = userRepository.getMonthlyUserRegisterStatistics(year);
-        HashMap<Integer, Long> monthlyUserRegisterStatistics2 = adminService.getMonthlyUserRegisterStatistics(year);
+        Map<Integer, Long> monthlyUserRegisterStatistics2 = adminService.getMonthlyUserRegisterStatistics(year);
 
         //then
         assertThat(monthlyUserRegisterStatistics2.size()).isEqualTo(12);
@@ -98,13 +99,12 @@ class AdminServiceTest {
 
     @DisplayName("사용자 board 사용 통계 테스트")
     @Test
-    public void getUserBoardStatsService() throws Exception{
+    void getUserBoardStatsService() throws Exception {
         //given
 
         //when
         //List<UserBoardStatsQueryDto> userBoardStatics = userRepository.getUserBoardStatistics();
         List<UserBoardStatsQueryDto> allUserBoardStatistics = adminService.getAllUserBoardStatistics();
-
 
 
         //then TODO 통계 테이블 생성으로 테스트 중지 다른방법 생각할 것

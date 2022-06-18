@@ -18,7 +18,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/resources/**","resources/**");
+        web.ignoring().antMatchers("/resources/**", "resources/**");
         web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
@@ -29,20 +29,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .headers().frameOptions().disable()
                 .and()
-                    .authorizeRequests()
-                    .antMatchers("/","/docs/**","/css/**","/images/**","/js/**","/h2-console/**",
-                            "/profile","/api/**","/home/**","/error/**",
-                            "/swagger*/**", "/v3/api-docs").permitAll()
-                    .antMatchers("/admin/**").hasRole(Role.ADMIN.name())
+                .authorizeRequests()
+                .antMatchers("/", "/docs/**", "/css/**", "/images/**", "/js/**", "/h2-console/**",
+                        "/profile", "/api/**", "/home/**", "/error/**",
+                        "/swagger*/**", "/v3/api-docs").permitAll()
+                .antMatchers("/admin/**").hasRole(Role.ADMIN.name())
                 .anyRequest().authenticated()
                 .and()
-                    .logout()
-                    .logoutSuccessUrl("/")
+                .logout()
+                .logoutSuccessUrl("/")
                 .and()
-                    .oauth2Login()
-                        .loginPage("/")
-                        .userInfoEndpoint()
-                            .userService(customOAuth2UserService);
+                .oauth2Login()
+                .loginPage("/")
+                .userInfoEndpoint()
+                .userService(customOAuth2UserService);
 
 
     }

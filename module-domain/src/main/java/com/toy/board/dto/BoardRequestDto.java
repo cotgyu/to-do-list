@@ -14,12 +14,12 @@ public class BoardRequestDto {
     private String boardName;
     private String delFlag;
 
-    public BoardRequestDto(String boardName){
+    public BoardRequestDto(String boardName) {
         this.boardName = boardName;
         this.delFlag = "N";
     }
 
-    public Board toEntity(){
+    public Board toEntity() {
         return Board.builder()
                 .boardName(boardName)
                 .build();

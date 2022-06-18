@@ -23,12 +23,10 @@ import javax.persistence.EntityManagerFactory;
 public class MonthlyUserRegisterStatisticsJobConfiguration {
 
     public static final String JOB_NAME = "monthlyUserRegisterStatsBatch";
-
+    private static final int CHUNK_SIZE = 100;
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final EntityManagerFactory entityManagerFactory;
-
-    private static final int chunkSize = 100;
 
     @Bean
     public Job monthlyUserRegisterStatsWriterJob() {
@@ -40,7 +38,7 @@ public class MonthlyUserRegisterStatisticsJobConfiguration {
     @Bean
     public Step monthlyUserRegisterStatsWriterStep() {
         return stepBuilderFactory.get("monthlyUserRegisterStatsWriterStep")
-                .<Object[], MonthlyUserRegisterStats>chunk(chunkSize)
+                .<Object[], MonthlyUserRegisterStats>chunk(CHUNK_SIZE)
                 .reader(monthlyUserRegisterStatsWriterReader())
                 .processor(monthlyUserRegisterStatsProcessor())
                 .writer(monthlyUserRegisterStatsWriter())
@@ -52,7 +50,7 @@ public class MonthlyUserRegisterStatisticsJobConfiguration {
         return new JpaPagingItemReaderBuilder<Object[]>()
                 .name("monthlyUserRegisterStatsWriterReader")
                 .entityManagerFactory(entityManagerFactory)
-                .pageSize(chunkSize)
+                .pageSize(CHUNK_SIZE)
                 .queryString("select month(u.createdDate) as month, " +
                         "count(u.id) as count  " +
                         "from User u " +

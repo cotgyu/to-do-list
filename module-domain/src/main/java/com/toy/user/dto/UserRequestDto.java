@@ -1,7 +1,6 @@
 package com.toy.user.dto;
 
 
-
 import com.toy.user.domain.Role;
 import com.toy.user.domain.User;
 import lombok.AccessLevel;
@@ -18,7 +17,7 @@ public class UserRequestDto {
     private Role role;
     private String delFlag;
 
-    public UserRequestDto(String name, String email, String picture, Role role, String delFlag){
+    public UserRequestDto(String name, String email, String picture, Role role, String delFlag) {
 
         this.name = name;
         this.email = email;
@@ -27,7 +26,7 @@ public class UserRequestDto {
         this.delFlag = delFlag;
     }
 
-    public User toEntity(){
+    public User toEntity() {
         return User.builder()
                 .name(name)
                 .picture(picture)

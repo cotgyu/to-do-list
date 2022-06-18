@@ -33,29 +33,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 class TopicApiControllerTest {
     @Autowired
+    protected MockMvc mockMvc;
+    @Autowired
+    protected ObjectMapper objectMapper;
+    @Autowired
     EntityManager em;
-
     @Autowired
     TopicRepository topicRepository;
-
     @Autowired
     CardRepository cardRepository;
-
     @Autowired
     BoardRepository boardRepository;
-
     @Autowired
     TopicService topicService;
 
-    @Autowired
-    protected MockMvc mockMvc;
-
-    @Autowired
-    protected ObjectMapper objectMapper;
-
     @Test
     @DisplayName("토픽 등록 api 테스트")
-    public void addTopicApiTest() throws Exception{
+    void addTopicApiTest() throws Exception {
         //given
         Board boardTest1 = new Board("boardTest1");
         boardRepository.save(boardTest1);
@@ -64,10 +58,10 @@ class TopicApiControllerTest {
 
         //when then
         mockMvc.perform(
-                post("/api/topic")
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content(objectMapper.writeValueAsString(topicRequestDto))
-        )
+                        post("/api/topic")
+                                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                                .content(objectMapper.writeValueAsString(topicRequestDto))
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("resultMessage").value("success"));
@@ -76,7 +70,7 @@ class TopicApiControllerTest {
 
     @Test
     @DisplayName("토픽 조회 api 테스트")
-    public void findTopicApiTest() throws Exception{
+    void findTopicApiTest() throws Exception {
         //given
         Topic topic = new Topic("testTopic1");
 
@@ -89,9 +83,9 @@ class TopicApiControllerTest {
 
         //when then
         mockMvc.perform(
-                get("/api/topic/{id}", topic.getId())
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-        )
+                        get("/api/topic/{id}", topic.getId())
+                                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("resultMessage").value("success"))
@@ -101,7 +95,7 @@ class TopicApiControllerTest {
 
     @Test
     @DisplayName("토픽 수정 api 테스트")
-    public void updateTopicApiTest() throws Exception{
+    void updateTopicApiTest() throws Exception {
         //given
         Topic topic = new Topic("topic1");
         topicRepository.save(topic);
@@ -113,10 +107,10 @@ class TopicApiControllerTest {
 
         //when
         mockMvc.perform(
-                put("/api/topic/{id}", topic.getId())
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content(objectMapper.writeValueAsString(topicRequestDto))
-        )
+                        put("/api/topic/{id}", topic.getId())
+                                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                                .content(objectMapper.writeValueAsString(topicRequestDto))
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("resultMessage").value("success"))

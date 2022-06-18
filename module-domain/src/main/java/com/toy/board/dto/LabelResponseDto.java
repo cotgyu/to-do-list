@@ -12,12 +12,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class LabelResponseDto {
 
-    private Long label_id;
+    private Long labelId;
     private String labelName;
     private String color;
 
-    public LabelResponseDto(Label label){
-        this.label_id = label.getId();
+    public LabelResponseDto(Label label) {
+        this.labelId = label.getId();
         this.labelName = label.getLabelName();
         this.color = label.getColor();
     }

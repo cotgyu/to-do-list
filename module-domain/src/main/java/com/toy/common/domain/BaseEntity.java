@@ -19,9 +19,4 @@ public class BaseEntity {
 
     @LastModifiedDate
     private LocalDateTime modifiedDate;
-
-    // TODO 삭제예정-초기데이터를 위한 setter
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
-    }
 }

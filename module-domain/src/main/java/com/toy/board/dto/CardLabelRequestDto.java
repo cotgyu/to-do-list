@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CardLabelRequestDto {
 
-    private Long card_id;
-    private Long label_id;
+    private Long cardId;
+    private Long labelId;
     private String checkFlag;
 
-    public CardLabelRequestDto(Long card_id, Long label_id){
-        this.card_id = card_id;
-        this.label_id = label_id;
+    public CardLabelRequestDto(Long cardId, Long labelId) {
+        this.cardId = cardId;
+        this.labelId = labelId;
     }
 }

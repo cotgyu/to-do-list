@@ -1,9 +1,8 @@
-
 var main = {
-    init : function () {
+    init: function () {
         var _this = this;
 
-        $('#btn-save').on('click', function() {
+        $('#btn-save').on('click', function () {
             _this.save();
         });
 
@@ -38,26 +37,26 @@ const getCardDetail = function (cardId) {
 
     $.ajax({
         type: 'GET',
-        url: '/api/card/'+ cardId,
+        url: '/api/card/' + cardId,
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
 
     }).done(function (data) {
 
-        $('#window-overlay').css("display","block");
-        $('#windowCardNameArea').css("display","");
-        $('#windowCardNameEditArea').css("display","none");
+        $('#window-overlay').css("display", "block");
+        $('#windowCardNameArea').css("display", "");
+        $('#windowCardNameEditArea').css("display", "none");
 
-        $('#windowCardDescriptionArea').css("display","");
-        $('#windowCardDescriptionEditArea').css("display","none");
+        $('#windowCardDescriptionArea').css("display", "");
+        $('#windowCardDescriptionEditArea').css("display", "none");
 
         $('#windowCardName').text(data.result.cardName);
 
-        if(data.result.description == undefined || data.result.description == ''){
+        if (data.result.description == undefined || data.result.description == '') {
             $('#windowCardDescription').text('');
-            $('#defaultDescriptionButton').css("display","");
-        }else{
-            $('#defaultDescriptionButton').css("display","none");
+            $('#defaultDescriptionButton').css("display", "");
+        } else {
+            $('#defaultDescriptionButton').css("display", "none");
             $('#windowCardDescription').text(data.result.description);
         }
 
@@ -67,12 +66,14 @@ const getCardDetail = function (cardId) {
         const rabelArea = document.getElementById("windowLabelsArea");
 
         // 라벨 영역 초기화
-        while ( rabelArea.hasChildNodes() ) { rabelArea.removeChild( rabelArea.firstChild ); }
+        while (rabelArea.hasChildNodes()) {
+            rabelArea.removeChild(rabelArea.firstChild);
+        }
 
-        for(var i =0; i < rabelData.length; i++){
+        for (var i = 0; i < rabelData.length; i++) {
 
             const divButton = document.createElement('div');
-            divButton.innerHTML = "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0'  id='rabel"+rabelData[i].label.label_id+"' value='"+rabelData[i].label.labelName+"' style='background-color: "+rabelData[i].label.color+"; color: white' onclick=''>";
+            divButton.innerHTML = "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0'  id='rabel" + rabelData[i].label.label_id + "' value='" + rabelData[i].label.labelName + "' style='background-color: " + rabelData[i].label.color + "; color: white' onclick=''>";
 
             rabelArea.append(divButton);
         }
@@ -81,22 +82,24 @@ const getCardDetail = function (cardId) {
         const checkListsArea = document.getElementById("windowCheckListsArea");
 
         // 체크리스트 영역 초기화
-        while ( checkListsArea.hasChildNodes() ) { checkListsArea.removeChild( checkListsArea.firstChild ); }
+        while (checkListsArea.hasChildNodes()) {
+            checkListsArea.removeChild(checkListsArea.firstChild);
+        }
 
-        for (var i=0; i< checkListsData.length; i++){
+        for (var i = 0; i < checkListsData.length; i++) {
 
             const checkListNameArea = document.createElement('div');
-            checkListNameArea.innerHTML = "<a id='checkLists"+checkListsData[i].id+"' onclick='javascript:windowCheckListNameEditMode("+checkListsData[i].id+")'>"+checkListsData[i].checkListName+"</a><input type='button' id='deleteListButton"+checkListsData[i].id+"' class='btn btn-link btn-sm' value='Delete List' style='margin-left: 2%; background-color: #d6d6d6; color: black' onclick='deleteCheckList("+checkListsData[i].id+")'>";
+            checkListNameArea.innerHTML = "<a id='checkLists" + checkListsData[i].id + "' onclick='javascript:windowCheckListNameEditMode(" + checkListsData[i].id + ")'>" + checkListsData[i].checkListName + "</a><input type='button' id='deleteListButton" + checkListsData[i].id + "' class='btn btn-link btn-sm' value='Delete List' style='margin-left: 2%; background-color: #d6d6d6; color: black' onclick='deleteCheckList(" + checkListsData[i].id + ")'>";
 
             const checkListNameEditArea = document.createElement('div');
-            checkListNameEditArea.innerHTML = "<input type='textbox' name = 'windowCheckListsEdit' id='windowCheckListsEdit"+checkListsData[i].id+"' value='"+checkListsData[i].checkListName+"' style='display: none;'>";
+            checkListNameEditArea.innerHTML = "<input type='textbox' name = 'windowCheckListsEdit' id='windowCheckListsEdit" + checkListsData[i].id + "' value='" + checkListsData[i].checkListName + "' style='display: none;'>";
 
             checkListsArea.append(checkListNameArea);
             checkListsArea.append(checkListNameEditArea);
 
             const checkItemsArea = document.createElement('div');
 
-            for(var j=0; j < checkListsData[i].checkItems.length; j++){
+            for (var j = 0; j < checkListsData[i].checkItems.length; j++) {
 
                 const rowDataArea = document.createElement('div');
                 rowDataArea.className = "row";
@@ -107,42 +110,42 @@ const getCardDetail = function (cardId) {
 
                 const checkBoxArea = document.createElement('div');
                 const checked = checkListsData[i].checkItems[j].checkFlag == 'Y' ? 'checked' : "";
-                checkBoxArea.innerHTML = "<input type='checkbox' id='checkItem"+checkListsData[i].checkItems[j].checkItemId+"' onchange='javascript:changeCheckItemChecked("+checkListsData[i].checkItems[j].checkItemId+")' "+checked+"/>";
+                checkBoxArea.innerHTML = "<input type='checkbox' id='checkItem" + checkListsData[i].checkItems[j].checkItemId + "' onchange='javascript:changeCheckItemChecked(" + checkListsData[i].checkItems[j].checkItemId + ")' " + checked + "/>";
                 rowDataArea.append(checkBoxArea);
 
                 const checkItemsArea = document.createElement('div');
-                checkItemsArea.innerHTML = "<a id='checkItemName"+checkListsData[i].checkItems[j].checkItemId+"' onclick='javascript:checkItemNameEditMode("+checkListsData[i].checkItems[j].checkItemId+")'>"+checkListsData[i].checkItems[j].checkItemName+"</a>";
+                checkItemsArea.innerHTML = "<a id='checkItemName" + checkListsData[i].checkItems[j].checkItemId + "' onclick='javascript:checkItemNameEditMode(" + checkListsData[i].checkItems[j].checkItemId + ")'>" + checkListsData[i].checkItems[j].checkItemName + "</a>";
                 rowDataArea.append(checkItemsArea);
 
                 const checkItemsEditArea = document.createElement('div');
-                checkItemsEditArea.innerHTML = "<input type='textbox' id='checkItemNameEdit"+checkListsData[i].checkItems[j].checkItemId+"' value='"+checkListsData[i].checkItems[j].checkItemName+"' style='display: none;'><input type='button' id='deleteItemButton"+checkListsData[i].checkItems[j].checkItemId+"' class='btn btn-link btn-sm' value='Delete Item' style='margin-left: 80%; height: 90%; background-color: #d6d6d6; color: black' onclick='deleteCheckItem("+checkListsData[i].checkItems[j].checkItemId+")'>";
+                checkItemsEditArea.innerHTML = "<input type='textbox' id='checkItemNameEdit" + checkListsData[i].checkItems[j].checkItemId + "' value='" + checkListsData[i].checkItems[j].checkItemName + "' style='display: none;'><input type='button' id='deleteItemButton" + checkListsData[i].checkItems[j].checkItemId + "' class='btn btn-link btn-sm' value='Delete Item' style='margin-left: 80%; height: 90%; background-color: #d6d6d6; color: black' onclick='deleteCheckItem(" + checkListsData[i].checkItems[j].checkItemId + ")'>";
                 rowDataArea.append(checkItemsEditArea);
 
             }
             checkListsArea.append(checkItemsArea);
 
             const addCheckItemArea = document.createElement('div');
-            addCheckItemArea.setAttribute("id", "checkItemsViewArea"+checkListsData[i].id);
+            addCheckItemArea.setAttribute("id", "checkItemsViewArea" + checkListsData[i].id);
             addCheckItemArea.style.marginLeft = "+0.35rem";
             addCheckItemArea.style.marginBottom = "+1.5rem";
 
-            addCheckItemArea.innerHTML = "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0'  id='windowCheckItemAddBtn"+checkListsData[i].id+"' value='Add an Item' style='background-color: #d6d6d6; color: black' onclick='addCheckItem("+checkListsData[i].id+")'>";
+            addCheckItemArea.innerHTML = "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0'  id='windowCheckItemAddBtn" + checkListsData[i].id + "' value='Add an Item' style='background-color: #d6d6d6; color: black' onclick='addCheckItem(" + checkListsData[i].id + ")'>";
             checkItemsArea.append(addCheckItemArea);
         }
 
 
-    }).fail(function (error){
+    }).fail(function (error) {
         alert(JSON.stringify(error));
     });
 
 }
 
-const cardDetailClose = function (){
+const cardDetailClose = function () {
     //$('#window-overlay').css("display","none");
     location.reload();
 }
 
-const updateCardName = function (){
+const updateCardName = function () {
 
     var data = {
         cardName: $('#windowCardNameEdit').val(),
@@ -154,52 +157,54 @@ const updateCardName = function (){
 
     $.ajax({
         type: 'PUT',
-        url: '/api/card/'+ cardId,
+        url: '/api/card/' + cardId,
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(data)
 
     }).done(function (data) {
-        $('#windowCardName').css("display","inline");
+        $('#windowCardName').css("display", "inline");
 
         getCardDetail(cardId);
 
-    }).fail(function (error){
+    }).fail(function (error) {
         alert(JSON.stringify(error));
     });
 }
 
-const windowCardEditMode = function (){
+const windowCardEditMode = function () {
 
-    $('#windowCardNameArea').css("display","none");
-    $('#windowCardNameEditArea').css("display","");
+    $('#windowCardNameArea').css("display", "none");
+    $('#windowCardNameEditArea').css("display", "");
 
     const windowCardNameEditArea = document.getElementById("windowCardNameEditArea");
 
-    while ( windowCardNameEditArea.hasChildNodes() ) { windowCardNameEditArea.removeChild( windowCardNameEditArea.firstChild ); }
+    while (windowCardNameEditArea.hasChildNodes()) {
+        windowCardNameEditArea.removeChild(windowCardNameEditArea.firstChild);
+    }
 
     const cardName = $('#windowCardName').text();
     const windowCardNameEdit = document.createElement('div');
-    windowCardNameEdit.innerHTML = "<input type='text' id='windowCardNameEdit' value='"+cardName+"'>";
+    windowCardNameEdit.innerHTML = "<input type='text' id='windowCardNameEdit' value='" + cardName + "'>";
 
     windowCardNameEditArea.append(windowCardNameEdit);
 
     const cardId = $('#windowCardIdArea').val();
 
     $('#windowCardNameEdit').focus();
-    $('#windowCardNameEdit').on('focusout', function (){
-        if($('#windowCardNameEdit').val() == ''){
+    $('#windowCardNameEdit').on('focusout', function () {
+        if ($('#windowCardNameEdit').val() == '') {
             getCardDetail(cardId);
-        }else {
+        } else {
             updateCardName();
         }
     });
 
-    $('#windowCardNameEdit').keypress(function(e){
-        if(e.keyCode == 13){
-            if($('#windowCardNameEdit').val() == ''){
+    $('#windowCardNameEdit').keypress(function (e) {
+        if (e.keyCode == 13) {
+            if ($('#windowCardNameEdit').val() == '') {
                 getCardDetail(cardId);
-            }else {
+            } else {
                 updateCardName();
             }
         }
@@ -207,7 +212,7 @@ const windowCardEditMode = function (){
 }
 
 
-const updateCardDescription = function (){
+const updateCardDescription = function () {
 
     var data = {
         cardName: $('#windowCardName').text(),
@@ -219,22 +224,22 @@ const updateCardDescription = function (){
 
     $.ajax({
         type: 'PUT',
-        url: '/api/card/'+ cardId,
+        url: '/api/card/' + cardId,
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(data)
 
     }).done(function (data) {
-        $('#windowCardName').css("display","inline");
+        $('#windowCardName').css("display", "inline");
 
         getCardDetail(cardId);
 
-    }).fail(function (error){
+    }).fail(function (error) {
         alert(JSON.stringify(error));
     });
 }
 
-const deleteCard = function (){
+const deleteCard = function () {
 
     var data = {
         cardName: $('#windowCardName').text(),
@@ -246,58 +251,59 @@ const deleteCard = function (){
 
     $.ajax({
         type: 'PUT',
-        url: '/api/card/'+ cardId,
+        url: '/api/card/' + cardId,
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(data)
 
     }).done(function (data) {
-        $('#windowCardName').css("display","inline");
+        $('#windowCardName').css("display", "inline");
 
         cardDetailClose();
 
-    }).fail(function (error){
+    }).fail(function (error) {
         alert(JSON.stringify(error));
     });
 }
 
 
+const windowCardDescriptionEditMode = function () {
 
-const windowCardDescriptionEditMode = function (){
-
-    $('#windowCardDescriptionArea').css("display","none");
-    $('#windowCardDescriptionEditArea').css("display","");
+    $('#windowCardDescriptionArea').css("display", "none");
+    $('#windowCardDescriptionEditArea').css("display", "");
 
     const windowCardDescriptionEditArea = document.getElementById("windowCardDescriptionEditArea");
 
-    while ( windowCardDescriptionEditArea.hasChildNodes() ) { windowCardDescriptionEditArea.removeChild( windowCardDescriptionEditArea.firstChild ); }
+    while (windowCardDescriptionEditArea.hasChildNodes()) {
+        windowCardDescriptionEditArea.removeChild(windowCardDescriptionEditArea.firstChild);
+    }
 
     const description = $('#windowCardDescription').text();
     const windowCardDescriptionEdit = document.createElement('div');
-    windowCardDescriptionEdit.innerHTML = "<input type='textbox' id='windowCardDescriptionEdit' style='width: 85%; margin-right: 5px' size='100' value='"+description+"'>" +
+    windowCardDescriptionEdit.innerHTML = "<input type='textbox' id='windowCardDescriptionEdit' style='width: 85%; margin-right: 5px' size='100' value='" + description + "'>" +
         "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0' style='background-color: green; color: white;' value='SAVE' onclick='javascript:updateCardDescription()'>";
 
     windowCardDescriptionEditArea.append(windowCardDescriptionEdit);
 
-    $('#windowCardDescriptionEdit').on('focusout', function (){
+    $('#windowCardDescriptionEdit').on('focusout', function () {
         updateCardDescription();
     });
 
-    $('#windowCardDescriptionEdit').keypress(function(e){
-        if(e.keyCode == 13){
+    $('#windowCardDescriptionEdit').keypress(function (e) {
+        if (e.keyCode == 13) {
             updateCardDescription();
         }
     });
 }
 
-const changeCheckItemChecked = function (itemId){
+const changeCheckItemChecked = function (itemId) {
 
-    const checked = $('#checkItem'+itemId).is(":checked") ? "Y" : "N";
+    const checked = $('#checkItem' + itemId).is(":checked") ? "Y" : "N";
 
-    const checkItemName = $('#checkItemName'+itemId).text();
+    const checkItemName = $('#checkItemName' + itemId).text();
 
     const data = {
-        checkItemName:checkItemName,
+        checkItemName: checkItemName,
         delFlag: 'N',
         checkFlag: checked
     }
@@ -306,7 +312,7 @@ const changeCheckItemChecked = function (itemId){
 
     $.ajax({
         type: 'PUT',
-        url: '/api/card/checkList/checkItem/'+ itemId,
+        url: '/api/card/checkList/checkItem/' + itemId,
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(data)
@@ -315,36 +321,36 @@ const changeCheckItemChecked = function (itemId){
 
         getCardDetail(cardId);
 
-    }).fail(function (error){
+    }).fail(function (error) {
         alert(JSON.stringify(error));
     });
 
 }
 
-const windowCheckListNameEditMode = function (checkListId){
+const windowCheckListNameEditMode = function (checkListId) {
 
-    $('#checkLists'+checkListId).css("display","none");
-    $('#deleteListButton'+checkListId).css("display","none");
+    $('#checkLists' + checkListId).css("display", "none");
+    $('#deleteListButton' + checkListId).css("display", "none");
 
-    $('#windowCheckListsEdit'+checkListId).css("display","");
-    $('#windowCheckListsEditButton'+checkListId).css("display","");
+    $('#windowCheckListsEdit' + checkListId).css("display", "");
+    $('#windowCheckListsEditButton' + checkListId).css("display", "");
 
 
     const cardId = $('#windowCardIdArea').val();
-    $('#windowCheckListsEdit'+checkListId).focus();
-    $('#windowCheckListsEdit'+checkListId).on('focusout', function (){
-        if($('#windowCheckListsEdit'+checkListId).val() == ''){
+    $('#windowCheckListsEdit' + checkListId).focus();
+    $('#windowCheckListsEdit' + checkListId).on('focusout', function () {
+        if ($('#windowCheckListsEdit' + checkListId).val() == '') {
             getCardDetail(cardId);
-        }else {
+        } else {
             updateCheckListName(checkListId);
         }
     });
 
-    $('#windowCheckListsEdit'+checkListId).keypress(function(e){
-        if(e.keyCode == 13){
-            if($('#windowCheckListsEdit'+checkListId).val() == ''){
+    $('#windowCheckListsEdit' + checkListId).keypress(function (e) {
+        if (e.keyCode == 13) {
+            if ($('#windowCheckListsEdit' + checkListId).val() == '') {
                 getCardDetail(cardId);
-            }else {
+            } else {
                 updateCheckListName(checkListId);
             }
         }
@@ -352,20 +358,20 @@ const windowCheckListNameEditMode = function (checkListId){
 }
 
 
-const updateCheckListName = function (checkListId){
+const updateCheckListName = function (checkListId) {
 
-    const checkListTitle = $('#windowCheckListsEdit'+checkListId).val();
+    const checkListTitle = $('#windowCheckListsEdit' + checkListId).val();
     const cardId = $('#windowCardIdArea').val();
 
     const data = {
-        checkListTitle:checkListTitle,
+        checkListTitle: checkListTitle,
         delFlag: 'N',
         cardId: cardId
     }
 
     $.ajax({
         type: 'PUT',
-        url: '/api/card/checkList/'+ checkListId,
+        url: '/api/card/checkList/' + checkListId,
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(data)
@@ -374,26 +380,26 @@ const updateCheckListName = function (checkListId){
 
         getCardDetail(cardId);
 
-    }).fail(function (error){
+    }).fail(function (error) {
         alert(JSON.stringify(error));
     });
 
 }
 
-const deleteCheckList = function (checkListId){
+const deleteCheckList = function (checkListId) {
 
-    const checkListTitle = $('#windowCheckListsEdit'+checkListId).val();
+    const checkListTitle = $('#windowCheckListsEdit' + checkListId).val();
     const cardId = $('#windowCardIdArea').val();
 
     const data = {
-        checkListTitle:checkListTitle,
+        checkListTitle: checkListTitle,
         delFlag: 'Y',
         cardId: cardId
     }
 
     $.ajax({
         type: 'PUT',
-        url: '/api/card/checkList/'+ checkListId,
+        url: '/api/card/checkList/' + checkListId,
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(data)
@@ -402,51 +408,50 @@ const deleteCheckList = function (checkListId){
 
         getCardDetail(cardId);
 
-    }).fail(function (error){
+    }).fail(function (error) {
         alert(JSON.stringify(error));
     });
 
 }
 
 
+const checkItemNameEditMode = function (checkItemId) {
 
-const checkItemNameEditMode = function (checkItemId){
-
-    $('#checkItemName'+checkItemId).css("display","none");
-    $('#deleteItemButton'+checkItemId).css("display","none");
-    $('#checkItemNameEdit'+checkItemId).css("display","");
-    $('#checkItemNameEditButton'+checkItemId).css("display","");
+    $('#checkItemName' + checkItemId).css("display", "none");
+    $('#deleteItemButton' + checkItemId).css("display", "none");
+    $('#checkItemNameEdit' + checkItemId).css("display", "");
+    $('#checkItemNameEditButton' + checkItemId).css("display", "");
 
 
     const cardId = $('#windowCardIdArea').val();
-    $('#checkItemNameEdit'+checkItemId).focus();
-    $('#checkItemNameEdit'+checkItemId).on('focusout', function (){
-        if($('#checkItemNameEdit'+checkItemId).val() == ''){
+    $('#checkItemNameEdit' + checkItemId).focus();
+    $('#checkItemNameEdit' + checkItemId).on('focusout', function () {
+        if ($('#checkItemNameEdit' + checkItemId).val() == '') {
             getCardDetail(cardId);
-        }else {
+        } else {
             updateCheckItemName(checkItemId);
         }
     });
 
-    $('#checkItemNameEdit'+checkItemId).keypress(function(e){
-        if(e.keyCode == 13){
-            if($('#checkItemNameEdit'+checkItemId).val() == ''){
+    $('#checkItemNameEdit' + checkItemId).keypress(function (e) {
+        if (e.keyCode == 13) {
+            if ($('#checkItemNameEdit' + checkItemId).val() == '') {
                 getCardDetail(cardId);
-            }else {
+            } else {
                 updateCheckItemName(checkItemId);
             }
         }
     });
 }
 
-const updateCheckItemName = function (itemId){
+const updateCheckItemName = function (itemId) {
 
-    const checked = $('#checkItem'+itemId).is(":checked") ? "Y" : "N";
+    const checked = $('#checkItem' + itemId).is(":checked") ? "Y" : "N";
 
-    const checkItemName = $('#checkItemNameEdit'+itemId).val();
+    const checkItemName = $('#checkItemNameEdit' + itemId).val();
 
     const data = {
-        checkItemName:checkItemName,
+        checkItemName: checkItemName,
         delFlag: 'N',
         checkFlag: checked
     }
@@ -455,7 +460,7 @@ const updateCheckItemName = function (itemId){
 
     $.ajax({
         type: 'PUT',
-        url: '/api/card/checkList/checkItem/'+ itemId,
+        url: '/api/card/checkList/checkItem/' + itemId,
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(data)
@@ -464,20 +469,20 @@ const updateCheckItemName = function (itemId){
 
         getCardDetail(cardId);
 
-    }).fail(function (error){
+    }).fail(function (error) {
         alert(JSON.stringify(error));
     });
 
 }
 
-const deleteCheckItem = function (itemId){
+const deleteCheckItem = function (itemId) {
 
-    const checked = $('#checkItem'+itemId).is(":checked") ? "Y" : "N";
+    const checked = $('#checkItem' + itemId).is(":checked") ? "Y" : "N";
 
-    const checkItemName = $('#checkItemNameEdit'+itemId).val();
+    const checkItemName = $('#checkItemNameEdit' + itemId).val();
 
     const data = {
-        checkItemName:checkItemName,
+        checkItemName: checkItemName,
         delFlag: 'Y',
         checkFlag: checked
     }
@@ -486,7 +491,7 @@ const deleteCheckItem = function (itemId){
 
     $.ajax({
         type: 'PUT',
-        url: '/api/card/checkList/checkItem/'+ itemId,
+        url: '/api/card/checkList/checkItem/' + itemId,
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(data)
@@ -495,21 +500,21 @@ const deleteCheckItem = function (itemId){
 
         getCardDetail(cardId);
 
-    }).fail(function (error){
+    }).fail(function (error) {
         alert(JSON.stringify(error));
     });
 }
 
 
-const addCheckItem = function (checkListId){
+const addCheckItem = function (checkListId) {
 
-    $('#windowCheckItemAddBtn'+checkListId).css("display","none");
+    $('#windowCheckItemAddBtn' + checkListId).css("display", "none");
 
-    const checkItemsViewArea = $('#checkItemsViewArea'+checkListId);
+    const checkItemsViewArea = $('#checkItemsViewArea' + checkListId);
 
     const addCheckItemDiv = document.createElement('div');
     addCheckItemDiv.innerHTML = "<input type='textbox' id='addCheckItemText'>" +
-        "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0' id='labelSaveButton' value='SAVE' style='background-color: #d6d6d6; color: black' onclick='javascript:saveCheckItem("+checkListId+")'>";
+        "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0' id='labelSaveButton' value='SAVE' style='background-color: #d6d6d6; color: black' onclick='javascript:saveCheckItem(" + checkListId + ")'>";
 
     checkItemsViewArea.append(addCheckItemDiv);
 
@@ -517,15 +522,15 @@ const addCheckItem = function (checkListId){
 
     $('#addCheckItemText').focus();
 
-    $('#addCheckItemText').on('focusout', function (){
-        if($('#addCheckItemText').val() == ''){
+    $('#addCheckItemText').on('focusout', function () {
+        if ($('#addCheckItemText').val() == '') {
             getCardDetail(cardId);
         }
     });
 
-    $('#addCheckItemText').keypress(function(e){
-        if(e.keyCode == 13){
-            if($('#addCheckItemText').val() == ''){
+    $('#addCheckItemText').keypress(function (e) {
+        if (e.keyCode == 13) {
+            if ($('#addCheckItemText').val() == '') {
                 getCardDetail(cardId);
             } else {
                 saveCheckItem(checkListId);
@@ -535,7 +540,7 @@ const addCheckItem = function (checkListId){
 
 }
 
-const saveCheckItem = function (checkListId){
+const saveCheckItem = function (checkListId) {
 
     const data = {
         checkListId: checkListId,
@@ -557,13 +562,13 @@ const saveCheckItem = function (checkListId){
 
         getCardDetail(cardId);
 
-    }).fail(function (error){
+    }).fail(function (error) {
         alert(JSON.stringify(error));
     });
 
 }
 
-const addCheckList = function (){
+const addCheckList = function () {
 
     const cardId = $('#windowCardIdArea').val();
 
@@ -582,18 +587,20 @@ const addCheckList = function (){
 
     }).done(function () {
         getCardDetail(cardId);
-    }).fail(function (error){
+    }).fail(function (error) {
         alert(JSON.stringify(error));
     });
 }
 
-const viewEditLabelsArea = function (){
+const viewEditLabelsArea = function () {
 
-    if($('#labelsEditArea').css('display') == 'block'){
-        $('#labelsEditArea').css("display","none");
+    if ($('#labelsEditArea').css('display') == 'block') {
+        $('#labelsEditArea').css("display", "none");
 
         const labelsEditArea = document.getElementById('labelsEditArea');
-        while ( labelsEditArea.hasChildNodes() ) { labelsEditArea.removeChild( labelsEditArea.firstChild ); }
+        while (labelsEditArea.hasChildNodes()) {
+            labelsEditArea.removeChild(labelsEditArea.firstChild);
+        }
 
         return;
     }
@@ -602,34 +609,36 @@ const viewEditLabelsArea = function (){
 
     $.ajax({
         type: 'GET',
-        url: '/api/card/label/'+ cardId,
+        url: '/api/card/label/' + cardId,
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
 
     }).done(function (data) {
-        $('#labelsEditArea').css("display","");
+        $('#labelsEditArea').css("display", "");
 
         const labelsEditArea = document.getElementById('labelsEditArea');
-        while ( labelsEditArea.hasChildNodes() ) { labelsEditArea.removeChild( labelsEditArea.firstChild ); }
+        while (labelsEditArea.hasChildNodes()) {
+            labelsEditArea.removeChild(labelsEditArea.firstChild);
+        }
 
         const cardLabelData = data.result;
 
-        for(var i =0; i < cardLabelData.length; i++){
+        for (var i = 0; i < cardLabelData.length; i++) {
             const windowLabelsEdit = document.createElement('div');
             windowLabelsEdit.className = "row";
 
             const windowLabelsButton = document.createElement('div');
             windowLabelsButton.style.marginRight = "+0.35rem";
 
-            windowLabelsButton.innerHTML = "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0' id='cardLabel"+cardLabelData[i].labelId+"' value='"+cardLabelData[i].labelName+"' style='background-color: "+cardLabelData[i].color+"; color: white' onclick=''>" +
-                "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0' value='UPDATE' style='background-color: #d6d6d6; color: black' onclick='javascript:editLabelMode("+cardLabelData[i].labelId+")'>" +
-                "<input type='hidden' id='labelColorHidden"+cardLabelData[i].labelId+"' value='"+cardLabelData[i].color+"'>";
+            windowLabelsButton.innerHTML = "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0' id='cardLabel" + cardLabelData[i].labelId + "' value='" + cardLabelData[i].labelName + "' style='background-color: " + cardLabelData[i].color + "; color: white' onclick=''>" +
+                "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0' value='UPDATE' style='background-color: #d6d6d6; color: black' onclick='javascript:editLabelMode(" + cardLabelData[i].labelId + ")'>" +
+                "<input type='hidden' id='labelColorHidden" + cardLabelData[i].labelId + "' value='" + cardLabelData[i].color + "'>";
             windowLabelsEdit.append(windowLabelsButton);
 
 
             const labelCheckBoxArea = document.createElement('div');
             const checked = (cardLabelData[i].checkFlag == 'Y') ? 'checked' : '';
-            labelCheckBoxArea.innerHTML = "<input type='checkbox' id='checkCardLabel"+cardLabelData[i].labelId+"' onchange='javascript:updateCardLabel("+cardLabelData[i].labelId+")' "+checked+"/>";
+            labelCheckBoxArea.innerHTML = "<input type='checkbox' id='checkCardLabel" + cardLabelData[i].labelId + "' onchange='javascript:updateCardLabel(" + cardLabelData[i].labelId + ")' " + checked + "/>";
             windowLabelsEdit.append(labelCheckBoxArea);
 
             labelsEditArea.append(windowLabelsEdit);
@@ -641,16 +650,16 @@ const viewEditLabelsArea = function (){
         windowCreateLabelsButton.innerHTML = "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0' id='createLabelButton' value='Create new Label' style='background-color: #d6d6d6; color: black' onclick='javascript:createLabelMode()'>";
         labelsEditArea.append(windowCreateLabelsButton);
 
-    }).fail(function (error){
+    }).fail(function (error) {
         alert(JSON.stringify(error));
     });
 
 }
 
-const updateCardLabel = function (labelId){
+const updateCardLabel = function (labelId) {
 
     const cardId = $('#windowCardIdArea').val();
-    const checkedValue = $('#checkCardLabel'+labelId).is(":checked");
+    const checkedValue = $('#checkCardLabel' + labelId).is(":checked");
 
     const data = {
         label_id: labelId,
@@ -668,16 +677,18 @@ const updateCardLabel = function (labelId){
     }).done(function () {
         getCardDetail(cardId);
         viewEditLabelsArea();
-    }).fail(function (error){
+    }).fail(function (error) {
         alert(JSON.stringify(error));
     });
 
 }
 
-const createLabelMode = function (){
+const createLabelMode = function () {
 
     const labelsEditArea = document.getElementById('labelsEditArea');
-    while ( labelsEditArea.hasChildNodes() ) { labelsEditArea.removeChild( labelsEditArea.firstChild ); }
+    while (labelsEditArea.hasChildNodes()) {
+        labelsEditArea.removeChild(labelsEditArea.firstChild);
+    }
 
     const labelNameInput = document.createElement('div');
     labelNameInput.innerHTML = "<input type='text' id='windowLabelNameInput'>";
@@ -693,7 +704,7 @@ const createLabelMode = function (){
     labelsEditArea.append(labelSaveButton);
 }
 
-const saveLabel = function (){
+const saveLabel = function () {
     const cardId = $('#windowCardIdArea').val();
 
     const labelName = $('#windowLabelNameInput').val();
@@ -715,34 +726,36 @@ const saveLabel = function (){
 
         getCardDetail(cardId);
         viewEditLabelsArea();
-    }).fail(function (error){
+    }).fail(function (error) {
         alert(JSON.stringify(error));
     });
 }
 
-const editLabelMode = function (labelId){
+const editLabelMode = function (labelId) {
 
-    const labelName = $('#cardLabel'+labelId).val();
-    const labelColor = $('#labelColorHidden'+labelId).val();
+    const labelName = $('#cardLabel' + labelId).val();
+    const labelColor = $('#labelColorHidden' + labelId).val();
 
     const labelsEditArea = document.getElementById('labelsEditArea');
-    while ( labelsEditArea.hasChildNodes() ) { labelsEditArea.removeChild( labelsEditArea.firstChild ); }
+    while (labelsEditArea.hasChildNodes()) {
+        labelsEditArea.removeChild(labelsEditArea.firstChild);
+    }
 
     const labelNameInput = document.createElement('div');
-    labelNameInput.innerHTML = "<input type='text' id='windowUpdateLabelNameInput' value='"+labelName+"'>";
+    labelNameInput.innerHTML = "<input type='text' id='windowUpdateLabelNameInput' value='" + labelName + "'>";
 
     const labelColorInput = document.createElement('div');
-    labelColorInput.innerHTML = "<input type='text' id='windowUpdateLabelColorInput' value='"+labelColor+"'>";
+    labelColorInput.innerHTML = "<input type='text' id='windowUpdateLabelColorInput' value='" + labelColor + "'>";
 
     const labelSaveButton = document.createElement('div');
-    labelSaveButton.innerHTML = "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0' id='labelUpdateButton' value='UPDATE' style='background-color: #d6d6d6; color: black' onclick='javascript:updateLabel("+labelId+")'>";
+    labelSaveButton.innerHTML = "<input type='button' class='btn btn-link btn-sm order-1 order-lg-0' id='labelUpdateButton' value='UPDATE' style='background-color: #d6d6d6; color: black' onclick='javascript:updateLabel(" + labelId + ")'>";
 
     labelsEditArea.append(labelNameInput);
     labelsEditArea.append(labelColorInput);
     labelsEditArea.append(labelSaveButton);
 }
 
-const updateLabel = function (labelId){
+const updateLabel = function (labelId) {
 
     const cardId = $('#windowCardIdArea').val();
 
@@ -757,7 +770,7 @@ const updateLabel = function (labelId){
 
     $.ajax({
         type: 'PUT',
-        url: '/api/card/label/'+labelId,
+        url: '/api/card/label/' + labelId,
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(data)
@@ -766,29 +779,29 @@ const updateLabel = function (labelId){
 
         getCardDetail(cardId);
         viewEditLabelsArea();
-    }).fail(function (error){
+    }).fail(function (error) {
         alert(JSON.stringify(error));
     });
 }
 
-const addTopicMode = function (){
+const addTopicMode = function () {
 
     $('#addTopicButton').css('display', 'none');
     $('#addTopicNameInput').css('display', '');
     $('#saveTopicButton').css('display', '');
 
     $('#addTopicNameInput').focus();
-    $('#addTopicNameInput').on('focusout', function (){
-        if($('#addTopicNameInput').val() == ''){
+    $('#addTopicNameInput').on('focusout', function () {
+        if ($('#addTopicNameInput').val() == '') {
             location.reload();
         }
     });
 
-    $('#addTopicNameInput').keypress(function(e){
-        if(e.keyCode == 13){
-            if($('#addTopicNameInput').val() == ''){
+    $('#addTopicNameInput').keypress(function (e) {
+        if (e.keyCode == 13) {
+            if ($('#addTopicNameInput').val() == '') {
                 location.reload();
-            }else {
+            } else {
                 saveTopic();
             }
         }
@@ -796,11 +809,11 @@ const addTopicMode = function (){
 
 }
 
-const saveTopic = function (){
+const saveTopic = function () {
 
     const topicName = $('#addTopicNameInput').val();
 
-    if(topicName == ''){
+    if (topicName == '') {
         location.reload();
         return;
     }
@@ -820,86 +833,86 @@ const saveTopic = function (){
 
     }).done(function () {
         location.reload();
-    }).fail(function (error){
+    }).fail(function (error) {
         alert(JSON.stringify(error));
     });
 
 }
 
-const changeTopicNameMode = function (topicId){
-    $('#topicView'+topicId).css('display','none');
-    $('#editTopicNameInput'+topicId).css('display','');
-    $('#editTopicButton'+topicId).css('display','');
+const changeTopicNameMode = function (topicId) {
+    $('#topicView' + topicId).css('display', 'none');
+    $('#editTopicNameInput' + topicId).css('display', '');
+    $('#editTopicButton' + topicId).css('display', '');
 
-    $('#editTopicNameInput'+topicId).focus();
-    $('#editTopicNameInput'+topicId).on('focusout', function (){
-        if($('#editTopicNameInput'+topicId).val() == ''){
+    $('#editTopicNameInput' + topicId).focus();
+    $('#editTopicNameInput' + topicId).on('focusout', function () {
+        if ($('#editTopicNameInput' + topicId).val() == '') {
             location.reload();
-        }else {
+        } else {
             editTopicName(topicId);
         }
     });
 
-    $('#editTopicNameInput'+topicId).keypress(function(e){
-        if(e.keyCode == 13){
-            if($('#editTopicNameInput'+topicId).val() == ''){
+    $('#editTopicNameInput' + topicId).keypress(function (e) {
+        if (e.keyCode == 13) {
+            if ($('#editTopicNameInput' + topicId).val() == '') {
                 location.reload();
-            }else {
+            } else {
                 editTopicName(topicId);
             }
         }
     });
 }
 
-const editTopicName = function (topicId){
+const editTopicName = function (topicId) {
 
-    const topicName = $('#editTopicNameInput'+topicId).val();
+    const topicName = $('#editTopicNameInput' + topicId).val();
 
-    if(topicName == ''){
+    if (topicName == '') {
         location.reload();
         return;
     }
 
     const data = {
-        id:topicId,
+        id: topicId,
         topicName: topicName,
         delFlag: 'N'
     }
 
     $.ajax({
         type: 'PUT',
-        url: '/api/topic/'+topicId,
+        url: '/api/topic/' + topicId,
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(data)
 
     }).done(function () {
         location.reload();
-    }).fail(function (error){
+    }).fail(function (error) {
         alert(JSON.stringify(error));
     });
 }
 
-const addCardMode = function (topicId){
-    $('#addCardButton'+topicId).css('display','none');
-    $('#addCardInput'+topicId).css('display','');
-    $('#saveCardButton'+topicId).css('display','');
+const addCardMode = function (topicId) {
+    $('#addCardButton' + topicId).css('display', 'none');
+    $('#addCardInput' + topicId).css('display', '');
+    $('#saveCardButton' + topicId).css('display', '');
 
-    $('#addCardInput'+topicId).focus();
-    $('#addCardInput'+topicId).on('focusout', function (){
-        if($('#addCardInput'+topicId).val() == ''){
-            $('#addCardButton'+topicId).css('display','');
-            $('#addCardInput'+topicId).css('display','none');
-            $('#saveCardButton'+topicId).css('display','none');
+    $('#addCardInput' + topicId).focus();
+    $('#addCardInput' + topicId).on('focusout', function () {
+        if ($('#addCardInput' + topicId).val() == '') {
+            $('#addCardButton' + topicId).css('display', '');
+            $('#addCardInput' + topicId).css('display', 'none');
+            $('#saveCardButton' + topicId).css('display', 'none');
         }
     });
 
-    $('#addCardInput'+topicId).keypress(function(e){
-        if(e.keyCode == 13){
-            if($('#addCardInput'+topicId).val() == ''){
-                $('#addCardButton'+topicId).css('display','');
-                $('#addCardInput'+topicId).css('display','none');
-                $('#saveCardButton'+topicId).css('display','none');
+    $('#addCardInput' + topicId).keypress(function (e) {
+        if (e.keyCode == 13) {
+            if ($('#addCardInput' + topicId).val() == '') {
+                $('#addCardButton' + topicId).css('display', '');
+                $('#addCardInput' + topicId).css('display', 'none');
+                $('#saveCardButton' + topicId).css('display', 'none');
             } else {
                 saveCard(topicId);
             }
@@ -908,9 +921,9 @@ const addCardMode = function (topicId){
 
 }
 
-const saveCard = function (topicId){
+const saveCard = function (topicId) {
 
-    const cardName = $('#addCardInput'+topicId).val();
+    const cardName = $('#addCardInput' + topicId).val();
     const data = {
         topicId: topicId,
         cardName: cardName
@@ -925,32 +938,32 @@ const saveCard = function (topicId){
 
     }).done(function () {
         location.reload();
-    }).fail(function (error){
+    }).fail(function (error) {
         alert(JSON.stringify(error));
     });
 }
 
 const deleteTopic = function (topicId) {
 
-    if(confirm('정말로 삭제하시겠습니까?')){
-        const topicName = $('#topicView'+topicId).val();
+    if (confirm('정말로 삭제하시겠습니까?')) {
+        const topicName = $('#topicView' + topicId).val();
 
         const data = {
-            id:topicId,
+            id: topicId,
             topicName: topicName,
             delFlag: 'Y'
         }
 
         $.ajax({
             type: 'PUT',
-            url: '/api/topic/'+topicId,
+            url: '/api/topic/' + topicId,
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data)
 
         }).done(function () {
             location.reload();
-        }).fail(function (error){
+        }).fail(function (error) {
             alert(JSON.stringify(error));
         });
 

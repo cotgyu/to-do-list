@@ -20,14 +20,14 @@ public class BoardResponseDto {
     private List<TopicResponseDto> topics = new ArrayList<>();
     private UserResponseDto user;
 
-    public BoardResponseDto(Board board){
+    public BoardResponseDto(Board board) {
         id = board.getId();
         boardName = board.getBoardName();
         delFlag = board.getDelFlag();
         user = new UserResponseDto(board.getUser());
     }
 
-    public BoardResponseDto(Board board, List<Topic> topicList){
+    public BoardResponseDto(Board board, List<Topic> topicList) {
         id = board.getId();
         boardName = board.getBoardName();
         delFlag = board.getDelFlag();

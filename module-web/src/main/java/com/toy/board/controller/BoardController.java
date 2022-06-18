@@ -22,11 +22,11 @@ public class BoardController {
     private final BoardService boardService;
 
     @RequestMapping("/{boardId}")
-    public String allBoardContents(@PathVariable Long boardId, Model model, @LoginUser SessionUser user){
+    public String allBoardContents(@PathVariable Long boardId, Model model, @LoginUser SessionUser user) {
 
         BoardResponseDto board = boardService.findAllContents(boardId);
 
-        if(board.getUser().getId() != user.getId()){
+        if (board.getUser().getId() != user.getId()) {
             return "dist/401";
         }
         model.addAttribute("board", board);
@@ -35,7 +35,6 @@ public class BoardController {
         model.addAttribute("topics", topics);
 
         model.addAttribute("user", user);
-
 
 
         return "indexPage";

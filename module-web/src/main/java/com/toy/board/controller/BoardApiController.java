@@ -11,14 +11,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-
-import java.net.URI;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
@@ -37,7 +34,7 @@ public class BoardApiController {
 
         boardValidator.validate(boardRequestDto, errors);
 
-        if(errors.hasErrors()){
+        if (errors.hasErrors()) {
             log.debug("잘못된 요청입니다. error: " + errors.getFieldError());
             return ResponseEntity.badRequest().body(CollectionModel.of(errors.getAllErrors()));
         }
@@ -60,11 +57,11 @@ public class BoardApiController {
     }
 
     @PutMapping("/{boardId}")
-    public ResponseEntity updateBoard(@PathVariable Long boardId, @RequestBody BoardRequestDto boardRequestDto, @LoginUser SessionUser user, Errors errors){
+    public ResponseEntity updateBoard(@PathVariable Long boardId, @RequestBody BoardRequestDto boardRequestDto, @LoginUser SessionUser user, Errors errors) {
 
         boardValidator.validate(boardRequestDto, errors);
 
-        if(errors.hasErrors()){
+        if (errors.hasErrors()) {
             log.debug("잘못된 요청입니다. error: " + errors.getFieldError());
             return ResponseEntity.badRequest().body(CollectionModel.of(errors.getAllErrors()));
         }
@@ -72,7 +69,7 @@ public class BoardApiController {
         Long updateBoardId = boardService.updateBoard(boardId, boardRequestDto, user);
         boardRequestDto.setId(updateBoardId);
 
-        if(updateBoardId == -1){
+        if (updateBoardId == -1) {
             log.debug("해당 Board 수정 권한이 없습니다.");
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         }

@@ -24,12 +24,10 @@ import javax.sql.DataSource;
 public class UserBoardStatisticsJobConfiguration {
 
     public static final String JOB_NAME = "userBoardStatsBatch";
-
+    private static final int CHUNK_SIZE = 100;
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final DataSource dataSource;
-
-    private static final int chunkSize = 100;
 
     @Bean
     public Job userBoardStatsWriterJob() {
@@ -41,7 +39,7 @@ public class UserBoardStatisticsJobConfiguration {
     @Bean
     public Step userBoardStatsWriterStep() {
         return stepBuilderFactory.get("userBoardStatsWriterStep")
-                .<UserBoardStats, UserBoardStats>chunk(chunkSize)
+                .<UserBoardStats, UserBoardStats>chunk(CHUNK_SIZE)
                 .reader(userBoardStatsWriterReader())
                 .writer(userBoardStatsWriter())
                 .build();
@@ -51,7 +49,7 @@ public class UserBoardStatisticsJobConfiguration {
     @Bean
     public JdbcCursorItemReader<UserBoardStats> userBoardStatsWriterReader() {
         return new JdbcCursorItemReaderBuilder<UserBoardStats>()
-                .fetchSize(chunkSize)
+                .fetchSize(CHUNK_SIZE)
                 .dataSource(dataSource)
                 .rowMapper(new BeanPropertyRowMapper<>(UserBoardStats.class))
                 .sql("select count(b.board_id) as count, u.user_id as user_id, u.name as name \n" +

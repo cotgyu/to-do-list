@@ -33,7 +33,7 @@ public class TopicApiController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity findTopic(@PathVariable Long id){
+    public ResponseEntity findTopic(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
 
         TopicResponseDto topic = topicService.findTopic(id);
@@ -45,7 +45,7 @@ public class TopicApiController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity updateTopic(@PathVariable Long id, @RequestBody TopicRequestDto topicRequestDto){
+    public ResponseEntity updateTopic(@PathVariable Long id, @RequestBody TopicRequestDto topicRequestDto) {
         Map<String, Object> resultMap = new HashMap<>();
 
         topicService.update(id, topicRequestDto);

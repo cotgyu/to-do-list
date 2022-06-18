@@ -2,7 +2,6 @@ package com.toy.user.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.toy.admin.dto.MonthlyUserRegisterQueryDto;
-
 import com.toy.admin.dto.QMonthlyUserRegisterQueryDto;
 import com.toy.admin.dto.QUserBoardStatsQueryDto;
 import com.toy.admin.dto.UserBoardStatsQueryDto;
@@ -23,27 +22,22 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 
     @Override
     public List<MonthlyUserRegisterQueryDto> getMonthlyUserRegisterStatistics(int year) {
-
-        List<MonthlyUserRegisterQueryDto> results =
-                queryFactory
-                        .select(
-                                new QMonthlyUserRegisterQueryDto(
-                                        user.createdDate.yearMonth().as("month"),
-                                        user.count().as("count")
-                                )
+        return queryFactory
+                .select(
+                        new QMonthlyUserRegisterQueryDto(
+                                user.createdDate.yearMonth().as("month"),
+                                user.count().as("count")
                         )
-                        .from(user)
-                        .where(user.createdDate.year().eq(year))
-                        .groupBy(user.createdDate.yearMonth())
-                        .fetch();
-
-        return results;
+                )
+                .from(user)
+                .where(user.createdDate.year().eq(year))
+                .groupBy(user.createdDate.yearMonth())
+                .fetch();
     }
 
     @Override
-    public List<UserBoardStatsQueryDto> getUserBoardStatistics(){
-
-        List<UserBoardStatsQueryDto> results = queryFactory
+    public List<UserBoardStatsQueryDto> getUserBoardStatistics() {
+        return queryFactory
                 .select(
                         new QUserBoardStatsQueryDto(
                                 board.id.count(),
@@ -58,8 +52,5 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                 .orderBy(board.id.count().desc())
                 .limit(10)
                 .fetch();
-
-        return results;
     }
-
 }

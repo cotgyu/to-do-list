@@ -35,7 +35,7 @@ public class CardApiController {
 
         cardValidator.validate(cardRequestDto, errors);
 
-        if(errors.hasErrors()){
+        if (errors.hasErrors()) {
             log.debug("잘못된 요청입니다. error: " + errors.getFieldError());
             return ResponseEntity.badRequest().body(CollectionModel.of(errors.getAllErrors()));
         }
@@ -56,7 +56,7 @@ public class CardApiController {
     }
 
     @GetMapping("/{cardId}")
-    public ResponseEntity findCard(@PathVariable Long cardId){
+    public ResponseEntity findCard(@PathVariable Long cardId) {
         Map<String, Object> resultMap = new HashMap<>();
 
         CardResponseDto card = cardService.findCard(cardId);
@@ -68,11 +68,11 @@ public class CardApiController {
     }
 
     @PutMapping("/{cardId}")
-    public ResponseEntity updateCard(@PathVariable Long cardId, @RequestBody CardRequestDto cardRequestDto, Errors errors){
+    public ResponseEntity updateCard(@PathVariable Long cardId, @RequestBody CardRequestDto cardRequestDto, Errors errors) {
 
         cardValidator.validate(cardRequestDto, errors);
 
-        if(errors.hasErrors()){
+        if (errors.hasErrors()) {
             log.debug("잘못된 요청입니다. error: " + errors.getFieldError());
             return ResponseEntity.badRequest().body(CollectionModel.of(errors.getAllErrors()));
         }
@@ -93,12 +93,12 @@ public class CardApiController {
     }
 
     @PostMapping("/label")
-    public ResponseEntity saveLabel(@RequestBody LabelRequestDto labelRequestDto){
+    public ResponseEntity saveLabel(@RequestBody LabelRequestDto labelRequestDto) {
         Map<String, Object> resultMap = new HashMap<>();
 
-        Long label_id = cardService.saveLabel(labelRequestDto);
+        Long labelId = cardService.saveLabel(labelRequestDto);
 
-        resultMap.put("result", label_id);
+        resultMap.put("result", labelId);
         resultMap.put("resultMessage", "success");
 
 
@@ -106,7 +106,7 @@ public class CardApiController {
     }
 
     @GetMapping("/label")
-    public ResponseEntity findAllLabels(){
+    public ResponseEntity findAllLabels() {
         Map<String, Object> resultMap = new HashMap<>();
 
         List<LabelResponseDto> allLabels = cardService.findAllLabels();
@@ -119,7 +119,7 @@ public class CardApiController {
     }
 
     @GetMapping("/label/{cardId}")
-    public ResponseEntity findCardLabels(@PathVariable Long cardId){
+    public ResponseEntity findCardLabels(@PathVariable Long cardId) {
         Map<String, Object> resultMap = new HashMap<>();
 
         List<CardLabelQueryDto> cardLabels = cardService.findCardLabels(cardId);
@@ -132,7 +132,7 @@ public class CardApiController {
     }
 
     @PutMapping("/label/cardLabel")
-    public ResponseEntity updateCardLabels(@RequestBody CardLabelRequestDto cardLabelRequestDto){
+    public ResponseEntity updateCardLabels(@RequestBody CardLabelRequestDto cardLabelRequestDto) {
         Map<String, Object> resultMap = new HashMap<>();
 
         cardService.updateCardLabel(cardLabelRequestDto);
@@ -144,7 +144,7 @@ public class CardApiController {
     }
 
     @PutMapping("/label/{labelId}")
-    public ResponseEntity updateLabel(@PathVariable Long labelId, @RequestBody LabelRequestDto labelRequestDto){
+    public ResponseEntity updateLabel(@PathVariable Long labelId, @RequestBody LabelRequestDto labelRequestDto) {
         Map<String, Object> resultMap = new HashMap<>();
 
         cardService.updateLabel(labelId, labelRequestDto);
@@ -158,12 +158,12 @@ public class CardApiController {
 
 
     @PostMapping("/label/register")
-    public ResponseEntity registerLabel(@RequestBody CardLabelRequestDto cardLabelRequestDto){
+    public ResponseEntity registerLabel(@RequestBody CardLabelRequestDto cardLabelRequestDto) {
         Map<String, Object> resultMap = new HashMap<>();
 
-        Long label_id = cardService.registerLabel(cardLabelRequestDto);
+        Long labelId = cardService.registerLabel(cardLabelRequestDto);
 
-        resultMap.put("result", label_id);
+        resultMap.put("result", labelId);
         resultMap.put("resultMessage", "success");
 
 
@@ -171,19 +171,19 @@ public class CardApiController {
     }
 
     @PostMapping("/checkList")
-    public ResponseEntity addCheckList(@RequestBody CheckListRequestDto checkListRequestDto){
+    public ResponseEntity addCheckList(@RequestBody CheckListRequestDto checkListRequestDto) {
         Map<String, Object> resultMap = new HashMap<>();
 
-        Long checkList_id = cardService.saveCheckList(checkListRequestDto);
+        Long checkListId = cardService.saveCheckList(checkListRequestDto);
 
-        resultMap.put("result", checkList_id);
+        resultMap.put("result", checkListId);
         resultMap.put("resultMessage", "success");
 
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
     @PutMapping("/checkList/{checkListId}")
-    public ResponseEntity updateCheckList(@PathVariable Long checkListId, @RequestBody CheckListRequestDto checkListRequestDto){
+    public ResponseEntity updateCheckList(@PathVariable Long checkListId, @RequestBody CheckListRequestDto checkListRequestDto) {
         Map<String, Object> resultMap = new HashMap<>();
 
         cardService.updateCheckList(checkListId, checkListRequestDto);
@@ -195,7 +195,7 @@ public class CardApiController {
     }
 
     @PostMapping("/checkList/checkItem")
-    public ResponseEntity addCheckItem(@RequestBody CheckItemRequestDto checkItemRequestDto){
+    public ResponseEntity addCheckItem(@RequestBody CheckItemRequestDto checkItemRequestDto) {
         Map<String, Object> resultMap = new HashMap<>();
 
         Long checkItemId = cardService.addCheckItem(checkItemRequestDto);
@@ -208,7 +208,7 @@ public class CardApiController {
     }
 
     @PutMapping("/checkList/checkItem/{checkItemId}")
-    public ResponseEntity updateCheckItem(@PathVariable Long checkItemId, @RequestBody CheckItemRequestDto checkItemRequestDto){
+    public ResponseEntity updateCheckItem(@PathVariable Long checkItemId, @RequestBody CheckItemRequestDto checkItemRequestDto) {
         Map<String, Object> resultMap = new HashMap<>();
 
         cardService.updateCheckItem(checkItemId, checkItemRequestDto);
@@ -219,7 +219,6 @@ public class CardApiController {
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
 
     }
-
 
 
 }

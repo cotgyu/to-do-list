@@ -1,7 +1,6 @@
 package com.toy.board.dto;
 
 
-
 import com.toy.board.domain.CheckList;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -15,17 +14,17 @@ public class CheckListRequestDto {
     Long cardId;
     String delFlag;
 
-    public CheckListRequestDto(String checkListTitle, Long cardId){
+    public CheckListRequestDto(String checkListTitle, Long cardId) {
         this.checkListTitle = checkListTitle;
         this.cardId = cardId;
     }
 
-    public CheckListRequestDto(String checkListTitle, String delFlag){
+    public CheckListRequestDto(String checkListTitle, String delFlag) {
         this.checkListTitle = checkListTitle;
         this.delFlag = delFlag;
     }
 
-    public CheckList toEntity(){
+    public CheckList toEntity() {
         return CheckList
                 .builder()
                 .checkListName(checkListTitle)

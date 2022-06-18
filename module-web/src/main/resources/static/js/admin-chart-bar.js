@@ -10,67 +10,67 @@ const userNameData = [];
 
 
 var barChartMain = {
-  init: function () {
+    init: function () {
 
-    $.ajax({
-      type: 'GET',
-      url: '/api/admin/userBoardStatistics/',
-      dataType: 'json',
-      contentType: 'application/json; charset=utf-8'
+        $.ajax({
+            type: 'GET',
+            url: '/api/admin/userBoardStatistics/',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8'
 
-    }).done(function (data) {
+        }).done(function (data) {
 
-      for(var i=0; i<= data.result.length; i++){
-        countData[i] = data.result[i].count;
-        userNameData[i] = data.result[i].name;
-      }
+            for (var i = 0; i <= data.result.length; i++) {
+                countData[i] = data.result[i].count;
+                userNameData[i] = data.result[i].name;
+            }
 
-    }).fail(function (error){
-      alert(JSON.stringify(error));
-    });
+        }).fail(function (error) {
+            alert(JSON.stringify(error));
+        });
 
-  }
+    }
 }
 
 barChartMain.init();
 
 var myBarChart = new Chart(ctx, {
-  type: 'bar',
-  data: {
-    labels: userNameData,
-    datasets: [{
-      label: "Boards",
-      backgroundColor: "rgba(2,117,216,1)",
-      borderColor: "rgba(2,117,216,1)",
-      data: countData,
-    }],
-  },
-  options: {
-    scales: {
-      xAxes: [{
-        time: {
-          unit: 'month'
-        },
-        gridLines: {
-          display: false
-        },
-        ticks: {
-          maxTicksLimit: 6
-        }
-      }],
-      yAxes: [{
-        ticks: {
-          min: 0,
-          max: 100,
-          maxTicksLimit: 5
-        },
-        gridLines: {
-          display: true
-        }
-      }],
+    type: 'bar',
+    data: {
+        labels: userNameData,
+        datasets: [{
+            label: "Boards",
+            backgroundColor: "rgba(2,117,216,1)",
+            borderColor: "rgba(2,117,216,1)",
+            data: countData,
+        }],
     },
-    legend: {
-      display: false
+    options: {
+        scales: {
+            xAxes: [{
+                time: {
+                    unit: 'month'
+                },
+                gridLines: {
+                    display: false
+                },
+                ticks: {
+                    maxTicksLimit: 6
+                }
+            }],
+            yAxes: [{
+                ticks: {
+                    min: 0,
+                    max: 100,
+                    maxTicksLimit: 5
+                },
+                gridLines: {
+                    display: true
+                }
+            }],
+        },
+        legend: {
+            display: false
+        }
     }
-  }
 });

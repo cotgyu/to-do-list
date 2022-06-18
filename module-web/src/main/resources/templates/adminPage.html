@@ -1,158 +1,177 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main">
+<html layout:decorator="layout/main" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <title>관리자 페이지</title>
-        <link href="/css/styles.css" rel="stylesheet" />
-        <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
-    </head>
-    <body class="sb-nav-fixed">
-        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-            <a class="navbar-brand" href="/admin/index">관리자 페이지</a>
-            <!-- Navbar Search-->
-            <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-                <div class="input-group">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+    <title>관리자 페이지</title>
+    <link href="/css/styles.css" rel="stylesheet"/>
+    <link crossorigin="anonymous" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css"
+          rel="stylesheet"/>
+    <script crossorigin="anonymous"
+            src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js"></script>
+</head>
+<body class="sb-nav-fixed">
+<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+    <a class="navbar-brand" href="/admin/index">관리자 페이지</a>
+    <!-- Navbar Search-->
+    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+        <div class="input-group">
 
-                </div>
-            </form>
-            <!-- Navbar-->
-            <ul class="navbar-nav ml-auto ml-md-0">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                        <a class="dropdown-item" href="#">Settings</a>
-                        <a class="dropdown-item" href="#">Activity Log</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/logout">Logout</a>
-                    </div>
-                </li>
-            </ul>
-        </nav>
-        <div id="layoutSidenav">
-
-            <div id="layoutSidenav_content">
-                <main>
-                    <div class="container-fluid">
-
-                        <div class="card mb-4" style="margin-top: 20px">
-                            <div class="card-header">
-                                <i class="fas fa-table mr-1"></i>
-                                사용자 관리
-                            </div>
-                            <div class="card-body" style="margin-top: 10px">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                        <thead>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>E-Mail</th>
-                                                <th>Picture</th>
-                                                <th>Created date</th>
-                                                <th>Modified date</th>
-                                                <th>Role</th>
-                                                <th>Del-Flag</th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        <th:block th:if="not ${#lists.isEmpty(allUserInfo)}">
-                                            <tr th:each="user: ${allUserInfo}" style="font-size: 12px">
-                                                <td>
-                                                    <h7 th:text="${user.getName()}" th:id="|userName${user.getId()}|"></h7>
-                                                    <input type="text" th:id="|editUserNameInput${user.getId()}|" style="display: none" th:value="${user.getName()}">
-                                                </td>
-                                                <td>
-                                                    <h7 th:text="${user.getEmail()}" th:id="|userEmail${user.getId()}|"></h7>
-                                                    <input type="text" th:id="|editUserEmailInput${user.getId()}|" style="display: none" th:value="${user.getEmail()}">
-                                                </td>
-                                                <td>
-                                                    <h7 th:text="${user.getPicture()}" th:id="|userPicture${user.getId()}|"></h7>
-                                                    <input type="text" th:id="|editUserPictureInput${user.getId()}|" style="display: none; width: 450px" th:value="${user.getPicture()}">
-                                                </td>
-                                                <td th:text="${user.getCreatedDate()}"></td>
-                                                <td th:text="${user.getModifiedDate()}"></td>
-                                                <td>
-                                                    <h7 th:text="${user.getRole()}" th:id="|userRole${user.getId()}|"></h7>
-                                                    <input type="hidden" th:id="|userRoleValue${user.getId()}|" th:value="${user.getRole()}">
-                                                    <select th:id="|editUserRoleInput${user.getId()}|" style="display: none;">
-                                                        <option value="ADMIN">ADMIN</option>
-                                                        <option value="USER">USER</option>
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <h7 th:text="${user.getDelFlag()}" th:id="|userDelFlag${user.getId()}|"></h7>
-                                                    <input type="hidden" th:id="|userDelFlagValue${user.getId()}|" th:value="${user.getDelFlag()}">
-                                                    <select th:id="|editUserDelFlagInput${user.getId()}|" style="display: none;">
-                                                        <option value="Y">Y</option>
-                                                        <option value="N">N</option>
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <input type='button' class='btn btn-link btn-sm order-1 order-lg-0' th:id="|userUpdateModeButton${user.getId()}|" value='수정' style='background-color: #d6d6d6; color: black' th:onclick="|javascript:updateUserMode('${user.getId()}')|">
-                                                    <input type='button' class='btn btn-link btn-sm order-1 order-lg-0' th:id="|userUpdateButton${user.getId()}|" value='저장' style='display: none; background-color: #d6d6d6; color: black' th:onclick="|javascript:updateUser('${user.getId()}')|">
-                                                </td>
-                                            </tr>
-                                        </th:block>
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xl-6">
-                                <div class="card mb-4">
-                                    <div class="card-header">
-                                        <i class="fas fa-chart-area mr-1"></i>
-                                        사용자별 가입 통계
-                                    </div>
-                                    <div class="card-body" style="margin-top: 5px">
-                                        <canvas id="monthlyUserRegisterChart" width="100%" height="40"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-xl-6">
-                                <div class="card mb-4">
-                                    <div class="card-header">
-                                        <i class="fas fa-chart-bar mr-1"></i>
-                                        사용자별 Board 사용량 통계
-                                    </div>
-                                    <div class="card-body" style="margin-top: 5px">
-                                        <canvas id="userBoardStatsChart" width="100%" height="40"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </main>
-                <footer class="py-4 bg-light mt-auto">
-                    <div class="container-fluid">
-                        <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2020</div>
-                            <div>
-                                <a href="#">Privacy Policy</a>
-                                &middot;
-                                <a href="#">Terms &amp; Conditions</a>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
-            </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.5.1.js" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="/js/scripts.js"></script>
-        <script src="/js/admin.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        <script src="/js/admin-chart-line.js"></script>
-        <script src="/js/admin-chart-bar.js"></script>
-        <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
-        <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
-        <script src="/assets/demo/datatables-demo.js"></script>
-    </body>
+    </form>
+    <!-- Navbar-->
+    <ul class="navbar-nav ml-auto ml-md-0">
+        <li class="nav-item dropdown">
+            <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"
+               id="userDropdown" role="button"><i class="fas fa-user fa-fw"></i></a>
+            <div aria-labelledby="userDropdown" class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" href="#">Settings</a>
+                <a class="dropdown-item" href="#">Activity Log</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/logout">Logout</a>
+            </div>
+        </li>
+    </ul>
+</nav>
+<div id="layoutSidenav">
+
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid">
+
+                <div class="card mb-4" style="margin-top: 20px">
+                    <div class="card-header">
+                        <i class="fas fa-table mr-1"></i>
+                        사용자 관리
+                    </div>
+                    <div class="card-body" style="margin-top: 10px">
+                        <div class="table-responsive">
+                            <table cellspacing="0" class="table table-bordered" id="dataTable" width="100%">
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>E-Mail</th>
+                                    <th>Picture</th>
+                                    <th>Created date</th>
+                                    <th>Modified date</th>
+                                    <th>Role</th>
+                                    <th>Del-Flag</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <th:block th:if="not ${#lists.isEmpty(allUserInfo)}">
+                                    <tr style="font-size: 12px" th:each="user: ${allUserInfo}">
+                                        <td>
+                                            <h7 th:id="|userName${user.getId()}|" th:text="${user.getName()}"></h7>
+                                            <input style="display: none" th:id="|editUserNameInput${user.getId()}|"
+                                                   th:value="${user.getName()}" type="text">
+                                        </td>
+                                        <td>
+                                            <h7 th:id="|userEmail${user.getId()}|" th:text="${user.getEmail()}"></h7>
+                                            <input style="display: none" th:id="|editUserEmailInput${user.getId()}|"
+                                                   th:value="${user.getEmail()}" type="text">
+                                        </td>
+                                        <td>
+                                            <h7 th:id="|userPicture${user.getId()}|"
+                                                th:text="${user.getPicture()}"></h7>
+                                            <input style="display: none; width: 450px" th:id="|editUserPictureInput${user.getId()}|"
+                                                   th:value="${user.getPicture()}" type="text">
+                                        </td>
+                                        <td th:text="${user.getCreatedDate()}"></td>
+                                        <td th:text="${user.getModifiedDate()}"></td>
+                                        <td>
+                                            <h7 th:id="|userRole${user.getId()}|" th:text="${user.getRole()}"></h7>
+                                            <input th:id="|userRoleValue${user.getId()}|" th:value="${user.getRole()}"
+                                                   type="hidden">
+                                            <select style="display: none;" th:id="|editUserRoleInput${user.getId()}|">
+                                                <option value="ADMIN">ADMIN</option>
+                                                <option value="USER">USER</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <h7 th:id="|userDelFlag${user.getId()}|"
+                                                th:text="${user.getDelFlag()}"></h7>
+                                            <input th:id="|userDelFlagValue${user.getId()}|" th:value="${user.getDelFlag()}"
+                                                   type="hidden">
+                                            <select style="display: none;"
+                                                    th:id="|editUserDelFlagInput${user.getId()}|">
+                                                <option value="Y">Y</option>
+                                                <option value="N">N</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input class='btn btn-link btn-sm order-1 order-lg-0' style='background-color: #d6d6d6; color: black'
+                                                   th:id="|userUpdateModeButton${user.getId()}|" th:onclick="|javascript:updateUserMode('${user.getId()}')|"
+                                                   type='button'
+                                                   value='수정'>
+                                            <input class='btn btn-link btn-sm order-1 order-lg-0' style='display: none; background-color: #d6d6d6; color: black'
+                                                   th:id="|userUpdateButton${user.getId()}|" th:onclick="|javascript:updateUser('${user.getId()}')|"
+                                                   type='button'
+                                                   value='저장'>
+                                        </td>
+                                    </tr>
+                                </th:block>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="fas fa-chart-area mr-1"></i>
+                                사용자별 가입 통계
+                            </div>
+                            <div class="card-body" style="margin-top: 5px">
+                                <canvas height="40" id="monthlyUserRegisterChart" width="100%"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="fas fa-chart-bar mr-1"></i>
+                                사용자별 Board 사용량 통계
+                            </div>
+                            <div class="card-body" style="margin-top: 5px">
+                                <canvas height="40" id="userBoardStatsChart" width="100%"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="py-4 bg-light mt-auto">
+            <div class="container-fluid">
+                <div class="d-flex align-items-center justify-content-between small">
+                    <div class="text-muted">Copyright &copy; Your Website 2020</div>
+                    <div>
+                        <a href="#">Privacy Policy</a>
+                        &middot;
+                        <a href="#">Terms &amp; Conditions</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+<script crossorigin="anonymous" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script crossorigin="anonymous"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/scripts.js"></script>
+<script src="/js/admin.js"></script>
+<script crossorigin="anonymous" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+<script src="/js/admin-chart-line.js"></script>
+<script src="/js/admin-chart-bar.js"></script>
+<script crossorigin="anonymous" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script crossorigin="anonymous" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+<script src="/assets/demo/datatables-demo.js"></script>
+</body>
 </html>

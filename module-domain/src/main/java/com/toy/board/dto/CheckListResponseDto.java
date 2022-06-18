@@ -1,7 +1,6 @@
 package com.toy.board.dto;
 
 
-
 import com.toy.board.domain.CheckList;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -23,7 +22,7 @@ public class CheckListResponseDto {
     private Long totalCount;
     private Long checkedCount;
 
-    public CheckListResponseDto(CheckList checkList){
+    public CheckListResponseDto(CheckList checkList) {
         id = checkList.getId();
         checkListName = checkList.getCheckListName();
         cardId = checkList.getCard().getId();

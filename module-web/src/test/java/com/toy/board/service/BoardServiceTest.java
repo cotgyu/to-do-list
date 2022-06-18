@@ -24,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -56,7 +55,7 @@ class BoardServiceTest {
     @Test
     @Commit
     @DisplayName("board 저장 - 테스트")
-    public void save_Test() throws Exception{
+    void save_Test() throws Exception {
         //given
         User testUser = new User("testUser", "testSaveUser@gmail.com", "1.jpg", Role.ADMIN);
         userRepository.save(testUser);
@@ -75,7 +74,7 @@ class BoardServiceTest {
 
     @Test
     @DisplayName("board 저장 - 잘못된 사용자 email로 저장 실패 테스트")
-    public void wrongUser_save_failTest() throws Exception{
+    void wrongUser_save_failTest() throws Exception {
         //given
         User testUser = new User("testUser", "v123v123s@gmail.com", "1.jpg", Role.ADMIN);
         userRepository.save(testUser);
@@ -90,13 +89,13 @@ class BoardServiceTest {
             boardService.save(boardRequestDto, wrongEmail);
         });
 
-        assertThat(exception.getMessage()).isEqualTo("해당 User가 없습니다. email="+wrongEmail);
+        assertThat(exception.getMessage()).isEqualTo("해당 User가 없습니다. email=" + wrongEmail);
     }
 
     @Test
     @Commit
     @DisplayName("토픽 전체 조회 - 쿼리 확인 테스트")
-    public void findAllTopicTest(){
+    void findAllTopicTest() {
         //given
         Board board = new Board("board1");
         boardRepository.save(board);
@@ -121,7 +120,7 @@ class BoardServiceTest {
         em.clear();
 
         // when & then
-        List<Topic> topics = topicRepository.findAllByBoard_idAndDelFlag(board.getId(), "N");
+        List<Topic> topics = topicRepository.findAllByIdAndDelFlag(board.getId(), "N");
 
         for (Topic topic : topics) {
             List<Card> cards = topic.getCards();
@@ -135,7 +134,7 @@ class BoardServiceTest {
     @Test
     @Commit
     @DisplayName("컨텐츠 모두 조회 - 테스트")
-    public void findAllContentsTest() throws Exception{
+    void findAllContentsTest() throws Exception {
         //given
         User testUser = new User("testUser", "v123v123s@gmail.com", "https://lh6.googleusercontent.com/-XRdI0_dL6cQ/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucm6Uc0lgVjtVlZQFcP1U69RETkOfA/s96-c/photo.jpg", Role.ADMIN);
         userRepository.save(testUser);
@@ -166,12 +165,12 @@ class BoardServiceTest {
         List<TopicResponseDto> topics = allContents.getTopics();
 
         //then
-        assertThat(topics.size()).isEqualTo(2);
+        assertThat(topics.size()).isEqualTo(1);
     }
 
     @Test
     @DisplayName("컨텐츠 모두 조회 - 잘못된 boardId로 조회 실패 테스트")
-    public void findAllContents_wrongId_failTest() throws Exception{
+    void findAllContents_wrongId_failTest() throws Exception {
         //given
         User testUser = new User("testUser", "v123v123s@gmail.com", "https://lh6.googleusercontent.com/-XRdI0_dL6cQ/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucm6Uc0lgVjtVlZQFcP1U69RETkOfA/s96-c/photo.jpg", Role.ADMIN);
         userRepository.save(testUser);
@@ -203,13 +202,13 @@ class BoardServiceTest {
             boardService.findAllContents(wrongId);
         });
 
-        assertThat(exception.getMessage()).isEqualTo("해당 Board가 없습니다. id="+wrongId);
+        assertThat(exception.getMessage()).isEqualTo("해당 Board가 없습니다. id=" + wrongId);
     }
 
     @Test
     @Commit
     @DisplayName("board 수정 - 잘못된 사용자로 수정 시 실패 테스트")
-    public void updateBoard_wrongUser_failTest() throws Exception{
+    void updateBoard_wrongUser_failTest() throws Exception {
         //given
         User testUser = new User("testUser", "v123v123s@gmail.com", "1.jpg", Role.ADMIN);
         userRepository.save(testUser);
@@ -237,11 +236,11 @@ class BoardServiceTest {
         //then
         assertThat(result).isEqualTo(-1L);
     }
-    
+
     @Test
     @Commit
     @DisplayName("boardList 조회 - 테스트")
-    public void findAllBoardListByEmailTest() throws Exception{
+    void findAllBoardListByEmailTest() throws Exception {
         //given
         User testUser = new User("testUser", "testUser@gmail.com", "https://lh6.googleusercontent.com/-XRdI0_dL6cQ/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucm6Uc0lgVjtVlZQFcP1U69RETkOfA/s96-c/photo.jpg", Role.ADMIN);
         userRepository.save(testUser);
@@ -269,7 +268,7 @@ class BoardServiceTest {
 
         em.flush();
         em.clear();
-        
+
         //when
         List<BoardResponseDto> allBoardList = boardService.findAllBoardListByEmail(testUser.getEmail());
 
@@ -279,7 +278,7 @@ class BoardServiceTest {
 
     @Test
     @DisplayName("boardList 조회 - 잘못된 사용자 email로 조회 시 exception 발생 테스트")
-    public void findAllBoardListByEmail_wrongEmail_failTest() throws Exception{
+    void findAllBoardListByEmail_wrongEmail_failTest() throws Exception {
         //given
         User testUser = new User("testUser", "testUser@gmail.com", "https://lh6.googleusercontent.com/-XRdI0_dL6cQ/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucm6Uc0lgVjtVlZQFcP1U69RETkOfA/s96-c/photo.jpg", Role.ADMIN);
         userRepository.save(testUser);
@@ -298,6 +297,6 @@ class BoardServiceTest {
             boardService.findAllBoardListByEmail(wrongEmail);
         });
 
-        assertThat(exception.getMessage()).isEqualTo("해당 User가 없습니다. email="+wrongEmail);
+        assertThat(exception.getMessage()).isEqualTo("해당 User가 없습니다. email=" + wrongEmail);
     }
 }

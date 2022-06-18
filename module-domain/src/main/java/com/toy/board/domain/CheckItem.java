@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 import static javax.persistence.FetchType.LAZY;
@@ -31,18 +32,18 @@ public class CheckItem extends BaseEntity {
     private CheckList checkList;
 
     @Builder
-    public CheckItem(String checkItemName, CheckList checkList){
+    public CheckItem(String checkItemName, CheckList checkList) {
         this.checkItemName = checkItemName;
         this.checkList = checkList;
         this.delFlag = "N";
         this.checkFlag = "N";
     }
 
-    public void setCheckList(CheckList checkList){
+    public void setCheckList(CheckList checkList) {
         this.checkList = checkList;
     }
 
-    public void update(String checkItemName, String delFlag, String checkFlag){
+    public void update(String checkItemName, String delFlag, String checkFlag) {
         this.checkItemName = checkItemName;
         this.delFlag = delFlag;
         this.checkFlag = checkFlag;

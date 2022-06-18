@@ -12,7 +12,7 @@ import static javax.persistence.CascadeType.ALL;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString(of ={"id", "cardName"})
+@ToString(of = {"id", "cardName"})
 public class Card extends BaseEntity {
 
     @Id
@@ -37,47 +37,47 @@ public class Card extends BaseEntity {
 
     private String delFlag;
 
-    public Card(String cardName, Topic topic){
+    public Card(String cardName, Topic topic) {
         this.cardName = cardName;
-        if(topic != null){
+        if (topic != null) {
             changeTopic(topic);
         }
         this.delFlag = "N";
     }
 
-    public Card(String cardName, String description, Topic topic){
+    public Card(String cardName, String description, Topic topic) {
         this.cardName = cardName;
         this.description = description;
-        if(topic != null){
+        if (topic != null) {
             changeTopic(topic);
         }
         this.delFlag = "N";
     }
 
     @Builder
-    public Card(Long id, String cardName, String description){
+    public Card(Long id, String cardName, String description) {
         this.id = id;
         this.cardName = cardName;
         this.description = description;
         this.delFlag = "N";
     }
 
-    public void changeTopic(Topic topic){
+    public void changeTopic(Topic topic) {
         this.topic = topic;
         topic.getCards().add(this);
     }
 
-    public void addCardLabel(CardLabel cardLabel){
+    public void addCardLabel(CardLabel cardLabel) {
         cardLabels.add(cardLabel);
         cardLabel.setCard(this);
     }
 
-    public void addCheckList(CheckList checkList){
+    public void addCheckList(CheckList checkList) {
         checkLists.add(checkList);
         checkList.setCard(this);
     }
 
-    public void update(String cardName, String description, String delFlag){
+    public void update(String cardName, String description, String delFlag) {
         this.cardName = cardName;
         this.description = description;
         this.delFlag = delFlag;

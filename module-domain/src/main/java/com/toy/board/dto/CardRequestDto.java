@@ -15,11 +15,11 @@ public class CardRequestDto {
     private String description;
     private String delFlag;
 
-    public CardRequestDto(String cardName){
+    public CardRequestDto(String cardName) {
         this.cardName = cardName;
     }
 
-    public CardRequestDto(long topicId, String cardName){
+    public CardRequestDto(long topicId, String cardName) {
         this.topicId = topicId;
         this.cardName = cardName;
     }
@@ -30,7 +30,7 @@ public class CardRequestDto {
         this.delFlag = delFlag;
     }
 
-    public Card toEntity(){
+    public Card toEntity() {
         return Card.builder()
                 .cardName(cardName)
                 .description(description)

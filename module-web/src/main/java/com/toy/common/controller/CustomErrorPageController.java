@@ -3,7 +3,6 @@ package com.toy.common.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.RequestDispatcher;
@@ -20,7 +19,7 @@ public class CustomErrorPageController implements ErrorController {
     }
 
     @RequestMapping("/error")
-    public String errorPage(HttpServletRequest request){
+    public String errorPage(HttpServletRequest request) {
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
         log.error("error 가 발생했습니다. : " + status.toString());
 

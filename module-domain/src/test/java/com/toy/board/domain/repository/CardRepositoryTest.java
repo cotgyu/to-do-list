@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-public class CardRepositoryTest {
+class CardRepositoryTest {
 
     @Autowired
     private EntityManager em;
@@ -32,7 +32,7 @@ public class CardRepositoryTest {
 
     @Test
     @DisplayName("card, topic Repository 테스트")
-    public void card_save_test(){
+    void card_save_test() {
 
         Topic topic = new Topic("topic1");
 
@@ -52,7 +52,7 @@ public class CardRepositoryTest {
         List<Card> cards = cardRepository.findAll();
 
         for (Card card : cards) {
-            System.out.println("topicName : "+ card.getTopic().getTopicName());
+            System.out.println("topicName : " + card.getTopic().getTopicName());
         }
 
         assertThat(cards.get(0).getTopic().getTopicName()).isEqualTo(topic.getTopicName());

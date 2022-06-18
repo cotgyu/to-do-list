@@ -22,7 +22,7 @@ public class UserResponseDto {
     private String createdDate;
     private String modifiedDate;
 
-    public UserResponseDto(User user){
+    public UserResponseDto(User user) {
         this.id = user.getId();
         this.name = user.getName();
         this.email = user.getEmail();

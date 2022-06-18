@@ -18,7 +18,7 @@ public class UserBoardStatsQueryDto {
         this.name = name;
     }
 
-    public UserBoardStatsQueryDto(UserBoardStats userBoardStats){
+    public UserBoardStatsQueryDto(UserBoardStats userBoardStats) {
         this.count = userBoardStats.getCount();
         this.userId = userBoardStats.getUserId();
         this.name = userBoardStats.getName();

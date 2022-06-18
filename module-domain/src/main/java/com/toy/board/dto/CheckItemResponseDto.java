@@ -1,7 +1,6 @@
 package com.toy.board.dto;
 
 
-
 import com.toy.board.domain.CheckItem;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -17,7 +16,7 @@ public class CheckItemResponseDto {
     private String delFlag;
     private String checkFlag;
 
-    public CheckItemResponseDto(CheckItem checkItem){
+    public CheckItemResponseDto(CheckItem checkItem) {
         checkItemId = checkItem.getId();
         checkItemName = checkItem.getCheckItemName();
         checkListId = checkItem.getCheckList().getId();

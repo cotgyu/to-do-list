@@ -10,8 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 @Transactional
 @AutoConfigureMockMvc
@@ -20,7 +18,7 @@ class ScheduleServiceTest {
 
     @Test
     @DisplayName("monthlyUserRegisterStatsBatch 쉘 실행 테스트")
-    public void executeShellTest() throws Exception{
+    void executeShellTest() throws Exception {
         //given when
         Runtime rt = Runtime.getRuntime();
         Process p = rt.exec("sh /Users/sg/IdeaProjects/to-do-list/script/batch/monthlyUserRegisterStatsBatch.sh");
@@ -29,7 +27,7 @@ class ScheduleServiceTest {
 
         String line = null;
 
-        while((line = br.readLine()) != null) {
+        while ((line = br.readLine()) != null) {
             System.out.println(line);
         }
 
@@ -37,7 +35,7 @@ class ScheduleServiceTest {
 
     @Test
     @DisplayName("userBoardStatsBatch 쉘 실행 테스트")
-    public void executeShellTest2() throws Exception{
+    void executeShellTest2() throws Exception {
         //given when
         Runtime rt = Runtime.getRuntime();
         Process p = rt.exec("sh /Users/sg/IdeaProjects/to-do-list/script/batch/userBoardStatsBatch.sh");
@@ -46,7 +44,7 @@ class ScheduleServiceTest {
 
         String line = null;
 
-        while((line = br.readLine()) != null) {
+        while ((line = br.readLine()) != null) {
             System.out.println(line);
         }
 

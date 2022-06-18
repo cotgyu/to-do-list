@@ -17,15 +17,12 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.hateoas.MediaTypes;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.persistence.EntityManager;
 
@@ -48,29 +45,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class BoardApiControllerTest {
 
     @Autowired
-    EntityManager em;
-
-    @Autowired
     protected MockMvc mockMvc;
-
     @Autowired
     protected ObjectMapper objectMapper;
-
     @Autowired
     protected BoardRepository boardRepository;
-
     protected MockHttpSession mockHttpSession;
     protected MockHttpServletRequest request;
-
     @Autowired
     protected BoardService boardService;
-
     @Autowired
     protected UserRepository userRepository;
+    @Autowired
+    EntityManager em;
 
     @Test
     @DisplayName("보드 등록 api 테스트")
-    public void addBoardApiTest() throws Exception{
+    void addBoardApiTest() throws Exception {
         //given
         BoardRequestDto boardRequestDto = new BoardRequestDto("boardName1");
 
@@ -84,12 +75,12 @@ class BoardApiControllerTest {
 
         //when then
         mockMvc.perform(
-                post("/api/board")
-                        .session(mockHttpSession)
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .accept(MediaTypes.HAL_JSON)
-                        .content(objectMapper.writeValueAsString(boardRequestDto))
-        )
+                        post("/api/board")
+                                .session(mockHttpSession)
+                                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                                .accept(MediaTypes.HAL_JSON)
+                                .content(objectMapper.writeValueAsString(boardRequestDto))
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("_links.update-board").exists())
@@ -98,20 +89,20 @@ class BoardApiControllerTest {
                                 linkWithRel("profile").description("link to profile"),
                                 linkWithRel("self").description("link to self"),
                                 linkWithRel("update-board").description("link to update an existing board")
-                            ),
+                        ),
                         relaxedResponseFields(
                                 fieldWithPath("id").description("identifier of new Board"),
                                 fieldWithPath("boardName").description("name of new Board"),
                                 fieldWithPath("delFlag").description("delFlag of new Board")
-                                )
-                        ))
+                        )
+                ))
         ;
 
     }
 
     @Test
     @DisplayName("보드 등록 api Bad Request 테스트")
-    public void addBoardApiBadRequestTest() throws Exception{
+    void addBoardApiBadRequestTest() throws Exception {
         //given
         BoardRequestDto boardRequestDto = new BoardRequestDto("");
 
@@ -125,12 +116,12 @@ class BoardApiControllerTest {
 
         //when then
         mockMvc.perform(
-                post("/api/board")
-                        .session(mockHttpSession)
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .accept(MediaTypes.HAL_JSON)
-                        .content(objectMapper.writeValueAsString(boardRequestDto))
-        )
+                        post("/api/board")
+                                .session(mockHttpSession)
+                                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                                .accept(MediaTypes.HAL_JSON)
+                                .content(objectMapper.writeValueAsString(boardRequestDto))
+                )
                 .andDo(print())
                 .andExpect(status().isBadRequest())
         ;
@@ -140,9 +131,10 @@ class BoardApiControllerTest {
 
     @Test
     @DisplayName("보드 수정 api 테스트")
-    public void updateBoardApiTest() throws Exception{
+    void updateBoardApiTest() throws Exception {
         //given
-        Board testBoard = new Board("testBoard");;
+        Board testBoard = new Board("testBoard");
+        ;
         boardRepository.save(testBoard);
 
         BoardRequestDto boardRequestDto = new BoardRequestDto("boardName1");
@@ -159,26 +151,26 @@ class BoardApiControllerTest {
 
         //when
         mockMvc.perform(
-                put("/api/board/" + testBoard.getId())
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .session(mockHttpSession)
-                        .content(objectMapper.writeValueAsString(boardRequestDto))
-        )
+                        put("/api/board/" + testBoard.getId())
+                                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                                .session(mockHttpSession)
+                                .content(objectMapper.writeValueAsString(boardRequestDto))
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("_links.get-board").exists())
                 .andDo(document("update-board",
                         links(
-                            linkWithRel("profile").description("link to profile"),
-                            linkWithRel("self").description("link to self"),
-                            linkWithRel("get-board").description("link to get an existing board")
-                            ),
-                            relaxedResponseFields(
-                                    fieldWithPath("id").description("identifier of new Board"),
-                                    fieldWithPath("boardName").description("name of new Board"),
-                                    fieldWithPath("delFlag").description("delFlag of new Board")
-                            ))
-                        );
+                                linkWithRel("profile").description("link to profile"),
+                                linkWithRel("self").description("link to self"),
+                                linkWithRel("get-board").description("link to get an existing board")
+                        ),
+                        relaxedResponseFields(
+                                fieldWithPath("id").description("identifier of new Board"),
+                                fieldWithPath("boardName").description("name of new Board"),
+                                fieldWithPath("delFlag").description("delFlag of new Board")
+                        ))
+                );
 
         //then
         Board updateBoard = boardRepository.findById(testBoard.getId()).get();

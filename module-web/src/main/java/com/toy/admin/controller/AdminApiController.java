@@ -1,12 +1,11 @@
 package com.toy.admin.controller;
 
 
-import com.toy.admin.service.AdminService;
 import com.toy.admin.dto.UserBoardStatsQueryDto;
+import com.toy.admin.service.AdminService;
 import com.toy.user.dto.UserRequestDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,14 +23,12 @@ public class AdminApiController {
     private final AdminService adminService;
 
     @Operation(summary = "update user", description = "사용자 정보 수정")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "OK")
-    })
+    @ApiResponse(responseCode = "200", description = "OK")
     @PutMapping("/{userId}")
-    public ResponseEntity updateUser(@PathVariable long userId, @RequestBody UserRequestDto userRequestDto){
+    public ResponseEntity updateUser(@PathVariable long userId, @RequestBody UserRequestDto userRequestDto) {
         Map<String, Object> resultMap = new HashMap<>();
 
-        adminService.updateUser(userId ,userRequestDto);
+        adminService.updateUser(userId, userRequestDto);
 
         resultMap.put("result", userId);
         resultMap.put("resultMessage", "success");
@@ -43,11 +40,10 @@ public class AdminApiController {
     public ResponseEntity monthlyUserStats(@PathVariable int year) {
         Map<String, Object> resultMap = new HashMap<>();
 
-        HashMap<Integer, Long> monthlyUserRegisterStatistics = adminService.getMonthlyUserRegisterStatistics(year);
+        Map<Integer, Long> monthlyUserRegisterStatistics = adminService.getMonthlyUserRegisterStatistics(year);
 
         resultMap.put("result", monthlyUserRegisterStatistics);
         resultMap.put("resultMessage", "success");
-
 
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
@@ -61,10 +57,6 @@ public class AdminApiController {
         resultMap.put("result", allUserBoardStatistics);
         resultMap.put("resultMessage", "success");
 
-
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
-
-
-
 }

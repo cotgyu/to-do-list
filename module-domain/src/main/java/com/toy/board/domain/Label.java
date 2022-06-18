@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
@@ -23,26 +24,25 @@ public class Label extends BaseEntity {
 
     private String delFlag;
 
-    public Label(String labelName, String color){
+    public Label(String labelName, String color) {
         this.labelName = labelName;
         this.color = color;
         this.delFlag = "N";
     }
 
-    public void update(String labelName, String color, String delFlag){
-        this.labelName = labelName;
-        this.color = color;
-        this.delFlag = delFlag;
-    }
-
     @Builder
-    public Label(Long id, String labelName, String color){
+    public Label(Long id, String labelName, String color) {
         this.id = id;
         this.labelName = labelName;
         this.color = color;
         this.delFlag = "N";
     }
 
+    public void update(String labelName, String color, String delFlag) {
+        this.labelName = labelName;
+        this.color = color;
+        this.delFlag = delFlag;
+    }
 
 
 }

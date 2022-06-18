@@ -15,7 +15,7 @@ public class CardLabelResponseDto {
     private LabelResponseDto label;
     private String delFlag;
 
-    public CardLabelResponseDto(CardLabel cardLabel){
+    public CardLabelResponseDto(CardLabel cardLabel) {
         label = new LabelResponseDto(cardLabel.getLabel());
         delFlag = cardLabel.getDelFlag();
     }

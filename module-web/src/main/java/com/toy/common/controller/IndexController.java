@@ -19,9 +19,9 @@ public class IndexController {
     private final BoardService boardService;
 
     @GetMapping("/")
-    public String index(Model model, @LoginUser SessionUser user){
+    public String index(Model model, @LoginUser SessionUser user) {
 
-        if(user != null){
+        if (user != null) {
             model.addAttribute("userName", user.getName());
             model.addAttribute("user", user);
 
@@ -34,9 +34,9 @@ public class IndexController {
     }
 
     @GetMapping("/home")
-    public String home(Model model, @LoginUser SessionUser user){
+    public String home(Model model, @LoginUser SessionUser user) {
 
-        if(user != null){
+        if (user != null) {
             model.addAttribute("userName", user.getName());
         }
 
