@@ -45,6 +45,10 @@ subprojects {
         testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
         testImplementation 'org.springframework.security:spring-security-test'
         developmentOnly 'org.springframework.boot:spring-boot-devtools'
+        // spring-data-redis
+        compile('org.springframework.boot:spring-boot-starter-data-redis')
+        //embedded-redis
+        compile group: 'it.ozimov', name: 'embedded-redis', version: '0.7.2'
     }
 
     ext { //4

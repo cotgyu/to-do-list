@@ -19,6 +19,7 @@ public class TopicApiController {
 
     private final TopicService topicService;
 
+    // TODO rest 변경 필요
     @PostMapping
     public ResponseEntity addTopic(@RequestBody TopicRequestDto topicRequestDto) {
         Map<String, Object> resultMap = new HashMap<>();
