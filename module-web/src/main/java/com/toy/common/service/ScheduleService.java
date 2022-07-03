@@ -4,6 +4,7 @@ import com.toy.admin.repository.MonthlyUserRegisterStatsRepository;
 import com.toy.admin.repository.UserBoardStatsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,9 @@ public class ScheduleService {
     private final UserBoardStatsRepository userBoardStatsRepository;
     private final MonthlyUserRegisterStatsRepository monthlyUserRegisterStatsRepository;
 
+    @Value("${script.path}")
+    private String path;
+
     @Scheduled(cron = "0 0 0,12 * * ?")
     public void monthlyUserRegisterStatsBatchExecute() throws IOException {
         log.info("monthlyUserRegisterStatsBatch 배치 실행");
@@ -24,7 +28,7 @@ public class ScheduleService {
         monthlyUserRegisterStatsRepository.deleteAll();
 
         Runtime rt = Runtime.getRuntime();
-        rt.exec("sh /home/ec2-user/project/todolist/zip/monthlyUserRegisterStatsBatch.sh");
+        rt.exec("sh " + path + "monthlyUserRegisterStatsBatch.sh");
     }
 
     @Scheduled(cron = "0 30 0,12 * * ?")
@@ -34,6 +38,6 @@ public class ScheduleService {
         userBoardStatsRepository.deleteAll();
 
         Runtime rt = Runtime.getRuntime();
-        rt.exec("sh /home/ec2-user/project/todolist/zip/userBoardStatsBatch.sh");
+        rt.exec("sh " + path + "userBoardStatsBatch.sh");
     }
 }
