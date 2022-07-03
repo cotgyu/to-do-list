@@ -35,3 +35,8 @@ logging.level:
 
   org.springframework.security: debug
 #  org.hibernate.type: trace
+
+
+script:
+  path: script/batch/local/
+  # path: /home/ec2-user/project/todolist/zip/
