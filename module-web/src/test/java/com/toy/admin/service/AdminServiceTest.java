@@ -1,6 +1,8 @@
 package com.toy.admin.service;
 
 import com.toy.admin.dto.UserBoardStatsQueryDto;
+import com.toy.redis.repository.MonthlyUserRegisterStatsRedisRepository;
+import com.toy.redis.repository.UserBoardStatsRedisRepository;
 import com.toy.user.domain.Role;
 import com.toy.user.domain.User;
 import com.toy.user.dto.UserRequestDto;
@@ -35,6 +37,12 @@ class AdminServiceTest {
 
     @Autowired
     EntityManager em;
+
+    @Autowired
+    UserBoardStatsRedisRepository userBoardStatsRedisRepository;
+
+    @Autowired
+    MonthlyUserRegisterStatsRedisRepository monthlyUserRegisterStatsRedisRepository;
 
 
     @Test
@@ -111,5 +119,17 @@ class AdminServiceTest {
         //assertThat(allUserBoardStatistics.size()).isEqualTo(2);
         //assertThat(allUserBoardStatistics.isEmpty()).isEqualTo(false);
         System.out.println("size: " + allUserBoardStatistics.size());
+    }
+
+    @DisplayName("통계 조회 부분 Redis 적용 테스트")
+    @Test
+    void getRedis() throws Exception {
+        // given & when
+        adminService.getAllUserBoardStatistics();
+        adminService.getMonthlyUserRegisterStatistics(1);
+
+        // then
+        assertThat(userBoardStatsRedisRepository.findById("userBoardStatsRedis").isPresent()).isTrue();
+        assertThat(monthlyUserRegisterStatsRedisRepository.findById("monthlyUserRegisterStatsRedis").isPresent()).isTrue();
     }
 }
