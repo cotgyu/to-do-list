@@ -2,23 +2,21 @@ package com.toy.redis;
 
 import com.toy.redis.domain.Point;
 import com.toy.redis.repository.PointRedisRepository;
-import org.aspectj.lang.annotation.After;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class RedisTest {
+class RedisUpdateTest {
 
     @Autowired
     private PointRedisRepository pointRedisRepository;
@@ -29,22 +27,23 @@ class RedisTest {
     }
 
     @Test
-    void 기본_등록_조회기능() {
+    void 수정기능() {
         //given
         String id = "id";
         LocalDateTime refreshTime = LocalDateTime.of(2018, 5, 26, 0, 0);
-        Point point = Point.builder()
+        pointRedisRepository.save(Point.builder()
                 .id(id)
                 .amount(1000L)
                 .refreshTime(refreshTime)
-                .build();
+                .build());
 
         //when
-        pointRedisRepository.save(point);
+        Point savedPoint = pointRedisRepository.findById(id).get();
+        savedPoint.refresh(2000L, LocalDateTime.of(2018,6,1,0,0));
+        pointRedisRepository.save(savedPoint);
 
         //then
-        Point savedPoint = pointRedisRepository.findById(id).get();
-        assertThat(savedPoint.getAmount()).isEqualTo(1000L);
-        assertThat(savedPoint.getRefreshTime()).isEqualTo(refreshTime);
+        Point refreshPoint = pointRedisRepository.findById(id).get();
+        assertThat(refreshPoint.getAmount()).isEqualTo(2000L);
     }
 }
