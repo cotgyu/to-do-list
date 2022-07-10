@@ -30,6 +30,10 @@ public class CardApiController {
 
     private final CardValidator cardValidator;
 
+    private final LabelValidator labelValidator;
+
+    private final CardLabelValidator cardLabelValidator;
+
     @PostMapping
     public ResponseEntity saveCard(@RequestBody CardRequestDto cardRequestDto, Errors errors) {
 
@@ -43,13 +47,9 @@ public class CardApiController {
         Long result = cardService.saveCard(cardRequestDto);
 
         WebMvcLinkBuilder webMvcLinkBuilder = linkTo(CardApiController.class).slash(result);
-        // 링크 제공
         EntityModel<CardRequestDto> entityModel = EntityModel.of(cardRequestDto);
-        // profile
         entityModel.add(linkTo(IndexController.class).slash("/docs/index.html#resources-add-card").withRel("profile"));
-        // self
         entityModel.add(webMvcLinkBuilder.withSelfRel());
-        // update
         entityModel.add(webMvcLinkBuilder.withRel("update-card"));
 
         return ResponseEntity.created(webMvcLinkBuilder.toUri()).body(entityModel);
@@ -58,7 +58,6 @@ public class CardApiController {
     @GetMapping("/{cardId}")
     public ResponseEntity findCard(@PathVariable Long cardId) {
         Map<String, Object> resultMap = new HashMap<>();
-
         CardResponseDto card = cardService.findCard(cardId);
 
         resultMap.put("result", card);
@@ -68,7 +67,8 @@ public class CardApiController {
     }
 
     @PutMapping("/{cardId}")
-    public ResponseEntity updateCard(@PathVariable Long cardId, @RequestBody CardRequestDto cardRequestDto, Errors errors) {
+    public ResponseEntity updateCard(@PathVariable Long cardId,
+                                     @RequestBody CardRequestDto cardRequestDto, Errors errors) {
 
         cardValidator.validate(cardRequestDto, errors);
 
@@ -82,27 +82,32 @@ public class CardApiController {
         WebMvcLinkBuilder webMvcLinkBuilder = linkTo(CardApiController.class).slash(result);
 
         EntityModel<CardRequestDto> entityModel = EntityModel.of(cardRequestDto);
-        // profile
         entityModel.add(linkTo(IndexController.class).slash("/docs/index.html#resources-update-card").withRel("profile"));
-        // self
         entityModel.add(webMvcLinkBuilder.withSelfRel());
-        // select
         entityModel.add(webMvcLinkBuilder.withRel("select-card"));
 
         return ResponseEntity.created(webMvcLinkBuilder.toUri()).body(entityModel);
     }
 
     @PostMapping("/label")
-    public ResponseEntity saveLabel(@RequestBody LabelRequestDto labelRequestDto) {
-        Map<String, Object> resultMap = new HashMap<>();
+    public ResponseEntity saveLabel(@RequestBody LabelRequestDto labelRequestDto, Errors errors) {
+
+        labelValidator.validate(labelRequestDto, errors);
+
+        if (errors.hasErrors()) {
+            log.debug("잘못된 요청입니다. error: " + errors.getFieldError());
+            return ResponseEntity.badRequest().body(CollectionModel.of(errors.getAllErrors()));
+        }
 
         Long labelId = cardService.saveLabel(labelRequestDto);
 
-        resultMap.put("result", labelId);
-        resultMap.put("resultMessage", "success");
+        WebMvcLinkBuilder webMvcLinkBuilder = linkTo(CardApiController.class).slash(labelId);
 
+        EntityModel<LabelRequestDto> entityModel = EntityModel.of(labelRequestDto);
+        entityModel.add(webMvcLinkBuilder.withSelfRel());
+        entityModel.add(webMvcLinkBuilder.withRel("select-label"));
 
-        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        return ResponseEntity.created(webMvcLinkBuilder.toUri()).body(entityModel);
     }
 
     @GetMapping("/label")
@@ -113,7 +118,6 @@ public class CardApiController {
 
         resultMap.put("result", allLabels);
         resultMap.put("resultMessage", "success");
-
 
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
@@ -127,98 +131,113 @@ public class CardApiController {
         resultMap.put("result", cardLabels);
         resultMap.put("resultMessage", "success");
 
-
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
     @PutMapping("/label/cardLabel")
-    public ResponseEntity updateCardLabels(@RequestBody CardLabelRequestDto cardLabelRequestDto) {
-        Map<String, Object> resultMap = new HashMap<>();
+    public ResponseEntity updateCardLabels(@RequestBody CardLabelRequestDto cardLabelRequestDto, Errors errors) {
+
+        cardLabelValidator.validate(cardLabelRequestDto, errors);
+
+        if (errors.hasErrors()) {
+            log.debug("잘못된 요청입니다. error: " + errors.getFieldError());
+            return ResponseEntity.badRequest().body(CollectionModel.of(errors.getAllErrors()));
+        }
 
         cardService.updateCardLabel(cardLabelRequestDto);
 
-        resultMap.put("result", "ok");
-        resultMap.put("resultMessage", "success");
+        WebMvcLinkBuilder webMvcLinkBuilder = linkTo(CardApiController.class);
 
-        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        EntityModel<CardLabelRequestDto> entityModel = EntityModel.of(cardLabelRequestDto);
+        entityModel.add(webMvcLinkBuilder.withSelfRel());
+
+        return ResponseEntity.created(webMvcLinkBuilder.toUri()).body(entityModel);
     }
 
     @PutMapping("/label/{labelId}")
-    public ResponseEntity updateLabel(@PathVariable Long labelId, @RequestBody LabelRequestDto labelRequestDto) {
-        Map<String, Object> resultMap = new HashMap<>();
+    public ResponseEntity updateLabel(@PathVariable Long labelId,
+                                      @RequestBody LabelRequestDto labelRequestDto, Errors errors) {
+        labelValidator.validate(labelRequestDto, errors);
+
+        if (errors.hasErrors()) {
+            log.debug("잘못된 요청입니다. error: " + errors.getFieldError());
+            return ResponseEntity.badRequest().body(CollectionModel.of(errors.getAllErrors()));
+        }
 
         cardService.updateLabel(labelId, labelRequestDto);
 
-        resultMap.put("result", labelId);
-        resultMap.put("resultMessage", "success");
+        WebMvcLinkBuilder webMvcLinkBuilder = linkTo(CardApiController.class).slash(labelId);
 
+        EntityModel<LabelRequestDto> entityModel = EntityModel.of(labelRequestDto);
+        entityModel.add(webMvcLinkBuilder.withSelfRel());
+        entityModel.add(webMvcLinkBuilder.withRel("select-label"));
 
-        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        return ResponseEntity.created(webMvcLinkBuilder.toUri()).body(entityModel);
     }
 
 
     @PostMapping("/label/register")
-    public ResponseEntity registerLabel(@RequestBody CardLabelRequestDto cardLabelRequestDto) {
-        Map<String, Object> resultMap = new HashMap<>();
+    public ResponseEntity registerLabel(@RequestBody CardLabelRequestDto cardLabelRequestDto, Errors errors) {
+        cardLabelValidator.validate(cardLabelRequestDto, errors);
+
+        if (errors.hasErrors()) {
+            log.debug("잘못된 요청입니다. error: " + errors.getFieldError());
+            return ResponseEntity.badRequest().body(CollectionModel.of(errors.getAllErrors()));
+        }
 
         Long labelId = cardService.registerLabel(cardLabelRequestDto);
 
-        resultMap.put("result", labelId);
-        resultMap.put("resultMessage", "success");
+        WebMvcLinkBuilder webMvcLinkBuilder = linkTo(CardApiController.class).slash(labelId);
 
+        EntityModel<CardLabelRequestDto> entityModel = EntityModel.of(cardLabelRequestDto);
+        entityModel.add(webMvcLinkBuilder.withSelfRel());
 
-        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        return ResponseEntity.created(webMvcLinkBuilder.toUri()).body(entityModel);
     }
 
     @PostMapping("/checkList")
     public ResponseEntity addCheckList(@RequestBody CheckListRequestDto checkListRequestDto) {
-        Map<String, Object> resultMap = new HashMap<>();
+        // TODO validate 를 다른 방법으로 고려
 
         Long checkListId = cardService.saveCheckList(checkListRequestDto);
 
-        resultMap.put("result", checkListId);
-        resultMap.put("resultMessage", "success");
+        WebMvcLinkBuilder webMvcLinkBuilder = linkTo(CardApiController.class).slash(checkListId);
 
-        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        EntityModel<CheckListRequestDto> entityModel = EntityModel.of(checkListRequestDto);
+        entityModel.add(webMvcLinkBuilder.withSelfRel());
+        return ResponseEntity.created(webMvcLinkBuilder.toUri()).body(entityModel);
     }
 
     @PutMapping("/checkList/{checkListId}")
     public ResponseEntity updateCheckList(@PathVariable Long checkListId, @RequestBody CheckListRequestDto checkListRequestDto) {
-        Map<String, Object> resultMap = new HashMap<>();
-
         cardService.updateCheckList(checkListId, checkListRequestDto);
 
-        resultMap.put("result", checkListId);
-        resultMap.put("resultMessage", "success");
+        WebMvcLinkBuilder webMvcLinkBuilder = linkTo(CardApiController.class).slash(checkListId);
 
-        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        EntityModel<CheckListRequestDto> entityModel = EntityModel.of(checkListRequestDto);
+        entityModel.add(webMvcLinkBuilder.withSelfRel());
+        return ResponseEntity.created(webMvcLinkBuilder.toUri()).body(entityModel);
     }
 
     @PostMapping("/checkList/checkItem")
     public ResponseEntity addCheckItem(@RequestBody CheckItemRequestDto checkItemRequestDto) {
-        Map<String, Object> resultMap = new HashMap<>();
-
         Long checkItemId = cardService.addCheckItem(checkItemRequestDto);
 
-        resultMap.put("result", checkItemId);
-        resultMap.put("resultMessage", "success");
+        WebMvcLinkBuilder webMvcLinkBuilder = linkTo(CardApiController.class).slash(checkItemId);
 
-        return new ResponseEntity<>(resultMap, HttpStatus.OK);
-
+        EntityModel<CheckItemRequestDto> entityModel = EntityModel.of(checkItemRequestDto);
+        entityModel.add(webMvcLinkBuilder.withSelfRel());
+        return ResponseEntity.created(webMvcLinkBuilder.toUri()).body(entityModel);
     }
 
     @PutMapping("/checkList/checkItem/{checkItemId}")
     public ResponseEntity updateCheckItem(@PathVariable Long checkItemId, @RequestBody CheckItemRequestDto checkItemRequestDto) {
-        Map<String, Object> resultMap = new HashMap<>();
-
         cardService.updateCheckItem(checkItemId, checkItemRequestDto);
 
-        resultMap.put("result", checkItemId);
-        resultMap.put("resultMessage", "success");
+        WebMvcLinkBuilder webMvcLinkBuilder = linkTo(CardApiController.class).slash(checkItemId);
 
-        return new ResponseEntity<>(resultMap, HttpStatus.OK);
-
+        EntityModel<CheckItemRequestDto> entityModel = EntityModel.of(checkItemRequestDto);
+        entityModel.add(webMvcLinkBuilder.withSelfRel());
+        return ResponseEntity.created(webMvcLinkBuilder.toUri()).body(entityModel);
     }
-
-
 }

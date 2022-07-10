@@ -30,7 +30,9 @@ public class BoardApiController {
     private final BoardValidator boardValidator;
 
     @PostMapping
-    public ResponseEntity addBoard(@RequestBody BoardRequestDto boardRequestDto, @LoginUser SessionUser user, Errors errors) {
+    public ResponseEntity addBoard(@RequestBody BoardRequestDto boardRequestDto,
+                                   @LoginUser SessionUser user,
+                                   Errors errors) {
 
         boardValidator.validate(boardRequestDto, errors);
 
@@ -57,7 +59,10 @@ public class BoardApiController {
     }
 
     @PutMapping("/{boardId}")
-    public ResponseEntity updateBoard(@PathVariable Long boardId, @RequestBody BoardRequestDto boardRequestDto, @LoginUser SessionUser user, Errors errors) {
+    public ResponseEntity updateBoard(@PathVariable Long boardId,
+                                      @RequestBody BoardRequestDto boardRequestDto,
+                                      @LoginUser SessionUser user,
+                                      Errors errors) {
 
         boardValidator.validate(boardRequestDto, errors);
 

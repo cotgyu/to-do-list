@@ -64,8 +64,7 @@ class TopicApiControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("resultMessage").value("success"));
-
+                .andExpect(jsonPath("_links.self.href").exists());
     }
 
     @Test
@@ -80,7 +79,6 @@ class TopicApiControllerTest {
 
         cardRepository.save(card1);
 
-
         //when then
         mockMvc.perform(
                         get("/api/topic/{id}", topic.getId())
@@ -90,7 +88,6 @@ class TopicApiControllerTest {
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("resultMessage").value("success"))
                 .andExpect(jsonPath("result").isNotEmpty());
-
     }
 
     @Test
@@ -104,7 +101,6 @@ class TopicApiControllerTest {
 
         TopicRequestDto topicRequestDto = new TopicRequestDto("topicName1");
 
-
         //when
         mockMvc.perform(
                         put("/api/topic/{id}", topic.getId())
@@ -113,12 +109,11 @@ class TopicApiControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("resultMessage").value("success"))
-                .andExpect(jsonPath("result").isNotEmpty());
+                .andExpect(jsonPath("_links.self.href").exists());
+
 
         // then
         Topic result = topicRepository.findById(topic.getId()).get();
-
 
         assertThat(result.getTopicName()).isEqualTo(topicRequestDto.getTopicName());
     }

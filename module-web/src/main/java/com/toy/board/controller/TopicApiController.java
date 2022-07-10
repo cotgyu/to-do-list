@@ -5,12 +5,16 @@ import com.toy.board.dto.TopicRequestDto;
 import com.toy.board.dto.TopicResponseDto;
 import com.toy.board.service.TopicService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RequiredArgsConstructor
 @RestController
@@ -19,18 +23,17 @@ public class TopicApiController {
 
     private final TopicService topicService;
 
-    // TODO rest 변경 필요
     @PostMapping
     public ResponseEntity addTopic(@RequestBody TopicRequestDto topicRequestDto) {
-        Map<String, Object> resultMap = new HashMap<>();
-
         Long result = topicService.save(topicRequestDto);
 
-        resultMap.put("result", result);
-        resultMap.put("resultMessage", "success");
+        WebMvcLinkBuilder webMvcLinkBuilder = linkTo(CardApiController.class).slash(result);
 
-        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        EntityModel<TopicRequestDto> entityModel = EntityModel.of(topicRequestDto);
+        entityModel.add(webMvcLinkBuilder.withSelfRel());
+        entityModel.add(webMvcLinkBuilder.withRel("select-topic"));
 
+        return ResponseEntity.created(webMvcLinkBuilder.toUri()).body(entityModel);
     }
 
     @GetMapping("/{id}")
@@ -47,13 +50,14 @@ public class TopicApiController {
 
     @PutMapping("/{id}")
     public ResponseEntity updateTopic(@PathVariable Long id, @RequestBody TopicRequestDto topicRequestDto) {
-        Map<String, Object> resultMap = new HashMap<>();
-
         topicService.update(id, topicRequestDto);
 
-        resultMap.put("result", id);
-        resultMap.put("resultMessage", "success");
+        WebMvcLinkBuilder webMvcLinkBuilder = linkTo(CardApiController.class).slash(id);
 
-        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        EntityModel<TopicRequestDto> entityModel = EntityModel.of(topicRequestDto);
+        entityModel.add(webMvcLinkBuilder.withSelfRel());
+        entityModel.add(webMvcLinkBuilder.withRel("select-topic"));
+
+        return ResponseEntity.created(webMvcLinkBuilder.toUri()).body(entityModel);
     }
 }

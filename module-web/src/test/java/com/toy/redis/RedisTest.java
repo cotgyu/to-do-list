@@ -23,7 +23,7 @@ class RedisTest {
 
     @AfterAll
     public void tearDown() throws Exception {
-        //pointRedisRepository.deleteAll();
+        pointRedisRepository.deleteAll();
     }
 
     @Test

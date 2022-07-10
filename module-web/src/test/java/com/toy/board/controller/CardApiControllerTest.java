@@ -167,9 +167,8 @@ class CardApiControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("resultMessage").value("success"));
-
-
+                .andExpect(jsonPath("_links.select-label").exists())
+                ;
     }
 
     @Test
@@ -194,9 +193,8 @@ class CardApiControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("resultMessage").value("success"));
-
-
+                .andExpect(jsonPath("_links.self.href").exists())
+        ;
     }
 
     @Test
@@ -242,7 +240,8 @@ class CardApiControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("resultMessage").value("success"));
+                .andExpect(jsonPath("_links.self.href").exists());
+
 
         Label findLabel = labelRepository.findById(saveLabel.getId()).get();
 
@@ -270,7 +269,7 @@ class CardApiControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("resultMessage").value("success"));
+                .andExpect(jsonPath("_links.self.href").exists());
 
 
         // then
@@ -305,7 +304,7 @@ class CardApiControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("resultMessage").value("success"));
+                .andExpect(jsonPath("_links.self.href").exists());
 
 
         // then
@@ -338,7 +337,7 @@ class CardApiControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("resultMessage").value("success"));
+                .andExpect(jsonPath("_links.self.href").exists());
 
 
         // then
@@ -373,7 +372,7 @@ class CardApiControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("resultMessage").value("success"));
+                .andExpect(jsonPath("_links.self.href").exists());
 
 
         // then
@@ -437,7 +436,7 @@ class CardApiControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("resultMessage").value("success"));
+                .andExpect(jsonPath("_links.self.href").exists());
 
         //then
 
