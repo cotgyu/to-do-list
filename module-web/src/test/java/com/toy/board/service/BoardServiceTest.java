@@ -120,7 +120,7 @@ class BoardServiceTest {
         em.clear();
 
         // when & then
-        List<Topic> topics = topicRepository.findAllByIdAndDelFlag(board.getId(), "N");
+        List<Topic> topics = topicRepository.findAllByBoardIdAndDelFlag(board.getId(), "N");
 
         for (Topic topic : topics) {
             List<Card> cards = topic.getCards();
@@ -165,7 +165,7 @@ class BoardServiceTest {
         List<TopicResponseDto> topics = allContents.getTopics();
 
         //then
-        assertThat(topics.size()).isEqualTo(1);
+        assertThat(topics.size()).isEqualTo(2);
     }
 
     @Test
