@@ -1,5 +1,6 @@
 package com.toy.config;
 
+import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.config.KafkaListenerContainerFactory;
+import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
@@ -49,4 +51,20 @@ public class KafkaConfig {
         return props;
     }
 
+    // topic 설정. 자동으로 해당 설정으로 브로커에 추가할 수 있다
+    @Bean
+    public NewTopic testTopic() {
+        return TopicBuilder.name("testTopic")
+                .partitions(3)
+                .replicas(2)
+                .build();
+    }
+
+    @Bean
+    public NewTopic testTopic2() {
+        return TopicBuilder.name("testTopic2")
+                .partitions(1)
+                .replicas(1)
+                .build();
+    }
 }
