@@ -67,4 +67,12 @@ public class KafkaConfig {
                 .replicas(1)
                 .build();
     }
+
+    @Bean
+    public NewTopic lastAccessTimeTopic() {
+        return TopicBuilder.name("LastAccessTimeTopic")
+                .partitions(3)
+                .replicas(2)
+                .build();
+    }
 }
