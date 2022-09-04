@@ -1,14 +1,14 @@
-spring:
+kafka:
+  brokers: 127.0.0.1:9092,127.0.0.1:9093,127.0.0.1:9094
+  listener:
+    concurrency: 1
 
+spring:
   datasource:
     url: jdbc:mariadb://localhost:3306/to-do-list
     username: user
     password: user1234
     driver-class-name: org.mariadb.jdbc.Driver
-
-  batch:
-    job:
-      names: ${job.name:NONE}
 
   jpa:
     properties:
@@ -23,6 +23,5 @@ logging.level:
 
   org.springframework.security: debug
 #  org.hibernate.type: trace
-
 server:
-  port: 8082
+  port: 8089

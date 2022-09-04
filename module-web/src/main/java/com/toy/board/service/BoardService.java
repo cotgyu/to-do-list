@@ -59,7 +59,7 @@ public class BoardService {
     public BoardResponseDto findAllContents(Long boardId) {
 
         Board board = findBoardById(boardId);
-        List<Topic> topicList = topicRepository.findAllByIdAndDelFlag(boardId, "N");
+        List<Topic> topicList = topicRepository.findAllByBoardIdAndDelFlag(boardId, "N");
 
         BoardResponseDto boardResponseDto = new BoardResponseDto(board);
         List<TopicResponseDto> returnList = topicList

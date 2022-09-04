@@ -9,6 +9,5 @@ import java.util.Optional;
 
 public interface TopicRepository extends JpaRepository<Topic, Long> {
     Optional<Topic> findByIdAndDelFlag(long id, String delFlag);
-
-    List<Topic> findAllByIdAndDelFlag(long boardId, String delFlag);
+    List<Topic> findAllByBoardIdAndDelFlag(long boardId, String delFlag);
 }
