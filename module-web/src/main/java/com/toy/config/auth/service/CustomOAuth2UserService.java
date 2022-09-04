@@ -1,10 +1,10 @@
 package com.toy.config.auth.service;
 
-import com.toy.common.domain.MyTopic;
 import com.toy.common.service.KafkaProducer;
 import com.toy.config.auth.dto.OAuthAttributes;
 import com.toy.config.auth.dto.SessionUser;
 import com.toy.user.domain.User;
+import com.toy.user.dto.LastAccessTimeEventVO;
 import com.toy.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -59,8 +59,10 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 .map(entity -> entity.update(attributes.getName(), attributes.getPicture()))
                 .orElse(attributes.toEntity());
 
-        // TODO - JSON 형태로 변경
-        kafkaProducer.sendMessage(MyTopic.LAST_ACCESS_TIME, user.getId().toString() + "," + LocalDateTime.now().toString());
+        kafkaProducer.sendMessage(LastAccessTimeEventVO.builder()
+                .userId(user.getId())
+                .lastAccessTime(LocalDateTime.now())
+                .build());
 
         return userRepository.save(user);
     }

@@ -1,5 +1,6 @@
 package com.toy.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -13,13 +14,15 @@ import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
+import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
+import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @EnableKafka
 @Configuration
-public class KafkaConfig {
+public class KafkaConsumerConfig {
 
     @Value("${kafka.brokers:127.0.0.1:9092}")
     private String brokers;
@@ -28,17 +31,23 @@ public class KafkaConfig {
     private Integer concurrency;
 
     @Bean
-    KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<Integer, String>> kafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<Integer, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(consumerFactory());
+    KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, Object>> kafkaListenerContainerFactory(ObjectMapper objectMapper) {
+        ConcurrentKafkaListenerContainerFactory<String, Object> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerFactory(objectMapper));
         factory.setConcurrency(concurrency);
         factory.getContainerProperties().setPollTimeout(3000);
         return factory;
     }
 
     @Bean
-    public ConsumerFactory<Integer, String> consumerFactory() {
-        return new DefaultKafkaConsumerFactory<>(consumerConfigs());
+    public ConsumerFactory<String, Object> consumerFactory(ObjectMapper objectMapper) {
+        Map<String, Object> deserializerConfig = new HashMap<>();
+        deserializerConfig.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
+
+        JsonDeserializer<Object> objectJsonDeserializer = new JsonDeserializer<>(objectMapper);
+        objectJsonDeserializer.configure(deserializerConfig, false);
+
+        return new DefaultKafkaConsumerFactory<>(consumerConfigs(), new StringDeserializer(), new ErrorHandlingDeserializer<>(objectJsonDeserializer));
     }
 
     @Bean
@@ -46,7 +55,7 @@ public class KafkaConfig {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, brokers);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
 
         return props;
     }

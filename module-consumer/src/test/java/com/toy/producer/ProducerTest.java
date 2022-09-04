@@ -1,6 +1,8 @@
 package com.toy.producer;
 
 import com.toy.common.domain.MyTopic;
+import com.toy.user.dto.LastAccessTimeEventVO;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -50,7 +52,7 @@ class ProducerTest {
 
     @Test
     void produceTest3() {
-        String message = "1" + LocalDateTime.now().toString();
+        LastAccessTimeEventVO message = LastAccessTimeEventVO.builder().userId(1).lastAccessTime(LocalDateTime.now()).build();
 
         ListenableFuture<SendResult<String, Object>> future = kafkaTemplate.send(MyTopic.LAST_ACCESS_TIME.getTopicName(), message);
         future.addCallback(new KafkaSendCallback<>() {
@@ -64,5 +66,15 @@ class ProducerTest {
                 System.out.println("onFailure: " + ex.getMessage());
             }
         });
+    }
+
+    @Test
+    void vo_확인() {
+        LastAccessTimeEventVO eventVO = LastAccessTimeEventVO.builder()
+                .userId(1L)
+                .lastAccessTime(LocalDateTime.now()).build();
+
+        System.out.println(eventVO);
+        Assertions.assertEquals(MyTopic.LAST_ACCESS_TIME.getTopicName(), eventVO.getTopicName());
     }
 }
