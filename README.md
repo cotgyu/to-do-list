@@ -79,7 +79,7 @@
 
 - docker 설치
 
-- 로컬 DB 설치 및 실행 (초기 데이터 insert)
+- 로컬 DB,Redis 설치 및 실행 (초기 데이터 insert)
   ~~~
   local/local.sh
   ~~~ 
