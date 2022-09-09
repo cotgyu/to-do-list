@@ -124,6 +124,10 @@ class AdminServiceTest {
     @DisplayName("통계 조회 부분 Redis 적용 테스트")
     @Test
     void getRedis() throws Exception {
+        // init
+        userBoardStatsRedisRepository.deleteAll();
+        monthlyUserRegisterStatsRedisRepository.deleteAll();
+
         // given & when
         adminService.getAllUserBoardStatistics();
         adminService.getMonthlyUserRegisterStatistics(1);

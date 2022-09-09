@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +41,8 @@ public class User extends BaseEntity {
     private List<Board> boards = new ArrayList<>();
 
     private String delFlag;
+
+    private LocalDateTime lastAccessTime;
 
     @Builder
     public User(long id, String name, String email, String picture, Role role) {
@@ -81,6 +84,12 @@ public class User extends BaseEntity {
         this.email = userRequestDto.getEmail();
         this.delFlag = userRequestDto.getDelFlag();
         this.role = userRequestDto.getRole();
+
+        return this;
+    }
+
+    public User updateLastAccessTime(LocalDateTime lastAccessTime) {
+        this.lastAccessTime = lastAccessTime;
 
         return this;
     }

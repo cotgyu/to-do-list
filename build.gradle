@@ -178,4 +178,10 @@ project(':module-batch') {
     }
 }
 
+project(':module-consumer') {
+    dependencies {
+        implementation project(path: ':module-domain', configuration: 'default')
+    }
+}
+
 bootJar { enabled = false }
