@@ -49,11 +49,20 @@ subprojects {
         compile('org.springframework.boot:spring-boot-starter-data-redis')
         //embedded-redis
         compile group: 'it.ozimov', name: 'embedded-redis', version: '0.7.2'
+        testImplementation "org.springframework.cloud:spring-cloud-starter-contract-stub-runner"
     }
 
     ext { //4
         snippetsDir = "${buildDir}/generated-snippets"
+        springCloudVersion = "Hoxton.SR1"
     }
+
+    dependencyManagement {
+        imports {
+            mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+        }
+    }
+
 
     configurations {
         compileOnly {
