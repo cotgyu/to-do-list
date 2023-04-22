@@ -50,6 +50,11 @@ subprojects {
         //embedded-redis
         compile group: 'it.ozimov', name: 'embedded-redis', version: '0.7.2'
         testImplementation "org.springframework.cloud:spring-cloud-starter-contract-stub-runner"
+
+        testImplementation "org.testcontainers:testcontainers:1.18.0"
+        testImplementation "org.testcontainers:junit-jupiter:1.18.0"
+        testImplementation "org.testcontainers:mariadb:1.18.0"
+        testImplementation 'org.projectlombok:lombok'
     }
 
     ext { //4

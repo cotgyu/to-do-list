@@ -18,7 +18,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
-@ActiveProfiles("test")
 class CardRepositoryTest {
 
     @Autowired

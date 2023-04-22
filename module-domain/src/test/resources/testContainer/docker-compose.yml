@@ -1,0 +1,6 @@
+services:
+  test-redis:
+    image: redis:latest
+    ports:
+      - 6379
+

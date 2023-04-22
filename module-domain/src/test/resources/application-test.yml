@@ -7,14 +7,12 @@ spring:
       hibernate:
         # show_sql: true
         format_sql: true
-    hibernate:
-      ddl-auto: create
 
   datasource:
-    url: jdbc:h2:mem:test;MODE=MySQL;
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: jdbc:tc:mariadb:10://to-do-list-test
+    username: admin
+    password: 1234
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
 
   data:
     web:
