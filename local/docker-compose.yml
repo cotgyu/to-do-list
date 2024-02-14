@@ -6,8 +6,8 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - ~/docker/mariadb/var/lib/mysql:/var/lib/mysql
-      - ~/docker/mariadb/var/log/maria:/var/log/maria
+      - ~/docker/mariadb/var/lib/mysql:/var/lib/mysql --user 1000
+      - ~/docker/mariadb/var/log/maria:/var/log/maria --user 1000
       - ~/docker/mariadb/initdb.d:/docker-entrypoint-initdb.d
     environment:
       - MYSQL_DATABASE=to-do-list
@@ -24,10 +24,10 @@ services:
     ports:
       - 6379:6379
     restart: always
-    command: redis-server /usr/local/conf/redis.conf
     volumes:
-      - ./data/:/data
+      - ~/docker/redis/data:/data --user 1000
       - ./conf/redis.conf:/usr/local/conf/redis.conf
+    command: redis-server /usr/local/conf/redis.conf
 
   zookeeper-local:
     image: wurstmeister/zookeeper

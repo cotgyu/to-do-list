@@ -1,1 +1,1 @@
-ALTER TABLE USER ADD `last_access_time`  datetime(6) DEFAULT NULL;
+ALTER TABLE `user` ADD `last_access_time`  datetime(6) DEFAULT NULL;
