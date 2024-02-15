@@ -82,6 +82,10 @@
 - 로컬 DB,Redis 설치 및 실행 (초기 데이터 insert)
   ~~~
   local/local.sh
+  
+  sudo sh -c 'echo "127.0.0.1 kafka-local-001" >> /etc/hosts'
+  sudo sh -c 'echo "127.0.0.1 kafka-local-002" >> /etc/hosts'
+  sudo sh -c 'echo "127.0.0.1 kafka-local-003" >> /etc/hosts'
   ~~~ 
 
 - 빌드
